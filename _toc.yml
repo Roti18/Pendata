@@ -1,0 +1,11 @@
+﻿format: jb-book
+root: intro
+chapters:
+- file: md/00_penambangan-data
+  title: "Penambangan Data"
+- file: md/01_busines-understanding
+  title: "Business Understanding"
+- file: md/02_data-understanding
+  title: "Data Understanding"
+- file: md/03_data-preparation
+  title: "Data Preparation"
