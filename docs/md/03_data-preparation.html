@@ -8,7 +8,7 @@
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" /><meta name="viewport" content="width=device-width, initial-scale=1" />
 
-    <title>Data Preparation &#8212; My sample book</title>
+    <title>Persiapan Data (Data Preparation) &#8212; My sample book</title>
   
   
   
@@ -182,7 +182,7 @@
 <li class="toctree-l1"><a class="reference internal" href="00_penambangan-data.html">Penambangan Data</a></li>
 <li class="toctree-l1"><a class="reference internal" href="01_busines-understanding.html">Business Understanding</a></li>
 <li class="toctree-l1"><a class="reference internal" href="02_data-understanding.html">Data Understanding</a></li>
-<li class="toctree-l1 current active"><a class="current reference internal" href="#">Data Preparation</a></li>
+<li class="toctree-l1 current active"><a class="current reference internal" href="#">Persiapan Data (Data Preparation)</a></li>
 </ul>
 
     </div>
@@ -368,7 +368,7 @@ document.write(`
               
 
 <div id="jb-print-docs-body" class="onlyprint">
-    <h1>Data Preparation</h1>
+    <h1>Persiapan Data (Data Preparation)</h1>
     <!-- Table of contents -->
     <div id="print-main-content">
         <div id="jb-print-toc">
@@ -378,10 +378,10 @@ document.write(`
             </div>
             <nav aria-label="Page">
                 <ul class="visible nav section-nav flex-column">
-<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#data-selection">1. Data Selection</a></li>
-<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#data-cleaning">2. Data Cleaning</a></li>
-<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#data-integration">3. Data Integration</a></li>
-<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#exporting-processed-data">4. Exporting Processed Data</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#seleksi-data">1. Seleksi Data</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#pembersihan-data">2. Pembersihan Data</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#integrasi-data">3. Integrasi Data</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#mengekspor-data-yang-telah-diproses">4. Mengekspor Data yang Telah Diproses</a></li>
 </ul>
             </nav>
         </div>
@@ -393,42 +393,42 @@ document.write(`
 <div id="searchbox"></div>
                 <article class="bd-article">
                   
-  <section class="tex2jax_ignore mathjax_ignore" id="data-preparation">
-<h1>Data Preparation<a class="headerlink" href="#data-preparation" title="Link to this heading">#</a></h1>
-<p>The <strong>Data Preparation</strong> phase follows Data Understanding in the CRISP-DM methodology. During this stage, the analyzed data is refined and structured to ensure optimal performance during the modeling phase. Raw data is often messy, requiring cleaning and organization to achieve high quality and consistency.</p>
-<section id="data-selection">
-<h2>1. Data Selection<a class="headerlink" href="#data-selection" title="Link to this heading">#</a></h2>
-<p>We selected the Iris dataset, which includes 150 records across 5 attributes: <code class="docutils literal notranslate"><span class="pre">sepal_length</span></code>, <code class="docutils literal notranslate"><span class="pre">sepal_width</span></code>, <code class="docutils literal notranslate"><span class="pre">petal_length</span></code>, <code class="docutils literal notranslate"><span class="pre">petal_width</span></code>, and <code class="docutils literal notranslate"><span class="pre">species</span></code>.</p>
+  <section class="tex2jax_ignore mathjax_ignore" id="persiapan-data-data-preparation">
+<h1>Persiapan Data (Data Preparation)<a class="headerlink" href="#persiapan-data-data-preparation" title="Link to this heading">#</a></h1>
+<p>Tahap <strong>Persiapan Data</strong> dilakukan setelah Pemahaman Data (Data Understanding) dalam metodologi CRISP-DM. Pada tahap ini, data yang telah dianalisis disaring dan disusun untuk memastikan kinerja optimal selama fase pemodelan. Data mentah sering kali berantakan, sehingga memerlukan pembersihan dan pengorganisasian untuk mencapai kualitas dan konsistensi yang tinggi.</p>
+<section id="seleksi-data">
+<h2>1. Seleksi Data<a class="headerlink" href="#seleksi-data" title="Link to this heading">#</a></h2>
+<p>Kami memilih dataset Iris, yang mencakup 150 baris data dengan 5 atribut: <code class="docutils literal notranslate"><span class="pre">sepal_length</span></code>, <code class="docutils literal notranslate"><span class="pre">sepal_width</span></code>, <code class="docutils literal notranslate"><span class="pre">petal_length</span></code>, <code class="docutils literal notranslate"><span class="pre">petal_width</span></code>, dan <code class="docutils literal notranslate"><span class="pre">species</span></code>.</p>
 </section>
-<section id="data-cleaning">
-<h2>2. Data Cleaning<a class="headerlink" href="#data-cleaning" title="Link to this heading">#</a></h2>
+<section id="pembersihan-data">
+<h2>2. Pembersihan Data<a class="headerlink" href="#pembersihan-data" title="Link to this heading">#</a></h2>
 <ul>
-<li><p><strong>Missing Values</strong>: A check confirmed that all attributes have <strong>0 missing values</strong>, meaning the dataset is already complete.</p></li>
-<li><p><strong>Identifying Duplicates</strong>: The initial exploration identified <strong>3 duplicate rows</strong> at indices 34, 37, and 142.</p>
+<li><p><strong>Nilai yang Hilang (Missing Values)</strong>: Hasil pemeriksaan mengonfirmasi bahwa semua atribut memiliki <strong>0 nilai yang hilang</strong>, yang berarti dataset sudah lengkap.</p></li>
+<li><p><strong>Identifikasi Duplikat</strong>: Eksplorasi awal menemukan <strong>3 baris duplikat</strong> pada indeks 34, 37, dan 142.</p>
 <div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="n">duplikat</span> <span class="o">=</span> <span class="n">df</span><span class="p">[</span><span class="n">df</span><span class="o">.</span><span class="n">duplicated</span><span class="p">()]</span>
 <span class="nb">print</span><span class="p">(</span><span class="n">duplikat</span><span class="p">)</span>
 </pre></div>
 </div>
 </li>
-<li><p><strong>Handling Duplicates</strong>: We removed these duplicates to maintain dataset quality.</p>
+<li><p><strong>Menangani Duplikat</strong>: Kami menghapus duplikat tersebut untuk menjaga kualitas dataset.</p>
 <div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="n">df</span> <span class="o">=</span> <span class="n">df</span><span class="o">.</span><span class="n">drop_duplicates</span><span class="p">()</span>
 </pre></div>
 </div>
-<p>After removal, the dataset is cleaner and ready for modeling without redundant information.</p>
+<p>Setelah penghapusan, dataset menjadi lebih bersih dan siap untuk pemodelan tanpa informasi yang redundan.</p>
 </li>
 </ul>
 </section>
-<section id="data-integration">
-<h2>3. Data Integration<a class="headerlink" href="#data-integration" title="Link to this heading">#</a></h2>
-<p>Data integration combines multiple sources into a consistent dataset. For this project, all necessary features (<code class="docutils literal notranslate"><span class="pre">sepal_length</span></code>, <code class="docutils literal notranslate"><span class="pre">sepal_width</span></code>, <code class="docutils literal notranslate"><span class="pre">petal_length</span></code>, <code class="docutils literal notranslate"><span class="pre">petal_width</span></code>, and <code class="docutils literal notranslate"><span class="pre">species</span></code>) were already present in a single file from Kaggle. Therefore, no additional integration was required.</p>
+<section id="integrasi-data">
+<h2>3. Integrasi Data<a class="headerlink" href="#integrasi-data" title="Link to this heading">#</a></h2>
+<p>Integrasi data menggabungkan beberapa sumber menjadi satu dataset yang konsisten. Untuk proyek ini, semua fitur yang diperlukan (<code class="docutils literal notranslate"><span class="pre">sepal_length</span></code>, <code class="docutils literal notranslate"><span class="pre">sepal_width</span></code>, <code class="docutils literal notranslate"><span class="pre">petal_length</span></code>, <code class="docutils literal notranslate"><span class="pre">petal_width</span></code>, dan <code class="docutils literal notranslate"><span class="pre">species</span></code>) sudah tersedia dalam satu file dari Kaggle. Oleh karena itu, tidak diperlukan integrasi data tambahan.</p>
 </section>
-<section id="exporting-processed-data">
-<h2>4. Exporting Processed Data<a class="headerlink" href="#exporting-processed-data" title="Link to this heading">#</a></h2>
-<p>Finally, we saved the cleaned dataset to Google Drive for use in the modeling stage:</p>
+<section id="mengekspor-data-yang-telah-diproses">
+<h2>4. Mengekspor Data yang Telah Diproses<a class="headerlink" href="#mengekspor-data-yang-telah-diproses" title="Link to this heading">#</a></h2>
+<p>Terakhir, kami menyimpan dataset yang telah dibersihkan ke Google Drive untuk digunakan pada tahap pemodelan:</p>
 <div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="n">df</span><span class="o">.</span><span class="n">to_csv</span><span class="p">(</span><span class="s2">&quot;/content/drive/MyDrive/tugas/hasil_olah_iris.csv&quot;</span><span class="p">,</span> <span class="n">index</span><span class="o">=</span><span class="kc">False</span><span class="p">)</span>
 </pre></div>
 </div>
-<p>The file is now accessible as <code class="docutils literal notranslate"><span class="pre">hasil_olah_iris.csv</span></code> in the specified directory.</p>
+<p>File tersebut kini dapat diakses dengan nama <code class="docutils literal notranslate"><span class="pre">hasil_olah_iris.csv</span></code> di direktori yang telah ditentukan.</p>
 </section>
 </section>
 
@@ -487,10 +487,10 @@ document.write(`
   </div>
   <nav class="bd-toc-nav page-toc">
     <ul class="visible nav section-nav flex-column">
-<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#data-selection">1. Data Selection</a></li>
-<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#data-cleaning">2. Data Cleaning</a></li>
-<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#data-integration">3. Data Integration</a></li>
-<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#exporting-processed-data">4. Exporting Processed Data</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#seleksi-data">1. Seleksi Data</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#pembersihan-data">2. Pembersihan Data</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#integrasi-data">3. Integrasi Data</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#mengekspor-data-yang-telah-diproses">4. Mengekspor Data yang Telah Diproses</a></li>
 </ul>
   </nav></div>
 

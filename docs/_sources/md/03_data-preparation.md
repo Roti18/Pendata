@@ -1,29 +1,29 @@
-# Data Preparation
+# Persiapan Data (Data Preparation)
 
-The **Data Preparation** phase follows Data Understanding in the CRISP-DM methodology. During this stage, the analyzed data is refined and structured to ensure optimal performance during the modeling phase. Raw data is often messy, requiring cleaning and organization to achieve high quality and consistency.
+Tahap **Persiapan Data** dilakukan setelah Pemahaman Data (Data Understanding) dalam metodologi CRISP-DM. Pada tahap ini, data yang telah dianalisis disaring dan disusun untuk memastikan kinerja optimal selama fase pemodelan. Data mentah sering kali berantakan, sehingga memerlukan pembersihan dan pengorganisasian untuk mencapai kualitas dan konsistensi yang tinggi.
 
-### 1. Data Selection
-We selected the Iris dataset, which includes 150 records across 5 attributes: `sepal_length`, `sepal_width`, `petal_length`, `petal_width`, and `species`.
+### 1. Seleksi Data
+Kami memilih dataset Iris, yang mencakup 150 baris data dengan 5 atribut: `sepal_length`, `sepal_width`, `petal_length`, `petal_width`, dan `species`.
 
-### 2. Data Cleaning
-- **Missing Values**: A check confirmed that all attributes have **0 missing values**, meaning the dataset is already complete.
-- **Identifying Duplicates**: The initial exploration identified **3 duplicate rows** at indices 34, 37, and 142.
+### 2. Pembersihan Data
+- **Nilai yang Hilang (Missing Values)**: Hasil pemeriksaan mengonfirmasi bahwa semua atribut memiliki **0 nilai yang hilang**, yang berarti dataset sudah lengkap.
+- **Identifikasi Duplikat**: Eksplorasi awal menemukan **3 baris duplikat** pada indeks 34, 37, dan 142.
   ```python
   duplikat = df[df.duplicated()]
   print(duplikat)
   ```
-- **Handling Duplicates**: We removed these duplicates to maintain dataset quality.
+- **Menangani Duplikat**: Kami menghapus duplikat tersebut untuk menjaga kualitas dataset.
   ```python
   df = df.drop_duplicates()
   ```
-  After removal, the dataset is cleaner and ready for modeling without redundant information.
+  Setelah penghapusan, dataset menjadi lebih bersih dan siap untuk pemodelan tanpa informasi yang redundan.
 
-### 3. Data Integration
-Data integration combines multiple sources into a consistent dataset. For this project, all necessary features (`sepal_length`, `sepal_width`, `petal_length`, `petal_width`, and `species`) were already present in a single file from Kaggle. Therefore, no additional integration was required.
+### 3. Integrasi Data
+Integrasi data menggabungkan beberapa sumber menjadi satu dataset yang konsisten. Untuk proyek ini, semua fitur yang diperlukan (`sepal_length`, `sepal_width`, `petal_length`, `petal_width`, dan `species`) sudah tersedia dalam satu file dari Kaggle. Oleh karena itu, tidak diperlukan integrasi data tambahan.
 
-### 4. Exporting Processed Data
-Finally, we saved the cleaned dataset to Google Drive for use in the modeling stage:
+### 4. Mengekspor Data yang Telah Diproses
+Terakhir, kami menyimpan dataset yang telah dibersihkan ke Google Drive untuk digunakan pada tahap pemodelan:
 ```python
 df.to_csv("/content/drive/MyDrive/tugas/hasil_olah_iris.csv", index=False)
 ```
-The file is now accessible as `hasil_olah_iris.csv` in the specified directory.
+File tersebut kini dapat diakses dengan nama `hasil_olah_iris.csv` di direktori yang telah ditentukan.
