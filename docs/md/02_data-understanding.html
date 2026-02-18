@@ -356,7 +356,9 @@ document.write(`
   </button>
 `);
 </script>
-
+<button class="sidebar-toggle secondary-toggle btn btn-sm" title="Toggle secondary sidebar" data-bs-placement="bottom" data-bs-toggle="tooltip">
+    <span class="fa-solid fa-list"></span>
+</button>
 </div></div>
       
     </div>
@@ -372,6 +374,22 @@ document.write(`
     <div id="print-main-content">
         <div id="jb-print-toc">
             
+            <div>
+                <h2> Contents </h2>
+            </div>
+            <nav aria-label="Page">
+                <ul class="visible nav section-nav flex-column">
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#sumber-data">1. Sumber Data</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#eksplorasi-dataset">2. Eksplorasi Dataset</a><ul class="nav section-nav flex-column">
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#persiapan-library-dan-drive">- Persiapan Library dan Drive</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#struktur-dataset">- Struktur Dataset</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#statistik-deskriptif-dan-kualitas-data">- Statistik Deskriptif dan Kualitas Data</a></li>
+</ul>
+</li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#verifikasi-data">3. Verifikasi Data</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#visualisasi-data">4. Visualisasi Data</a></li>
+</ul>
+            </nav>
         </div>
     </div>
 </div>
@@ -383,6 +401,83 @@ document.write(`
                   
   <section class="tex2jax_ignore mathjax_ignore" id="data-understanding">
 <h1>Data Understanding<a class="headerlink" href="#data-understanding" title="Link to this heading">#</a></h1>
+<p>Tahap Data Understanding merupakan fase awal dalam metodologi CRISP-DM setelah Business Understanding. Fokus utamanya adalah memahami karakteristik data secara mendalam untuk menentukan langkah yang tepat pada tahap <em>Data Preparation</em> dan meminimalkan kesalahan dalam pembangunan model.</p>
+<section id="sumber-data">
+<h2>1. Sumber Data<a class="headerlink" href="#sumber-data" title="Link to this heading">#</a></h2>
+<p>Dataset yang digunakan adalah <strong>Iris Flower Dataset</strong> dari Kaggle. Dataset ini berisi data pengukuran morfologi bunga iris yang terdiri dari tiga spesies: Iris-setosa, Iris-versicolor, dan Iris-virginica.
+<a class="reference external" href="https://www.kaggle.com/datasets/arshid/iris-flower-dataset?resource=download">Dataset Iris</a></p>
+</section>
+<section id="eksplorasi-dataset">
+<h2>2. Eksplorasi Dataset<a class="headerlink" href="#eksplorasi-dataset" title="Link to this heading">#</a></h2>
+<p>Proses pengidentifikasian dataset dilakukan menggunakan bantuan library Python untuk mempermudah analisis.</p>
+<section id="persiapan-library-dan-drive">
+<h3>- Persiapan Library dan Drive<a class="headerlink" href="#persiapan-library-dan-drive" title="Link to this heading">#</a></h3>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="kn">from</span><span class="w"> </span><span class="nn">google.colab</span><span class="w"> </span><span class="kn">import</span> <span class="n">drive</span>
+<span class="kn">import</span><span class="w"> </span><span class="nn">pandas</span><span class="w"> </span><span class="k">as</span><span class="w"> </span><span class="nn">pd</span>
+<span class="kn">import</span><span class="w"> </span><span class="nn">matplotlib.pyplot</span><span class="w"> </span><span class="k">as</span><span class="w"> </span><span class="nn">plt</span>
+
+<span class="n">drive</span><span class="o">.</span><span class="n">mount</span><span class="p">(</span><span class="s1">&#39;/content/drive&#39;</span><span class="p">)</span>
+
+<span class="c1"># Membaca data</span>
+<span class="n">path</span> <span class="o">=</span> <span class="s2">&quot;/content/drive/MyDrive/tugas/IRIS.csv&quot;</span>
+<span class="n">df</span> <span class="o">=</span> <span class="n">pd</span><span class="o">.</span><span class="n">read_csv</span><span class="p">(</span><span class="n">path</span><span class="p">)</span>
+</pre></div>
+</div>
+</section>
+<section id="struktur-dataset">
+<h3>- Struktur Dataset<a class="headerlink" href="#struktur-dataset" title="Link to this heading">#</a></h3>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="n">df</span><span class="o">.</span><span class="n">head</span><span class="p">()</span>
+</pre></div>
+</div>
+<p>Code diatas menampilkan 5 data teratas untuk memahami struktur kolom:</p>
+<div class="pst-scrollable-table-container"><table class="table">
+<thead>
+<tr class="row-odd"><th class="head text-left"><p>index</p></th>
+<th class="head text-left"><p>sepal_length</p></th>
+<th class="head text-left"><p>sepal_width</p></th>
+<th class="head text-left"><p>petal_length</p></th>
+<th class="head text-left"><p>petal_width</p></th>
+<th class="head text-left"><p>species</p></th>
+</tr>
+</thead>
+<tbody>
+<tr class="row-even"><td class="text-left"><p>0</p></td>
+<td class="text-left"><p>5.1</p></td>
+<td class="text-left"><p>3.5</p></td>
+<td class="text-left"><p>1.4</p></td>
+<td class="text-left"><p>0.2</p></td>
+<td class="text-left"><p>Iris-setosa</p></td>
+</tr>
+</tbody>
+</table>
+</div>
+<p>Setiap data memiliki 4 atribut numerik (Sepal Length, Sepal Width, Petal Length, Petal Width) dalam satuan centimeter (cm), serta satu atribut kategorikal (Species).</p>
+</section>
+<section id="statistik-deskriptif-dan-kualitas-data">
+<h3>- Statistik Deskriptif dan Kualitas Data<a class="headerlink" href="#statistik-deskriptif-dan-kualitas-data" title="Link to this heading">#</a></h3>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="n">df</span><span class="o">.</span><span class="n">describe</span><span class="p">()</span>
+</pre></div>
+</div>
+<p>Berdasarkan statistik deskriptif, dataset terdiri dari 150 data pada setiap atribut. Nilai rata-rata menunjukkan ukuran sepal dan petal berada pada rentang wajar. Variasi data terbesar terdapat pada atribut <em>petal length</em>, yang menunjukkan bahwa ukuran petal lebih beragam dibandingkan sepal.</p>
+<p><strong>Pengecekan Kebersihan Data:</strong></p>
+<ul class="simple">
+<li><p><strong>Data Duplikat:</strong> Ditemukan <strong>3 data duplikat</strong> melalui <code class="docutils literal notranslate"><span class="pre">df.duplicated().sum()</span></code>.</p></li>
+<li><p><strong>Data Null:</strong> Melalui <code class="docutils literal notranslate"><span class="pre">df.isnull().sum()</span></code>, dipastikan <strong>tidak ada data kosong (Null)</strong> pada setiap atributnya, sehingga data cukup konsisten.</p></li>
+</ul>
+</section>
+</section>
+<section id="verifikasi-data">
+<h2>3. Verifikasi Data<a class="headerlink" href="#verifikasi-data" title="Link to this heading">#</a></h2>
+<p>Berdasarkan eksplorasi, dataset memiliki 150 baris yang konsisten di setiap kolom. Hasil verifikasi menunjukkan tidak ada <em>missing value</em>, namun adanya 3 data duplikat perlu ditangani lebih lanjut agar tidak mempengaruhi akurasi model pada tahap berikutnya.</p>
+</section>
+<section id="visualisasi-data">
+<h2>4. Visualisasi Data<a class="headerlink" href="#visualisasi-data" title="Link to this heading">#</a></h2>
+<ul class="simple">
+<li><p><strong>Distribusi Spesies:</strong> Berdasarkan grafik bar, setiap spesies memiliki masing-masing 50 data. Dataset ini bersifat seimbang (<em>balanced</em>), yang sangat baik untuk menghasilkan model klasifikasi yang tidak bias.</p></li>
+<li><p><strong>Distribusi Fitur:</strong> Histogram menunjukkan bahwa atribut <em>petal_length</em> dan <em>petal_width</em> memiliki pola distribusi yang lebih jelas dalam membedakan kelompok data dibandingkan fitur lainnya.</p></li>
+<li><p><strong>Deteksi Outlier:</strong> Melalui boxplot, ditemukan adanya beberapa <em>outlier</em> pada fitur <em>sepal_width</em>, sementara fitur lainnya memiliki distribusi yang relatif normal tanpa penyimpangan ekstrem yang signifikan.</p></li>
+</ul>
+</section>
 </section>
 
     <script type="text/x-thebe-config">
@@ -439,6 +534,29 @@ document.write(`
             </div>
             
             
+              
+                <div class="bd-sidebar-secondary bd-toc"><div class="sidebar-secondary-items sidebar-secondary__inner">
+
+
+  <div class="sidebar-secondary-item">
+  <div class="page-toc tocsection onthispage">
+    <i class="fa-solid fa-list"></i> Contents
+  </div>
+  <nav class="bd-toc-nav page-toc">
+    <ul class="visible nav section-nav flex-column">
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#sumber-data">1. Sumber Data</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#eksplorasi-dataset">2. Eksplorasi Dataset</a><ul class="nav section-nav flex-column">
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#persiapan-library-dan-drive">- Persiapan Library dan Drive</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#struktur-dataset">- Struktur Dataset</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#statistik-deskriptif-dan-kualitas-data">- Statistik Deskriptif dan Kualitas Data</a></li>
+</ul>
+</li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#verifikasi-data">3. Verifikasi Data</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#visualisasi-data">4. Visualisasi Data</a></li>
+</ul>
+  </nav></div>
+
+</div></div>
               
             
           </div>

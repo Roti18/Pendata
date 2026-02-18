@@ -355,7 +355,9 @@ document.write(`
   </button>
 `);
 </script>
-
+<button class="sidebar-toggle secondary-toggle btn btn-sm" title="Toggle secondary sidebar" data-bs-placement="bottom" data-bs-toggle="tooltip">
+    <span class="fa-solid fa-list"></span>
+</button>
 </div></div>
       
     </div>
@@ -371,6 +373,17 @@ document.write(`
     <div id="print-main-content">
         <div id="jb-print-toc">
             
+            <div>
+                <h2> Contents </h2>
+            </div>
+            <nav aria-label="Page">
+                <ul class="visible nav section-nav flex-column">
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#data-selection">1. Data Selection</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#data-cleaning">2. Data Cleaning</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#data-integration">3. Data Integration</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#exporting-processed-data">4. Exporting Processed Data</a></li>
+</ul>
+            </nav>
         </div>
     </div>
 </div>
@@ -382,6 +395,41 @@ document.write(`
                   
   <section class="tex2jax_ignore mathjax_ignore" id="data-preparation">
 <h1>Data Preparation<a class="headerlink" href="#data-preparation" title="Link to this heading">#</a></h1>
+<p>The <strong>Data Preparation</strong> phase follows Data Understanding in the CRISP-DM methodology. During this stage, the analyzed data is refined and structured to ensure optimal performance during the modeling phase. Raw data is often messy, requiring cleaning and organization to achieve high quality and consistency.</p>
+<section id="data-selection">
+<h2>1. Data Selection<a class="headerlink" href="#data-selection" title="Link to this heading">#</a></h2>
+<p>We selected the Iris dataset, which includes 150 records across 5 attributes: <code class="docutils literal notranslate"><span class="pre">sepal_length</span></code>, <code class="docutils literal notranslate"><span class="pre">sepal_width</span></code>, <code class="docutils literal notranslate"><span class="pre">petal_length</span></code>, <code class="docutils literal notranslate"><span class="pre">petal_width</span></code>, and <code class="docutils literal notranslate"><span class="pre">species</span></code>.</p>
+</section>
+<section id="data-cleaning">
+<h2>2. Data Cleaning<a class="headerlink" href="#data-cleaning" title="Link to this heading">#</a></h2>
+<ul>
+<li><p><strong>Missing Values</strong>: A check confirmed that all attributes have <strong>0 missing values</strong>, meaning the dataset is already complete.</p></li>
+<li><p><strong>Identifying Duplicates</strong>: The initial exploration identified <strong>3 duplicate rows</strong> at indices 34, 37, and 142.</p>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="n">duplikat</span> <span class="o">=</span> <span class="n">df</span><span class="p">[</span><span class="n">df</span><span class="o">.</span><span class="n">duplicated</span><span class="p">()]</span>
+<span class="nb">print</span><span class="p">(</span><span class="n">duplikat</span><span class="p">)</span>
+</pre></div>
+</div>
+</li>
+<li><p><strong>Handling Duplicates</strong>: We removed these duplicates to maintain dataset quality.</p>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="n">df</span> <span class="o">=</span> <span class="n">df</span><span class="o">.</span><span class="n">drop_duplicates</span><span class="p">()</span>
+</pre></div>
+</div>
+<p>After removal, the dataset is cleaner and ready for modeling without redundant information.</p>
+</li>
+</ul>
+</section>
+<section id="data-integration">
+<h2>3. Data Integration<a class="headerlink" href="#data-integration" title="Link to this heading">#</a></h2>
+<p>Data integration combines multiple sources into a consistent dataset. For this project, all necessary features (<code class="docutils literal notranslate"><span class="pre">sepal_length</span></code>, <code class="docutils literal notranslate"><span class="pre">sepal_width</span></code>, <code class="docutils literal notranslate"><span class="pre">petal_length</span></code>, <code class="docutils literal notranslate"><span class="pre">petal_width</span></code>, and <code class="docutils literal notranslate"><span class="pre">species</span></code>) were already present in a single file from Kaggle. Therefore, no additional integration was required.</p>
+</section>
+<section id="exporting-processed-data">
+<h2>4. Exporting Processed Data<a class="headerlink" href="#exporting-processed-data" title="Link to this heading">#</a></h2>
+<p>Finally, we saved the cleaned dataset to Google Drive for use in the modeling stage:</p>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="n">df</span><span class="o">.</span><span class="n">to_csv</span><span class="p">(</span><span class="s2">&quot;/content/drive/MyDrive/tugas/hasil_olah_iris.csv&quot;</span><span class="p">,</span> <span class="n">index</span><span class="o">=</span><span class="kc">False</span><span class="p">)</span>
+</pre></div>
+</div>
+<p>The file is now accessible as <code class="docutils literal notranslate"><span class="pre">hasil_olah_iris.csv</span></code> in the specified directory.</p>
+</section>
 </section>
 
     <script type="text/x-thebe-config">
@@ -429,6 +477,24 @@ document.write(`
             </div>
             
             
+              
+                <div class="bd-sidebar-secondary bd-toc"><div class="sidebar-secondary-items sidebar-secondary__inner">
+
+
+  <div class="sidebar-secondary-item">
+  <div class="page-toc tocsection onthispage">
+    <i class="fa-solid fa-list"></i> Contents
+  </div>
+  <nav class="bd-toc-nav page-toc">
+    <ul class="visible nav section-nav flex-column">
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#data-selection">1. Data Selection</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#data-cleaning">2. Data Cleaning</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#data-integration">3. Data Integration</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#exporting-processed-data">4. Exporting Processed Data</a></li>
+</ul>
+  </nav></div>
+
+</div></div>
               
             
           </div>
