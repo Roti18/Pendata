@@ -60,7 +60,6 @@
     <script>DOCUMENTATION_OPTIONS.pagename = 'md/02_data-understanding';</script>
     <link rel="index" title="Index" href="../genindex.html" />
     <link rel="search" title="Search" href="../search.html" />
-    <link rel="next" title="Persiapan Data (Data Preparation)" href="03_data-preparation.html" />
     <link rel="prev" title="Business Understanding" href="01_busines-understanding.html" />
   <meta name="viewport" content="width=device-width, initial-scale=1"/>
   <meta name="docsearch:language" content="en"/>
@@ -183,7 +182,6 @@
 <li class="toctree-l1"><a class="reference internal" href="00_penambangan-data.html">Penambangan Data</a></li>
 <li class="toctree-l1"><a class="reference internal" href="01_busines-understanding.html">Business Understanding</a></li>
 <li class="toctree-l1 current active"><a class="current reference internal" href="#">Data Understanding</a></li>
-<li class="toctree-l1"><a class="reference internal" href="03_data-preparation.html">Persiapan Data (Data Preparation)</a></li>
 </ul>
 
     </div>
@@ -379,15 +377,13 @@ document.write(`
             </div>
             <nav aria-label="Page">
                 <ul class="visible nav section-nav flex-column">
-<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#sumber-data">1. Sumber Data</a></li>
-<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#eksplorasi-dataset">2. Eksplorasi Dataset</a><ul class="nav section-nav flex-column">
-<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#persiapan-library-dan-drive">- Persiapan Library dan Drive</a></li>
-<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#struktur-dataset">- Struktur Dataset</a></li>
-<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#statistik-deskriptif-dan-kualitas-data">- Statistik Deskriptif dan Kualitas Data</a></li>
-</ul>
-</li>
-<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#verifikasi-data">3. Verifikasi Data</a></li>
-<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#visualisasi-data">4. Visualisasi Data</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#kualitas-dan-kebersihan-data">Kualitas dan Kebersihan Data</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#komponen-utama-memahami-data">Komponen Utama Memahami Data</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#struktur-data-dan-seleksi-fitur">Struktur Data dan Seleksi Fitur</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#teknik-analisis-dan-pemodelan">Teknik Analisis dan Pemodelan</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#sumber-dan-tipe-data">Sumber dan Tipe Data</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#implementasi-google-colab">Implementasi Google Colab</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#implementasi-menggunakan-orange-data-mining">Implementasi Menggunakan Orange Data Mining</a></li>
 </ul>
             </nav>
         </div>
@@ -401,35 +397,88 @@ document.write(`
                   
   <section class="tex2jax_ignore mathjax_ignore" id="data-understanding">
 <h1>Data Understanding<a class="headerlink" href="#data-understanding" title="Link to this heading">#</a></h1>
-<p>Tahap Data Understanding merupakan fase awal dalam metodologi CRISP-DM setelah Business Understanding. Fokus utamanya adalah memahami karakteristik data secara mendalam untuk menentukan langkah yang tepat pada tahap <em>Data Preparation</em> dan meminimalkan kesalahan dalam pembangunan model.</p>
-<section id="sumber-data">
-<h2>1. Sumber Data<a class="headerlink" href="#sumber-data" title="Link to this heading">#</a></h2>
-<p>Dataset yang digunakan adalah <strong>Iris Flower Dataset</strong> dari Kaggle. Dataset ini berisi data pengukuran morfologi bunga iris yang terdiri dari tiga spesies: Iris-setosa, Iris-versicolor, dan Iris-virginica.
-<a class="reference external" href="https://www.kaggle.com/datasets/arshid/iris-flower-dataset?resource=download">Dataset Iris</a></p>
+<p>Data Understanding adalah tahap awal untuk melakukan pengukuran dan pemahaman terhadap data. Proses ini melibatkan integrasi data dari berbagai format seperti XML, JSON, atau basis data lainnya. Setelah data terkumpul, langkah krusial berikutnya adalah membersihkan data untuk menjaga kualitas analisis.</p>
+<section id="kualitas-dan-kebersihan-data">
+<h2>Kualitas dan Kebersihan Data<a class="headerlink" href="#kualitas-dan-kebersihan-data" title="Link to this heading">#</a></h2>
+<p>Data yang kotor dapat menghambat proses penambangan data. Beberapa jenis data kotor yang sering ditemui antara lain:</p>
+<ol class="arabic simple">
+<li><p>Redudansi data: Kondisi di mana terdapat data yang berulang atau duplikat dalam dataset.</p></li>
+<li><p>Data tidak konsisten: Kondisi di mana data memiliki format atau nilai yang berbeda untuk informasi yang sama.</p></li>
+</ol>
+<p>Kualitas data dapat dinilai dari ada tidaknya nilai yang hilang (missing values) dan data duplikat. Missing values dapat ditoleransi jika jumlahnya kurang dari 10 persen dari total data.</p>
 </section>
-<section id="eksplorasi-dataset">
-<h2>2. Eksplorasi Dataset<a class="headerlink" href="#eksplorasi-dataset" title="Link to this heading">#</a></h2>
-<p>Proses pengidentifikasian dataset dilakukan menggunakan bantuan library Python untuk mempermudah analisis.</p>
-<section id="persiapan-library-dan-drive">
-<h3>- Persiapan Library dan Drive<a class="headerlink" href="#persiapan-library-dan-drive" title="Link to this heading">#</a></h3>
-<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="kn">from</span><span class="w"> </span><span class="nn">google.colab</span><span class="w"> </span><span class="kn">import</span> <span class="n">drive</span>
+<section id="komponen-utama-memahami-data">
+<h2>Komponen Utama Memahami Data<a class="headerlink" href="#komponen-utama-memahami-data" title="Link to this heading">#</a></h2>
+<p>Terdapat empat komponen utama dalam memahami data:</p>
+<ol class="arabic simple">
+<li><p>Penumpukan data awal: Proses pengumpulan data mentah dari berbagai sumber.</p></li>
+<li><p>Deskripsi data: Memberikan gambaran umum mengenai karakteristik data yang dimiliki.</p></li>
+<li><p>Eksplorasi data: Melakukan pencarian pola atau hubungan awal antar variabel melalui analisis statistik atau visualisasi.</p></li>
+<li><p>Kualitas data: Memastikan data sudah layak dan bersih untuk diproses lebih lanjut.</p></li>
+</ol>
+</section>
+<section id="struktur-data-dan-seleksi-fitur">
+<h2>Struktur Data dan Seleksi Fitur<a class="headerlink" href="#struktur-data-dan-seleksi-fitur" title="Link to this heading">#</a></h2>
+<p>Data tabular memiliki struktur yang terdiri dari baris dan kolom. Dalam proses analisis, dilakukan seleksi fitur untuk mengurangi jumlah kolom atau variabel yang tidak relevan. Semua variabel yang ada perlu diseleksi untuk memastikan model yang dibangun efektif.</p>
+<p>Dalam penulisan ilmiah atau skripsi, jumlah data harus dinyatakan secara pasti dan tegas. Penggunaan kata “kira-kira” harus dihindari untuk menjaga validitas informasi.</p>
+</section>
+<section id="teknik-analisis-dan-pemodelan">
+<h2>Teknik Analisis dan Pemodelan<a class="headerlink" href="#teknik-analisis-dan-pemodelan" title="Link to this heading">#</a></h2>
+<p>Dalam data understanding, dilakukan Eksplorasi Data Analisis (EDA) untuk melihat hubungan antar variabel. Beberapa teknik yang digunakan antara lain:</p>
+<ol class="arabic simple">
+<li><p>Regresi Linier: Pendekatan rumus dengan melihat pola kumpulan data yang membentuk garis lurus.</p></li>
+<li><p>Regresi Non Linier: Pendekatan di mana pola data tidak lurus melainkan memiliki bentuk yang berbelok-belok.</p></li>
+<li><p>Scatter Plot: Digunakan untuk melihat persebaran data dan korelasi antar variabel.</p></li>
+<li><p>Histogram: Digunakan untuk melihat distribusi frekuensi dari data.</p></li>
+<li><p>Outlier: Deteksi terhadap data yang memiliki nilai sangat jauh berbeda dari kumpulan data lainnya.</p></li>
+</ol>
+</section>
+<section id="sumber-dan-tipe-data">
+<h2>Sumber dan Tipe Data<a class="headerlink" href="#sumber-dan-tipe-data" title="Link to this heading">#</a></h2>
+<p>Data dapat diperoleh dari berbagai sumber seperti database perusahaan, media sosial, rekaman log sistem, atau hasil survei. Tipe data yang umum ditemui meliputi:</p>
+<ol class="arabic simple">
+<li><p>Biner: Terdiri dari biner simetris (tidak ada penekanan pada salah satu kategori, contoh: jenis kelamin) dan biner asimetris (terdapat penekanan pada salah satu kategori, contoh: hasil tes kesehatan).</p></li>
+<li><p>Kategorikal: Data yang memiliki lebih dari tiga opsi kategori.</p></li>
+<li><p>Numerik: Data yang merupakan hasil dari pengujian atau pengukuran angka secara langsung.</p></li>
+</ol>
+</section>
+<section id="implementasi-google-colab">
+<h2>Implementasi Google Colab<a class="headerlink" href="#implementasi-google-colab" title="Link to this heading">#</a></h2>
+<p>Berikut adalah kode lengkap untuk melakukan eksplorasi data secara menyeluruh di Google Colab:</p>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="err">!</span><span class="n">pip</span> <span class="n">install</span> <span class="n">pandas</span> <span class="n">seaborn</span> <span class="n">matplotlib</span> <span class="n">numpy</span>
+
 <span class="kn">import</span><span class="w"> </span><span class="nn">pandas</span><span class="w"> </span><span class="k">as</span><span class="w"> </span><span class="nn">pd</span>
+<span class="kn">import</span><span class="w"> </span><span class="nn">seaborn</span><span class="w"> </span><span class="k">as</span><span class="w"> </span><span class="nn">sns</span>
 <span class="kn">import</span><span class="w"> </span><span class="nn">matplotlib.pyplot</span><span class="w"> </span><span class="k">as</span><span class="w"> </span><span class="nn">plt</span>
+<span class="kn">import</span><span class="w"> </span><span class="nn">numpy</span><span class="w"> </span><span class="k">as</span><span class="w"> </span><span class="nn">np</span>
+<span class="kn">from</span><span class="w"> </span><span class="nn">google.colab</span><span class="w"> </span><span class="kn">import</span> <span class="n">files</span>
 
-<span class="n">drive</span><span class="o">.</span><span class="n">mount</span><span class="p">(</span><span class="s1">&#39;/content/drive&#39;</span><span class="p">)</span>
+<span class="nb">print</span><span class="p">(</span><span class="s2">&quot;Silakan pilih file CSV kamu:&quot;</span><span class="p">)</span>
+<span class="n">uploaded</span> <span class="o">=</span> <span class="n">files</span><span class="o">.</span><span class="n">upload</span><span class="p">()</span>
+<span class="n">file_path</span> <span class="o">=</span> <span class="nb">list</span><span class="p">(</span><span class="n">uploaded</span><span class="o">.</span><span class="n">keys</span><span class="p">())[</span><span class="mi">0</span><span class="p">]</span>
+<span class="n">df</span> <span class="o">=</span> <span class="n">pd</span><span class="o">.</span><span class="n">read_csv</span><span class="p">(</span><span class="n">file_path</span><span class="p">)</span>
 
-<span class="c1"># Membaca data</span>
-<span class="n">path</span> <span class="o">=</span> <span class="s2">&quot;/content/drive/MyDrive/tugas/IRIS.csv&quot;</span>
-<span class="n">df</span> <span class="o">=</span> <span class="n">pd</span><span class="o">.</span><span class="n">read_csv</span><span class="p">(</span><span class="n">path</span><span class="p">)</span>
+<span class="nb">print</span><span class="p">(</span><span class="s2">&quot;</span><span class="se">\n</span><span class="s2">=== STRUKTUR DATA ===&quot;</span><span class="p">)</span>
+<span class="n">display</span><span class="p">(</span><span class="n">df</span><span class="o">.</span><span class="n">head</span><span class="p">())</span>
+
+<span class="nb">print</span><span class="p">(</span><span class="s2">&quot;</span><span class="se">\n</span><span class="s2">=== STATISTIK DESKRIPTIF ===&quot;</span><span class="p">)</span>
+<span class="n">display</span><span class="p">(</span><span class="n">df</span><span class="o">.</span><span class="n">describe</span><span class="p">())</span>
+
+<span class="nb">print</span><span class="p">(</span><span class="s2">&quot;</span><span class="se">\n</span><span class="s2">=== ANALISIS KUALITAS DATA ===&quot;</span><span class="p">)</span>
+<span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;Data Duplikat: </span><span class="si">{</span><span class="n">df</span><span class="o">.</span><span class="n">duplicated</span><span class="p">()</span><span class="o">.</span><span class="n">sum</span><span class="p">()</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">)</span>
+<span class="nb">print</span><span class="p">(</span><span class="s2">&quot;</span><span class="se">\n</span><span class="s2">Missing Values:&quot;</span><span class="p">)</span>
+<span class="nb">print</span><span class="p">(</span><span class="n">df</span><span class="o">.</span><span class="n">isnull</span><span class="p">()</span><span class="o">.</span><span class="n">sum</span><span class="p">())</span>
+
+<span class="n">plt</span><span class="o">.</span><span class="n">figure</span><span class="p">(</span><span class="n">figsize</span><span class="o">=</span><span class="p">(</span><span class="mi">10</span><span class="p">,</span> <span class="mi">6</span><span class="p">))</span>
+<span class="n">sns</span><span class="o">.</span><span class="n">scatterplot</span><span class="p">(</span><span class="n">data</span><span class="o">=</span><span class="n">df</span><span class="p">,</span> <span class="n">x</span><span class="o">=</span><span class="n">df</span><span class="o">.</span><span class="n">columns</span><span class="p">[</span><span class="mi">0</span><span class="p">],</span> <span class="n">y</span><span class="o">=</span><span class="n">df</span><span class="o">.</span><span class="n">columns</span><span class="p">[</span><span class="mi">1</span><span class="p">],</span> <span class="n">hue</span><span class="o">=</span><span class="n">df</span><span class="o">.</span><span class="n">columns</span><span class="p">[</span><span class="o">-</span><span class="mi">1</span><span class="p">])</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">title</span><span class="p">(</span><span class="s1">&#39;Scatter Plot Hubungan Variabel&#39;</span><span class="p">)</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">show</span><span class="p">()</span>
+
+<span class="n">df</span><span class="o">.</span><span class="n">hist</span><span class="p">(</span><span class="n">figsize</span><span class="o">=</span><span class="p">(</span><span class="mi">10</span><span class="p">,</span> <span class="mi">8</span><span class="p">))</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">show</span><span class="p">()</span>
 </pre></div>
 </div>
-</section>
-<section id="struktur-dataset">
-<h3>- Struktur Dataset<a class="headerlink" href="#struktur-dataset" title="Link to this heading">#</a></h3>
-<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="n">df</span><span class="o">.</span><span class="n">head</span><span class="p">()</span>
-</pre></div>
-</div>
-<p>Code diatas menampilkan 5 data teratas untuk memahami struktur kolom:</p>
+<p><strong>Hasil Output (Tabel head):</strong></p>
 <div class="pst-scrollable-table-container"><table class="table">
 <thead>
 <tr class="row-odd"><th class="head text-left"><p>index</p></th>
@@ -448,35 +497,157 @@ document.write(`
 <td class="text-left"><p>0.2</p></td>
 <td class="text-left"><p>Iris-setosa</p></td>
 </tr>
+<tr class="row-odd"><td class="text-left"><p>1</p></td>
+<td class="text-left"><p>4.9</p></td>
+<td class="text-left"><p>3.0</p></td>
+<td class="text-left"><p>1.4</p></td>
+<td class="text-left"><p>0.2</p></td>
+<td class="text-left"><p>Iris-setosa</p></td>
+</tr>
+<tr class="row-even"><td class="text-left"><p>2</p></td>
+<td class="text-left"><p>4.7</p></td>
+<td class="text-left"><p>3.2</p></td>
+<td class="text-left"><p>1.3</p></td>
+<td class="text-left"><p>0.2</p></td>
+<td class="text-left"><p>Iris-setosa</p></td>
+</tr>
+<tr class="row-odd"><td class="text-left"><p>3</p></td>
+<td class="text-left"><p>4.6</p></td>
+<td class="text-left"><p>3.1</p></td>
+<td class="text-left"><p>1.5</p></td>
+<td class="text-left"><p>0.2</p></td>
+<td class="text-left"><p>Iris-setosa</p></td>
+</tr>
+<tr class="row-even"><td class="text-left"><p>4</p></td>
+<td class="text-left"><p>5.0</p></td>
+<td class="text-left"><p>3.6</p></td>
+<td class="text-left"><p>1.4</p></td>
+<td class="text-left"><p>0.2</p></td>
+<td class="text-left"><p>Iris-setosa</p></td>
+</tr>
 </tbody>
 </table>
 </div>
-<p>Setiap data memiliki 4 atribut numerik (Sepal Length, Sepal Width, Petal Length, Petal Width) dalam satuan centimeter (cm), serta satu atribut kategorikal (Species).</p>
-</section>
-<section id="statistik-deskriptif-dan-kualitas-data">
-<h3>- Statistik Deskriptif dan Kualitas Data<a class="headerlink" href="#statistik-deskriptif-dan-kualitas-data" title="Link to this heading">#</a></h3>
-<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="n">df</span><span class="o">.</span><span class="n">describe</span><span class="p">()</span>
-</pre></div>
+<p><strong>Hasil Output (Tabel Statistik Deskriptif):</strong></p>
+<div class="pst-scrollable-table-container"><table class="table">
+<thead>
+<tr class="row-odd"><th class="head text-left"><p></p></th>
+<th class="head text-left"><p>sepal_length</p></th>
+<th class="head text-left"><p>sepal_width</p></th>
+<th class="head text-left"><p>petal_length</p></th>
+<th class="head text-left"><p>petal_width</p></th>
+</tr>
+</thead>
+<tbody>
+<tr class="row-even"><td class="text-left"><p><strong>count</strong></p></td>
+<td class="text-left"><p>150.000000</p></td>
+<td class="text-left"><p>150.000000</p></td>
+<td class="text-left"><p>150.000000</p></td>
+<td class="text-left"><p>150.000000</p></td>
+</tr>
+<tr class="row-odd"><td class="text-left"><p><strong>mean</strong></p></td>
+<td class="text-left"><p>5.843333</p></td>
+<td class="text-left"><p>3.054000</p></td>
+<td class="text-left"><p>3.758667</p></td>
+<td class="text-left"><p>1.198667</p></td>
+</tr>
+<tr class="row-even"><td class="text-left"><p><strong>std</strong></p></td>
+<td class="text-left"><p>0.828066</p></td>
+<td class="text-left"><p>0.433594</p></td>
+<td class="text-left"><p>1.764420</p></td>
+<td class="text-left"><p>0.763161</p></td>
+</tr>
+<tr class="row-odd"><td class="text-left"><p><strong>min</strong></p></td>
+<td class="text-left"><p>4.300000</p></td>
+<td class="text-left"><p>2.000000</p></td>
+<td class="text-left"><p>1.000000</p></td>
+<td class="text-left"><p>0.100000</p></td>
+</tr>
+<tr class="row-even"><td class="text-left"><p><strong>25%</strong></p></td>
+<td class="text-left"><p>5.100000</p></td>
+<td class="text-left"><p>2.800000</p></td>
+<td class="text-left"><p>1.600000</p></td>
+<td class="text-left"><p>0.300000</p></td>
+</tr>
+<tr class="row-odd"><td class="text-left"><p><strong>50%</strong></p></td>
+<td class="text-left"><p>5.800000</p></td>
+<td class="text-left"><p>3.000000</p></td>
+<td class="text-left"><p>4.350000</p></td>
+<td class="text-left"><p>1.300000</p></td>
+</tr>
+<tr class="row-even"><td class="text-left"><p><strong>75%</strong></p></td>
+<td class="text-left"><p>6.400000</p></td>
+<td class="text-left"><p>3.300000</p></td>
+<td class="text-left"><p>5.100000</p></td>
+<td class="text-left"><p>1.800000</p></td>
+</tr>
+<tr class="row-odd"><td class="text-left"><p><strong>max</strong></p></td>
+<td class="text-left"><p>7.900000</p></td>
+<td class="text-left"><p>4.400000</p></td>
+<td class="text-left"><p>6.900000</p></td>
+<td class="text-left"><p>2.500000</p></td>
+</tr>
+</tbody>
+</table>
 </div>
-<p>Berdasarkan statistik deskriptif, dataset terdiri dari 150 data pada setiap atribut. Nilai rata-rata menunjukkan ukuran sepal dan petal berada pada rentang wajar. Variasi data terbesar terdapat pada atribut <em>petal length</em>, yang menunjukkan bahwa ukuran petal lebih beragam dibandingkan sepal.</p>
-<p><strong>Pengecekan Kebersihan Data:</strong></p>
+<p><strong>Hasil Output Analisis Kualitas:</strong></p>
+<p><strong>=== ANALISIS KUALITAS DATA ===</strong></p>
 <ul class="simple">
-<li><p><strong>Data Duplikat:</strong> Ditemukan <strong>3 data duplikat</strong> melalui <code class="docutils literal notranslate"><span class="pre">df.duplicated().sum()</span></code>.</p></li>
-<li><p><strong>Data Null:</strong> Melalui <code class="docutils literal notranslate"><span class="pre">df.isnull().sum()</span></code>, dipastikan <strong>tidak ada data kosong (Null)</strong> pada setiap atributnya, sehingga data cukup konsisten.</p></li>
+<li><p><strong>Data Duplikat:</strong> 3</p></li>
 </ul>
+<div class="pst-scrollable-table-container"><table class="table">
+<thead>
+<tr class="row-odd"><th class="head text-left"><p>Atribut</p></th>
+<th class="head text-left"><p>Jumlah Missing Value</p></th>
+</tr>
+</thead>
+<tbody>
+<tr class="row-even"><td class="text-left"><p>sepal_length</p></td>
+<td class="text-left"><p>0</p></td>
+</tr>
+<tr class="row-odd"><td class="text-left"><p>sepal_width</p></td>
+<td class="text-left"><p>0</p></td>
+</tr>
+<tr class="row-even"><td class="text-left"><p>petal_length</p></td>
+<td class="text-left"><p>0</p></td>
+</tr>
+<tr class="row-odd"><td class="text-left"><p>petal_width</p></td>
+<td class="text-left"><p>0</p></td>
+</tr>
+<tr class="row-even"><td class="text-left"><p>species</p></td>
+<td class="text-left"><p>0</p></td>
+</tr>
+</tbody>
+</table>
+</div>
+<p><strong>Visualisasi Google Colab:</strong></p>
+<p><strong>- Statistik Deskriptif (Colab):</strong>
+<img alt="Statistik Colab" src="../_images/diagram-colab.png" /></p>
+<p><strong>- Scatter Plot (Colab):</strong>
+<img alt="Scatter Plot Colab" src="../_images/scatterplot-colab.png" /></p>
 </section>
-</section>
-<section id="verifikasi-data">
-<h2>3. Verifikasi Data<a class="headerlink" href="#verifikasi-data" title="Link to this heading">#</a></h2>
-<p>Berdasarkan eksplorasi, dataset memiliki 150 baris yang konsisten di setiap kolom. Hasil verifikasi menunjukkan tidak ada <em>missing value</em>, namun adanya 3 data duplikat perlu ditangani lebih lanjut agar tidak mempengaruhi akurasi model pada tahap berikutnya.</p>
-</section>
-<section id="visualisasi-data">
-<h2>4. Visualisasi Data<a class="headerlink" href="#visualisasi-data" title="Link to this heading">#</a></h2>
-<ul class="simple">
-<li><p><strong>Distribusi Spesies:</strong> Berdasarkan grafik bar, setiap spesies memiliki masing-masing 50 data. Dataset ini bersifat seimbang (<em>balanced</em>), yang sangat baik untuk menghasilkan model klasifikasi yang tidak bias.</p></li>
-<li><p><strong>Distribusi Fitur:</strong> Histogram menunjukkan bahwa atribut <em>petal_length</em> dan <em>petal_width</em> memiliki pola distribusi yang lebih jelas dalam membedakan kelompok data dibandingkan fitur lainnya.</p></li>
-<li><p><strong>Deteksi Outlier:</strong> Melalui boxplot, ditemukan adanya beberapa <em>outlier</em> pada fitur <em>sepal_width</em>, sementara fitur lainnya memiliki distribusi yang relatif normal tanpa penyimpangan ekstrem yang signifikan.</p></li>
-</ul>
+<section id="implementasi-menggunakan-orange-data-mining">
+<h2>Implementasi Menggunakan Orange Data Mining<a class="headerlink" href="#implementasi-menggunakan-orange-data-mining" title="Link to this heading">#</a></h2>
+<p>Selain melalui kode, eksplorasi data juga dapat dilakukan dengan Orange Data Mining menggunakan sistem tarik-lepas (<em>drag and drop</em>) widget.</p>
+<p><strong>Flow Orange:</strong>
+<img alt="Alur Kerja Orange" src="../_images/orange.png" /></p>
+<p>Langkah-langkah di Orange:</p>
+<ol class="arabic simple">
+<li><p><strong>File</strong>: Digunakan untuk mengimpor file CSV atau database lokal.</p></li>
+<li><p><strong>Data Table</strong>: Untuk memverifikasi jumlah baris, kolom, dan isi data.</p></li>
+<li><p><strong>Distributions</strong>: Untuk melihat grafik batang dan distribusi frekuensi data.</p></li>
+<li><p><strong>Scatter Plot</strong>: Untuk mendeteksi tren dan pengelompokan spesies secara visual.</p></li>
+<li><p><strong>Box Plot</strong>: Untuk memantau rentang nilai dan mendeteksi pencilan (<em>outlier</em>).</p></li>
+</ol>
+<p><strong>Visualisasi Orange Data Mining:</strong></p>
+<p><strong>1. Impor Data:</strong>
+<img alt="Impor Data Orange" src="../_images/import-data.png" /></p>
+<p><strong>2. Statistik Kolom:</strong>
+<img alt="Statistik Kolom Orange" src="../_images/column-statistic.png" /></p>
+<p><strong>3. Distribusi Fitur:</strong>
+<img alt="Distribusi Orange" src="../_images/distribution.png" /></p>
+<p><strong>4. Scatter Plot:</strong>
+<img alt="Scatter Plot Orange" src="../_images/scatter-plot.png" /></p>
 </section>
 </section>
 
@@ -519,15 +690,6 @@ document.write(`
         <p class="prev-next-title">Business Understanding</p>
       </div>
     </a>
-    <a class="right-next"
-       href="03_data-preparation.html"
-       title="next page">
-      <div class="prev-next-info">
-        <p class="prev-next-subtitle">next</p>
-        <p class="prev-next-title">Persiapan Data (Data Preparation)</p>
-      </div>
-      <i class="fa-solid fa-angle-right"></i>
-    </a>
 </div>
                 </footer>
               
@@ -544,15 +706,13 @@ document.write(`
   </div>
   <nav class="bd-toc-nav page-toc">
     <ul class="visible nav section-nav flex-column">
-<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#sumber-data">1. Sumber Data</a></li>
-<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#eksplorasi-dataset">2. Eksplorasi Dataset</a><ul class="nav section-nav flex-column">
-<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#persiapan-library-dan-drive">- Persiapan Library dan Drive</a></li>
-<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#struktur-dataset">- Struktur Dataset</a></li>
-<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#statistik-deskriptif-dan-kualitas-data">- Statistik Deskriptif dan Kualitas Data</a></li>
-</ul>
-</li>
-<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#verifikasi-data">3. Verifikasi Data</a></li>
-<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#visualisasi-data">4. Visualisasi Data</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#kualitas-dan-kebersihan-data">Kualitas dan Kebersihan Data</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#komponen-utama-memahami-data">Komponen Utama Memahami Data</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#struktur-data-dan-seleksi-fitur">Struktur Data dan Seleksi Fitur</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#teknik-analisis-dan-pemodelan">Teknik Analisis dan Pemodelan</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#sumber-dan-tipe-data">Sumber dan Tipe Data</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#implementasi-google-colab">Implementasi Google Colab</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#implementasi-menggunakan-orange-data-mining">Implementasi Menggunakan Orange Data Mining</a></li>
 </ul>
   </nav></div>
 

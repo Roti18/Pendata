@@ -7,5 +7,3 @@ chapters:
   title: "Business Understanding"
 - file: md/02_data-understanding
   title: "Data Understanding"
-- file: md/03_data-preparation
-  title: "Persiapan Data (Data Preparation)"
