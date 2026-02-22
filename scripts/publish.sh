@@ -70,6 +70,7 @@ mkdir docs
 echo "[4/4] Copying build files to /docs..."
 cp -R _build/html/. docs/
 touch docs/.nojekyll
+echo "pendata.rynds.my.id" > docs/CNAME
 cp scripts/canvas-restricted.html docs/canvas.html
 
 echo "=========================================="

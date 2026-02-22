@@ -13,7 +13,7 @@ if exist venv\Scripts\activate (
     exit /b 1
 )
 
-echo [1/4] Cleaning & Generating Table of Contents (_toc.yml)...
+echo [1/4] Cleaning ^& Generating Table of Contents (_toc.yml)...
 if exist _build rmdir /S /Q _build
 if exist docs rmdir /S /Q docs
 
@@ -28,6 +28,7 @@ mkdir docs
 echo [4/4] Copying build files to /docs...
 xcopy /E /H /Y _build\html docs\
 echo. > docs\.nojekyll
+echo pendata.rynds.my.id > docs\CNAME
 if exist scripts\canvas-restricted.html copy /Y scripts\canvas-restricted.html docs\canvas.html
 
 echo ==========================================
