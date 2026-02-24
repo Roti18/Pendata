@@ -76,6 +76,9 @@ plt.show()
 
 df.hist(figsize=(10, 8))
 plt.show()
+
+correlation_matrix = df.corr(numeric_only=True)
+print(correlation_matrix)
 ```
 
 **Hasil Output (Tabel head):**
@@ -114,6 +117,14 @@ plt.show()
 | petal_width | 0 |
 | species | 0 |
 
+**Hasil Output Analisa Korelasi:**
+|               | sepal_length | sepal_width | petal_length | petal_width |
+|--------------|-------------|-------------|--------------|-------------|
+| sepal_length | 1.000000    | -0.109369   | 0.871754     | 0.817954    |
+| sepal_width  | -0.109369   | 1.000000    | -0.420516    | -0.356544   |
+| petal_length | 0.871754    | -0.420516   | 1.000000     | 0.962757    |
+| petal_width  | 0.817954    | -0.356544   | 0.962757     | 1.000000    |
+
 **Visualisasi Google Colab:**
 
 **- Statistik Deskriptif (Colab):**
@@ -142,7 +153,7 @@ Langkah-langkah di Orange:
 ![Impor Data Orange](../img/data-understanding/import-data.png)
 
 **2. Statistik Kolom:**
-![Statistik Kolom Orange](../img/data-understanding/column-statistic.png)
+![Statistik Kolom Orange](..y/img/data-understanding/column-statistic.png)
 
 **3. Distribusi Fitur:**
 ![Distribusi Orange](../img/data-understanding/distribution.png)
