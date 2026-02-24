@@ -117,17 +117,17 @@ plt.show()
 **Visualisasi Google Colab:**
 
 **- Statistik Deskriptif (Colab):**
-![Statistik Colab](../img/data-preparation/diagram-colab.png)
+![Statistik Colab](../img/data-understanding/diagram-colab.png)
 
 **- Scatter Plot (Colab):**
-![Scatter Plot Colab](../img/data-preparation/scatterplot-colab.png)
+![Scatter Plot Colab](../img/data-understanding/scatterplot-colab.png)
 
 ### Implementasi Menggunakan Orange Data Mining
 
 Selain melalui kode, eksplorasi data juga dapat dilakukan dengan Orange Data Mining menggunakan sistem tarik-lepas (*drag and drop*) widget.
 
 **Flow Orange:**
-![Alur Kerja Orange](../img/data-preparation/orange.png)
+![Alur Kerja Orange](../img/data-understanding/orange.png)
 
 Langkah-langkah di Orange:
 1.  **File**: Digunakan untuk mengimpor file CSV atau database lokal.
@@ -139,13 +139,13 @@ Langkah-langkah di Orange:
 **Visualisasi Orange Data Mining:**
 
 **1. Impor Data:**
-![Impor Data Orange](../img/data-preparation/import-data.png)
+![Impor Data Orange](../img/data-understanding/import-data.png)
 
 **2. Statistik Kolom:**
-![Statistik Kolom Orange](../img/data-preparation/column-statistic.png)
+![Statistik Kolom Orange](../img/data-understanding/column-statistic.png)
 
 **3. Distribusi Fitur:**
-![Distribusi Orange](../img/data-preparation/distribution.png)
+![Distribusi Orange](../img/data-understanding/distribution.png)
 
 **4. Scatter Plot:**
-![Scatter Plot Orange](../img/data-preparation/scatter-plot.png)
+![Scatter Plot Orange](../img/data-understanding/scatter-plot.png)
