@@ -394,7 +394,7 @@ Dataset mengandung nilai `?` pada kolom `workclass` dan `occupation` sebagai pen
 
 Untuk bisa menganalisis profil Adult Income ini, kita wajib membongkar arti masing-masing kolom pengamatan tanpa ada satupun yang terlewat:
 
-1. **`age` (Numerik Rasio)**: Usia individu saat survei dilakukan (contoh: 25, 38).
+1. **`age` (Numerik)**: Usia individu saat survei dilakukan (contoh: 25, 38).
 2. **`workclass` (Kategorikal)**: Sektor pekerjaan individu. Nilainya tidak berjenjang (contoh: Private, Local-gov, Self-emp-inc).
 3. **`fnlwgt` (Numerik)**: _Final Weight_ — bobot statistik dari Badan Sensus yang menunjukkan perkiraan jumlah orang dengan profil serupa di populasi nyata.
 4. **`education` (Kategorikal)**: Tingkat pendidikan terakhir yang diselesaikan (contoh: 11th, HS-grad, Some-college, Bachelors). Berjenjang dan punya urutan.
