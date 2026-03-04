@@ -519,7 +519,7 @@ Tipe data fitur-fitur pada Iris adalah murni Numerik (<code class="docutils lite
 <blockquote>
 <div><p><img alt="Visualisasi Petal Width" src="../_images/petal-width_colab.png" /></p>
 </div></blockquote>
-<p><strong><code class="docutils literal notranslate"><span class="pre">species</span></code> (Kategorikal Nominal)</strong>: Target klasifikasi berupa kategori jenis bunga Iris (Iris-setosa, Iris-versicolor, Iris-virginica).</p>
+<p><strong><code class="docutils literal notranslate"><span class="pre">species</span></code> (Kategorikal)</strong>: Target klasifikasi berupa kategori jenis bunga Iris (Iris-setosa, Iris-versicolor, Iris-virginica).</p>
 <blockquote>
 <div><p><img alt="Visualisasi Species" src="../_images/species_colab.png" /></p>
 </div></blockquote>
@@ -1096,19 +1096,19 @@ Lima baris pertama menunjukkan campuran kolom numerik (age, fnlwgt, hours-per-we
 <p>Untuk bisa menganalisis profil Adult Income ini, kita wajib membongkar arti masing-masing kolom pengamatan tanpa ada satupun yang terlewat:</p>
 <ol class="arabic simple">
 <li><p><strong><code class="docutils literal notranslate"><span class="pre">age</span></code> (Numerik Rasio)</strong>: Usia individu saat survei dilakukan (contoh: 25, 38).</p></li>
-<li><p><strong><code class="docutils literal notranslate"><span class="pre">workclass</span></code> (Kategorikal Nominal)</strong>: Sektor pekerjaan individu. Nilainya tidak berjenjang (contoh: Private, Local-gov, Self-emp-inc).</p></li>
+<li><p><strong><code class="docutils literal notranslate"><span class="pre">workclass</span></code> (Kategorikal)</strong>: Sektor pekerjaan individu. Nilainya tidak berjenjang (contoh: Private, Local-gov, Self-emp-inc).</p></li>
 <li><p><strong><code class="docutils literal notranslate"><span class="pre">fnlwgt</span></code> (Numerik)</strong>: <em>Final Weight</em> — bobot statistik dari Badan Sensus yang menunjukkan perkiraan jumlah orang dengan profil serupa di populasi nyata.</p></li>
-<li><p><strong><code class="docutils literal notranslate"><span class="pre">education</span></code> (Kategorikal Ordinal)</strong>: Tingkat pendidikan terakhir yang diselesaikan (contoh: 11th, HS-grad, Some-college, Bachelors). Berjenjang dan punya urutan.</p></li>
-<li><p><strong><code class="docutils literal notranslate"><span class="pre">educational-num</span></code> (Numerik Diskrit)</strong>: Versi angka dari kolom <code class="docutils literal notranslate"><span class="pre">education</span></code> (contoh: HS-grad = 9, Some-college = 10, Bachelors = 13).</p></li>
-<li><p><strong><code class="docutils literal notranslate"><span class="pre">marital-status</span></code> (Kategorikal Nominal)</strong>: Status pernikahan individu (contoh: Never-married, Married-civ-spouse, Divorced).</p></li>
-<li><p><strong><code class="docutils literal notranslate"><span class="pre">occupation</span></code> (Kategorikal Nominal)</strong>: Jenis pekerjaan yang dijalani (contoh: Machine-op-inspct, Farming-fishing, Protective-serv).</p></li>
-<li><p><strong><code class="docutils literal notranslate"><span class="pre">relationship</span></code> (Kategorikal Nominal)</strong>: Peran individu dalam keluarga (contoh: Own-child, Husband, Wife, Unmarried).</p></li>
-<li><p><strong><code class="docutils literal notranslate"><span class="pre">race</span></code> (Kategorikal Nominal)</strong>: Latar belakang ras individu (contoh: White, Black, Asian-Pac-Islander, Other).</p></li>
+<li><p><strong><code class="docutils literal notranslate"><span class="pre">education</span></code> (Kategorikal)</strong>: Tingkat pendidikan terakhir yang diselesaikan (contoh: 11th, HS-grad, Some-college, Bachelors). Berjenjang dan punya urutan.</p></li>
+<li><p><strong><code class="docutils literal notranslate"><span class="pre">educational-num</span></code> (Numerik)</strong>: Versi angka dari kolom <code class="docutils literal notranslate"><span class="pre">education</span></code> (contoh: HS-grad = 9, Some-college = 10, Bachelors = 13).</p></li>
+<li><p><strong><code class="docutils literal notranslate"><span class="pre">marital-status</span></code> (Kategorikal)</strong>: Status pernikahan individu (contoh: Never-married, Married-civ-spouse, Divorced).</p></li>
+<li><p><strong><code class="docutils literal notranslate"><span class="pre">occupation</span></code> (Kategorikal)</strong>: Jenis pekerjaan yang dijalani (contoh: Machine-op-inspct, Farming-fishing, Protective-serv).</p></li>
+<li><p><strong><code class="docutils literal notranslate"><span class="pre">relationship</span></code> (Kategorikal)</strong>: Peran individu dalam keluarga (contoh: Own-child, Husband, Wife, Unmarried).</p></li>
+<li><p><strong><code class="docutils literal notranslate"><span class="pre">race</span></code> (Kategorikal)</strong>: Latar belakang ras individu (contoh: White, Black, Asian-Pac-Islander, Other).</p></li>
 <li><p><strong><code class="docutils literal notranslate"><span class="pre">gender</span></code> (Kategorikal Biner)</strong>: Jenis kelamin individu — hanya dua nilai: Male atau Female.</p></li>
 <li><p><strong><code class="docutils literal notranslate"><span class="pre">capital-gain</span></code> (Numerik)</strong>: Keuntungan finansial dari investasi atau aset. Sering bernilai 0 karena kebanyakan individu tidak punya pendapatan investasi.</p></li>
 <li><p><strong><code class="docutils literal notranslate"><span class="pre">capital-loss</span></code> (Numerik)</strong>: Kerugian finansial dari penurunan nilai aset atau investasi.</p></li>
 <li><p><strong><code class="docutils literal notranslate"><span class="pre">hours-per-week</span></code> (Numerik)</strong>: Jumlah jam kerja per minggu.</p></li>
-<li><p><strong><code class="docutils literal notranslate"><span class="pre">native-country</span></code> (Kategorikal Nominal)</strong>: Negara asal individu (contoh: United-States, Mexico, Philippines).</p></li>
+<li><p><strong><code class="docutils literal notranslate"><span class="pre">native-country</span></code> (Kategorikal)</strong>: Negara asal individu (contoh: United-States, Mexico, Philippines).</p></li>
 <li><p><strong><code class="docutils literal notranslate"><span class="pre">income</span></code> (Kategorikal Biner)</strong>: <strong>Target prediksi</strong> — kategori penghasilan tahunan: <strong><code class="docutils literal notranslate"><span class="pre">&lt;=50K</span></code></strong> (tidak lebih dari 50 Ribu USD) atau <strong><code class="docutils literal notranslate"><span class="pre">&gt;50K</span></code></strong> (lebih dari 50 Ribu USD).</p></li>
 </ol>
 <p>Berdasarkan data di atas, kita ambil cuplikan ringkas untuk perhitungan. Titik fokus perhitungan:</p>
@@ -1117,7 +1117,7 @@ Lima baris pertama menunjukkan campuran kolom numerik (age, fnlwgt, hours-per-we
 <ul>
 <li><p><code class="docutils literal notranslate"><span class="pre">Age</span></code> = 25 (Numerik)</p></li>
 <li><p><code class="docutils literal notranslate"><span class="pre">Hours-per-week</span></code> = 40 (Numerik)</p></li>
-<li><p><code class="docutils literal notranslate"><span class="pre">Workclass</span></code> = Private (Kategorikal Nominal)</p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">Workclass</span></code> = Private (Kategorikal)</p></li>
 <li><p><code class="docutils literal notranslate"><span class="pre">Education</span></code> = 11th (Kategori Ordinal)</p></li>
 <li><p><code class="docutils literal notranslate"><span class="pre">Gender</span></code> = Male (Biner)</p></li>
 </ul>
@@ -1126,7 +1126,7 @@ Lima baris pertama menunjukkan campuran kolom numerik (age, fnlwgt, hours-per-we
 <ul>
 <li><p><code class="docutils literal notranslate"><span class="pre">Age</span></code> = 38 (Numerik)</p></li>
 <li><p><code class="docutils literal notranslate"><span class="pre">Hours-per-week</span></code> = 50 (Numerik)</p></li>
-<li><p><code class="docutils literal notranslate"><span class="pre">Workclass</span></code> = Private (Kategorikal Nominal)</p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">Workclass</span></code> = Private (Kategorikal)</p></li>
 <li><p><code class="docutils literal notranslate"><span class="pre">Education</span></code> = HS-grad (Kategori Ordinal)</p></li>
 <li><p><code class="docutils literal notranslate"><span class="pre">Gender</span></code> = Male (Biner)</p></li>
 </ul>
@@ -1166,7 +1166,7 @@ Lima baris pertama menunjukkan campuran kolom numerik (age, fnlwgt, hours-per-we
 <td><p><strong>50</strong></p></td>
 </tr>
 <tr class="row-even"><td><p><code class="docutils literal notranslate"><span class="pre">workclass</span></code></p></td>
-<td><p>Kategorikal Nominal</p></td>
+<td><p>Kategorikal</p></td>
 <td><p>Private</p></td>
 <td><p>Private</p></td>
 <td><p>Label Encoding (Private=0)</p></td>
@@ -1174,7 +1174,7 @@ Lima baris pertama menunjukkan campuran kolom numerik (age, fnlwgt, hours-per-we
 <td><p><strong>0</strong></p></td>
 </tr>
 <tr class="row-odd"><td><p><code class="docutils literal notranslate"><span class="pre">educational-num</span></code></p></td>
-<td><p>Ordinal Numerik</p></td>
+<td><p>Ordinal</p></td>
 <td><p>7 (11th)</p></td>
 <td><p>9 (HS-grad)</p></td>
 <td><p>Langsung pakai angkanya</p></td>
@@ -1282,13 +1282,13 @@ Rumus Numerik Jaccard/Gower: (Nilai Selisih Absolut) / (Rentang Maksimal Sebaran
 <li><p>Range Populasi Hours Keseluruhan: <span class="math notranslate nohighlight">\(98\)</span></p></li>
 <li><p><strong>Skor Output Hours</strong>: <span class="math notranslate nohighlight">\(10 / 98 = \mathbf{0.102}\)</span></p></li>
 </ul>
-<p><strong>3. Skor Jarak Variabel <span class="math notranslate nohighlight">\(Workclass\)</span> (Kategorikal Nominal Pendekatan Jaccard):</strong></p>
+<p><strong>3. Skor Jarak Variabel <span class="math notranslate nohighlight">\(Workclass\)</span> (Kategorikal Pendekatan Jaccard):</strong></p>
 <ul class="simple">
 <li><p>Pada Row 0 bernilai: <code class="docutils literal notranslate"><span class="pre">Private</span></code> bersanding dengan Row 1: <code class="docutils literal notranslate"><span class="pre">Private</span></code></p></li>
 <li><p>Status Pemeriksaan: String Teks SAMA PERSIS</p></li>
 <li><p><strong>Skor Output Workclass</strong>: <span class="math notranslate nohighlight">\(\mathbf{0}\)</span></p></li>
 </ul>
-<p><strong>4. Skor Jarak Variabel <span class="math notranslate nohighlight">\(Education\)</span> (Kategorikal Ordinal Analitis):</strong></p>
+<p><strong>4. Skor Jarak Variabel <span class="math notranslate nohighlight">\(Education\)</span> (Kategorikal Analitis):</strong></p>
 <ul class="simple">
 <li><p>Pada Row 0 bernilai: <code class="docutils literal notranslate"><span class="pre">11th</span></code> berseling dengan Row 1: <code class="docutils literal notranslate"><span class="pre">HS-grad</span></code></p></li>
 <li><p>Status Pemeriksaan: Susunan Opsi BERBEDA Mutlak</p></li>
