@@ -57,6 +57,8 @@
     <script async="async" src="../_static/sphinx-thebe.js?v=c100c467"></script>
     <script>var togglebuttonSelector = '.toggle, .admonition.dropdown';</script>
     <script>const THEBE_JS_URL = "https://unpkg.com/thebe@0.8.2/lib/index.js"; const thebe_selector = ".thebe,.cell"; const thebe_selector_input = "pre"; const thebe_selector_output = ".output, .cell_output"</script>
+    <script>window.MathJax = {"options": {"processHtmlClass": "tex2jax_process|mathjax_process|math|output_area"}}</script>
+    <script defer="defer" src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-mml-chtml.js"></script>
     <script>DOCUMENTATION_OPTIONS.pagename = 'md/02_data-understanding';</script>
     <link rel="index" title="Index" href="../genindex.html" />
     <link rel="search" title="Search" href="../search.html" />
@@ -182,6 +184,8 @@
 <li class="toctree-l1"><a class="reference internal" href="00_penambangan-data.html">Penambangan Data</a></li>
 <li class="toctree-l1"><a class="reference internal" href="01_busines-understanding.html">Business Understanding</a></li>
 <li class="toctree-l1 current active"><a class="current reference internal" href="#">Data Understanding</a></li>
+
+
 </ul>
 
     </div>
@@ -377,14 +381,50 @@ document.write(`
             </div>
             <nav aria-label="Page">
                 <ul class="visible nav section-nav flex-column">
-<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#kualitas-dan-kebersihan-data">Kualitas dan Kebersihan Data</a></li>
-<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#komponen-utama-memahami-data">Komponen Utama Memahami Data</a></li>
-<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#struktur-data-dan-seleksi-fitur">Struktur Data dan Seleksi Fitur</a></li>
-<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#teknik-analisis-dan-pemodelan">Teknik Analisis dan Pemodelan</a></li>
-<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#sumber-dan-tipe-data">Sumber dan Tipe Data</a></li>
-<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#implementasi-google-colab">Implementasi Google Colab</a></li>
-<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#implementasi-menggunakan-orange-data-mining">Implementasi Menggunakan Orange Data Mining</a></li>
+<li class="toc-h1 nav-item toc-entry"><a class="reference internal nav-link" href="#">Data Understanding</a><ul class="visible nav section-nav flex-column">
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#pendahuluan">2.1 Pendahuluan</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#tujuan-data-understanding">2.2 Tujuan Data Understanding</a></li>
 </ul>
+</li>
+<li class="toc-h1 nav-item toc-entry"><a class="reference internal nav-link" href="#studi-kasus-1-iris-flower-dataset">Studi Kasus 1: Iris Flower Dataset</a><ul class="visible nav section-nav flex-column">
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#sumber-dan-pengumpulan-data">Sumber dan Pengumpulan Data</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#persiapan-google-colab">Persiapan Google Colab</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#analisis-pengukuran-jarak-distance-matrix-pada-iris">Analisis Pengukuran Jarak (Distance Matrix) Pada Iris</a><ul class="nav section-nav flex-column">
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#konsep-dasar-minkowski-distance">1. Konsep Dasar Minkowski Distance</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#manual-hitung-manhattan-distance-p-1">2. Manual Hitung Manhattan Distance (<span class="math notranslate nohighlight">\(p = 1\)</span>)</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#manual-hitung-euclidean-distance-p-2">3. Manual Hitung Euclidean Distance (<span class="math notranslate nohighlight">\(p = 2\)</span>)</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#cosine-similarity">4. Cosine Similarity</a></li>
+</ul>
+</li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#implementasi-orange-data-mining-pada-dataset-iris">Implementasi Orange Data Mining Pada Dataset Iris</a><ul class="nav section-nav flex-column">
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#penarikan-data-dari-postgresql-mysql-ke-orange">Penarikan Data dari PostgreSQL / MySQL ke Orange</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#pengujian-distance-matrix-iris-di-orange-via-file-widget">Pengujian Distance Matrix Iris di Orange (via File Widget)</a></li>
+</ul>
+</li>
+</ul>
+</li>
+<li class="toc-h1 nav-item toc-entry"><a class="reference internal nav-link" href="#studi-kasus-2-data-adult-income">Studi Kasus 2: Data Adult Income</a><ul class="visible nav section-nav flex-column">
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#apa-itu-adult-income-dataset">Apa itu Adult Income Dataset?</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#persiapan-dan-pemuatan-dataset-google-colab-python">Persiapan dan Pemuatan Dataset (Google Colab Python)</a><ul class="nav section-nav flex-column">
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#penjelasan-tipe-data-tiap-fitur">Penjelasan Tipe Data Tiap Fitur</a></li>
+</ul>
+</li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#konversi-tipe-data-sebelum-perhitungan">Konversi Tipe Data Sebelum Perhitungan</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#perhitungan-manual-manhattan-euclidean-minkowski-pada-data-2">Perhitungan Manual: Manhattan, Euclidean, Minkowski Pada Data 2</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#perhitungan-manual-manhattan-data-adult-income-p-1">1. Perhitungan Manual Manhattan Data Adult Income (p=1)</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#perhitungan-manual-euclidean-data-adult-income-p-2">2. Perhitungan Manual Euclidean Data Adult Income (p=2)</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#perhitungan-manual-minkowski-data-adult-income-p-3">3. Perhitungan Manual Minkowski Data Adult Income (p=3)</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#perhitungan-manual-gower-distance-pada-data-2">Perhitungan Manual: Gower Distance Pada Data 2</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#rumus-jawab-gower-keseluruhan">Rumus Jawab Gower Keseluruhan</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#detail-langkah-perhitungan-score-tiap-fitur-manual-jaccard-skalar">Detail Langkah Perhitungan Score Tiap Fitur (Manual Jaccard &amp; Skalar):</a><ul class="nav section-nav flex-column">
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#kesimpulan-gower-distance">Kesimpulan Gower Distance</a></li>
+</ul>
+</li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#implementasi-orange-data-mining-adult-income">Implementasi Orange Data Mining (Adult Income)</a></li>
+</ul>
+</li>
+</ul>
+
             </nav>
         </div>
     </div>
@@ -397,54 +437,34 @@ document.write(`
                   
   <section class="tex2jax_ignore mathjax_ignore" id="data-understanding">
 <h1>Data Understanding<a class="headerlink" href="#data-understanding" title="Link to this heading">#</a></h1>
-<p>Data Understanding adalah tahap awal untuk melakukan pengukuran dan pemahaman terhadap data. Proses ini melibatkan integrasi data dari berbagai format seperti XML, JSON, atau basis data lainnya. Setelah data terkumpul, langkah krusial berikutnya adalah membersihkan data untuk menjaga kualitas analisis.</p>
-<section id="kualitas-dan-kebersihan-data">
-<h2>Kualitas dan Kebersihan Data<a class="headerlink" href="#kualitas-dan-kebersihan-data" title="Link to this heading">#</a></h2>
-<p>Data yang kotor dapat menghambat proses penambangan data. Beberapa jenis data kotor yang sering ditemui antara lain:</p>
-<ol class="arabic simple">
-<li><p>Redudansi data: Kondisi di mana terdapat data yang berulang atau duplikat dalam dataset.</p></li>
-<li><p>Data tidak konsisten: Kondisi di mana data memiliki format atau nilai yang berbeda untuk informasi yang sama.</p></li>
-</ol>
-<p>Kualitas data dapat dinilai dari ada tidaknya nilai yang hilang (missing values) dan data duplikat. Missing values dapat ditoleransi jika jumlahnya kurang dari 10 persen dari total data.</p>
+<section id="pendahuluan">
+<h2>2.1 Pendahuluan<a class="headerlink" href="#pendahuluan" title="Link to this heading">#</a></h2>
+<p>Dalam proses data mining, Data Understanding merupakan tahap yang sangat krusial karena menjadi fondasi sebelum dilakukan pembersihan data (Data Preparation) dan pemodelan (Modeling). Tahap ini bertujuan untuk memahami karakteristik data secara menyeluruh, baik dari sisi struktur, tipe data, kualitas data, maupun pola distribusinya. Tanpa pemahaman data yang baik, model yang dibangun berisiko menghasilkan kesimpulan yang bias atau tidak valid.</p>
 </section>
-<section id="komponen-utama-memahami-data">
-<h2>Komponen Utama Memahami Data<a class="headerlink" href="#komponen-utama-memahami-data" title="Link to this heading">#</a></h2>
-<p>Terdapat empat komponen utama dalam memahami data:</p>
-<ol class="arabic simple">
-<li><p>Penumpukan data awal: Proses pengumpulan data mentah dari berbagai sumber.</p></li>
-<li><p>Deskripsi data: Memberikan gambaran umum mengenai karakteristik data yang dimiliki.</p></li>
-<li><p>Eksplorasi data: Melakukan pencarian pola atau hubungan awal antar variabel melalui analisis statistik atau visualisasi.</p></li>
-<li><p>Kualitas data: Memastikan data sudah layak dan bersih untuk diproses lebih lanjut.</p></li>
-</ol>
+<section id="tujuan-data-understanding">
+<h2>2.2 Tujuan Data Understanding<a class="headerlink" href="#tujuan-data-understanding" title="Link to this heading">#</a></h2>
+<p>Tujuan utama dari tahap ini adalah:</p>
+<ul class="simple">
+<li><p>Memastikan dataset dapat dibaca dengan benar.</p></li>
+<li><p>Memahami struktur dan tipe data.</p></li>
+<li><p>Mengidentifikasi potensi masalah seperti missing value dan duplikasi.</p></li>
+<li><p>Menganalisis distribusi dan pola awal melalui statistik deskriptif.</p></li>
+<li><p>Melakukan visualisasi untuk memahami hubungan antar fitur.</p></li>
+<li><p>Menghitung dan mengukur kedekatan data (Distance Matrix) dengan perhitungan rumus matematika yang mendalam beserta implementasi manualnya.</p></li>
+</ul>
 </section>
-<section id="struktur-data-dan-seleksi-fitur">
-<h2>Struktur Data dan Seleksi Fitur<a class="headerlink" href="#struktur-data-dan-seleksi-fitur" title="Link to this heading">#</a></h2>
-<p>Data tabular memiliki struktur yang terdiri dari baris dan kolom. Dalam proses analisis, dilakukan seleksi fitur untuk mengurangi jumlah kolom atau variabel yang tidak relevan. Semua variabel yang ada perlu diseleksi untuk memastikan model yang dibangun efektif.</p>
-<p>Dalam penulisan ilmiah atau skripsi, jumlah data harus dinyatakan secara pasti dan tegas. Penggunaan kata “kira-kira” harus dihindari untuk menjaga validitas informasi.</p>
 </section>
-<section id="teknik-analisis-dan-pemodelan">
-<h2>Teknik Analisis dan Pemodelan<a class="headerlink" href="#teknik-analisis-dan-pemodelan" title="Link to this heading">#</a></h2>
-<p>Dalam data understanding, dilakukan Eksplorasi Data Analisis (EDA) untuk melihat hubungan antar variabel. Beberapa teknik yang digunakan antara lain:</p>
-<ol class="arabic simple">
-<li><p>Regresi Linier: Pendekatan rumus dengan melihat pola kumpulan data yang membentuk garis lurus.</p></li>
-<li><p>Regresi Non Linier: Pendekatan di mana pola data tidak lurus melainkan memiliki bentuk yang berbelok-belok.</p></li>
-<li><p>Scatter Plot: Digunakan untuk melihat persebaran data dan korelasi antar variabel.</p></li>
-<li><p>Histogram: Digunakan untuk melihat distribusi frekuensi dari data.</p></li>
-<li><p>Outlier: Deteksi terhadap data yang memiliki nilai sangat jauh berbeda dari kumpulan data lainnya.</p></li>
-</ol>
+<hr class="docutils" />
+<section class="tex2jax_ignore mathjax_ignore" id="studi-kasus-1-iris-flower-dataset">
+<h1>Studi Kasus 1: Iris Flower Dataset<a class="headerlink" href="#studi-kasus-1-iris-flower-dataset" title="Link to this heading">#</a></h1>
+<section id="sumber-dan-pengumpulan-data">
+<h2>Sumber dan Pengumpulan Data<a class="headerlink" href="#sumber-dan-pengumpulan-data" title="Link to this heading">#</a></h2>
+<p>Dataset yang digunakan dalam penelitian ini adalah Iris Flower Dataset. Dataset ini berisi 150 observasi bunga Iris yang terdiri dari tiga spesies (Iris-setosa, Iris-versicolor, Iris-virginica). Masing-masing spesies memiliki 50 data sehingga dataset bersifat seimbang (balanced dataset).
+Tipe data fitur-fitur pada Iris adalah murni Numerik (<code class="docutils literal notranslate"><span class="pre">sepal_length</span></code>, <code class="docutils literal notranslate"><span class="pre">sepal_width</span></code>, <code class="docutils literal notranslate"><span class="pre">petal_length</span></code>, <code class="docutils literal notranslate"><span class="pre">petal_width</span></code>).</p>
 </section>
-<section id="sumber-dan-tipe-data">
-<h2>Sumber dan Tipe Data<a class="headerlink" href="#sumber-dan-tipe-data" title="Link to this heading">#</a></h2>
-<p>Data dapat diperoleh dari berbagai sumber seperti database perusahaan, media sosial, rekaman log sistem, atau hasil survei. Tipe data yang umum ditemui meliputi:</p>
-<ol class="arabic simple">
-<li><p>Biner: Terdiri dari biner simetris (tidak ada penekanan pada salah satu kategori, contoh: jenis kelamin) dan biner asimetris (terdapat penekanan pada salah satu kategori, contoh: hasil tes kesehatan).</p></li>
-<li><p>Kategorikal: Data yang memiliki lebih dari tiga opsi kategori.</p></li>
-<li><p>Numerik: Data yang merupakan hasil dari pengujian atau pengukuran angka secara langsung.</p></li>
-</ol>
-</section>
-<section id="implementasi-google-colab">
-<h2>Implementasi Google Colab<a class="headerlink" href="#implementasi-google-colab" title="Link to this heading">#</a></h2>
-<p>Berikut adalah kode lengkap untuk melakukan eksplorasi data secara menyeluruh di Google Colab:</p>
+<section id="persiapan-google-colab">
+<h2>Persiapan Google Colab<a class="headerlink" href="#persiapan-google-colab" title="Link to this heading">#</a></h2>
+<p>Berikut adalah kode lengkap untuk melakukan eksplorasi data Iris secara menyeluruh di Google Colab:</p>
 <div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="err">!</span><span class="n">pip</span> <span class="n">install</span> <span class="n">pandas</span> <span class="n">seaborn</span> <span class="n">matplotlib</span> <span class="n">numpy</span>
 
 <span class="kn">import</span><span class="w"> </span><span class="nn">pandas</span><span class="w"> </span><span class="k">as</span><span class="w"> </span><span class="nn">pd</span>
@@ -466,7 +486,7 @@ document.write(`
 
 <span class="nb">print</span><span class="p">(</span><span class="s2">&quot;</span><span class="se">\n</span><span class="s2">=== ANALISIS KUALITAS DATA ===&quot;</span><span class="p">)</span>
 <span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;Data Duplikat: </span><span class="si">{</span><span class="n">df</span><span class="o">.</span><span class="n">duplicated</span><span class="p">()</span><span class="o">.</span><span class="n">sum</span><span class="p">()</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">)</span>
-<span class="nb">print</span><span class="p">(</span><span class="s2">&quot;</span><span class="se">\n</span><span class="s2">Missing Values:&quot;</span><span class="p">)</span>
+<span class="nb">print</span><span class="p">(</span><span class="s2">&quot;Missing Values:&quot;</span><span class="p">)</span>
 <span class="nb">print</span><span class="p">(</span><span class="n">df</span><span class="o">.</span><span class="n">isnull</span><span class="p">()</span><span class="o">.</span><span class="n">sum</span><span class="p">())</span>
 
 <span class="n">plt</span><span class="o">.</span><span class="n">figure</span><span class="p">(</span><span class="n">figsize</span><span class="o">=</span><span class="p">(</span><span class="mi">10</span><span class="p">,</span> <span class="mi">6</span><span class="p">))</span>
@@ -481,149 +501,158 @@ document.write(`
 <span class="nb">print</span><span class="p">(</span><span class="n">correlation_matrix</span><span class="p">)</span>
 </pre></div>
 </div>
-<p><strong>Hasil Output (Tabel head):</strong></p>
+<p><strong>1. Struktur Data (<code class="docutils literal notranslate"><span class="pre">df.head()</span></code>)</strong></p>
+<p>Dataset Iris terdiri dari 150 observasi dengan 5 atribut berikut:</p>
+<p><strong><code class="docutils literal notranslate"><span class="pre">sepal_length</span></code> (Numerik)</strong>: Mengukur panjang struktur daun kelopak terluar yang membungkus kuncup bunga (sepal) dalam satuan centimeter (cm).</p>
+<blockquote>
+<div><p><img alt="Visualisasi Sepal Length" src="../_images/sepal-length_colab.png" /></p>
+</div></blockquote>
+<p><strong><code class="docutils literal notranslate"><span class="pre">sepal_width</span></code> (Numerik)</strong>: Mengukur lebar bagian kelopak ekuatorial. Bersama panjangannya, proporsi kelopak ini berfungsi menempatkan serangga penyerbuk.</p>
+<blockquote>
+<div><p><img alt="Visualisasi Sepal Width" src="../_images/sepal-width_colab.png" /></p>
+</div></blockquote>
+<p><strong><code class="docutils literal notranslate"><span class="pre">petal_length</span></code> (Numerik)</strong>: Mengukur panjang daun mahkota (petal) berwarna di tengah bunga dalam satuan centimeter (cm).</p>
+<blockquote>
+<div><p><img alt="Visualisasi Petal Length" src="../_images/petal-length_colab.png" /></p>
+</div></blockquote>
+<p><strong><code class="docutils literal notranslate"><span class="pre">petal_width</span></code> (Numerik)</strong>: Mengukur lebar bentangan mahkota petal. Gabungan petal memunculkan corak identitas spesies botani paling utama.</p>
+<blockquote>
+<div><p><img alt="Visualisasi Petal Width" src="../_images/petal-width_colab.png" /></p>
+</div></blockquote>
+<p><strong><code class="docutils literal notranslate"><span class="pre">species</span></code> (Kategorikal Nominal)</strong>: Target klasifikasi berupa kategori jenis bunga Iris (Iris-setosa, Iris-versicolor, Iris-virginica).</p>
+<blockquote>
+<div><p><img alt="Visualisasi Species" src="../_images/species_colab.png" /></p>
+</div></blockquote>
+<p>Output <code class="docutils literal notranslate"><span class="pre">df.head()</span></code>:</p>
 <div class="pst-scrollable-table-container"><table class="table">
 <thead>
-<tr class="row-odd"><th class="head text-left"><p>index</p></th>
-<th class="head text-left"><p>sepal_length</p></th>
-<th class="head text-left"><p>sepal_width</p></th>
-<th class="head text-left"><p>petal_length</p></th>
-<th class="head text-left"><p>petal_width</p></th>
-<th class="head text-left"><p>species</p></th>
+<tr class="row-odd"><th class="head"><p>index</p></th>
+<th class="head"><p>sepal_length</p></th>
+<th class="head"><p>sepal_width</p></th>
+<th class="head"><p>petal_length</p></th>
+<th class="head"><p>petal_width</p></th>
+<th class="head"><p>species</p></th>
 </tr>
 </thead>
 <tbody>
-<tr class="row-even"><td class="text-left"><p>0</p></td>
-<td class="text-left"><p>5.1</p></td>
-<td class="text-left"><p>3.5</p></td>
-<td class="text-left"><p>1.4</p></td>
-<td class="text-left"><p>0.2</p></td>
-<td class="text-left"><p>Iris-setosa</p></td>
+<tr class="row-even"><td><p>0</p></td>
+<td><p>5.1</p></td>
+<td><p>3.5</p></td>
+<td><p>1.4</p></td>
+<td><p>0.2</p></td>
+<td><p>Iris-setosa</p></td>
 </tr>
-<tr class="row-odd"><td class="text-left"><p>1</p></td>
-<td class="text-left"><p>4.9</p></td>
-<td class="text-left"><p>3.0</p></td>
-<td class="text-left"><p>1.4</p></td>
-<td class="text-left"><p>0.2</p></td>
-<td class="text-left"><p>Iris-setosa</p></td>
+<tr class="row-odd"><td><p>1</p></td>
+<td><p>4.9</p></td>
+<td><p>3.0</p></td>
+<td><p>1.4</p></td>
+<td><p>0.2</p></td>
+<td><p>Iris-setosa</p></td>
 </tr>
-<tr class="row-even"><td class="text-left"><p>2</p></td>
-<td class="text-left"><p>4.7</p></td>
-<td class="text-left"><p>3.2</p></td>
-<td class="text-left"><p>1.3</p></td>
-<td class="text-left"><p>0.2</p></td>
-<td class="text-left"><p>Iris-setosa</p></td>
+<tr class="row-even"><td><p>2</p></td>
+<td><p>4.7</p></td>
+<td><p>3.2</p></td>
+<td><p>1.3</p></td>
+<td><p>0.2</p></td>
+<td><p>Iris-setosa</p></td>
 </tr>
-<tr class="row-odd"><td class="text-left"><p>3</p></td>
-<td class="text-left"><p>4.6</p></td>
-<td class="text-left"><p>3.1</p></td>
-<td class="text-left"><p>1.5</p></td>
-<td class="text-left"><p>0.2</p></td>
-<td class="text-left"><p>Iris-setosa</p></td>
+<tr class="row-odd"><td><p>3</p></td>
+<td><p>4.6</p></td>
+<td><p>3.1</p></td>
+<td><p>1.5</p></td>
+<td><p>0.2</p></td>
+<td><p>Iris-setosa</p></td>
 </tr>
-<tr class="row-even"><td class="text-left"><p>4</p></td>
-<td class="text-left"><p>5.0</p></td>
-<td class="text-left"><p>3.6</p></td>
-<td class="text-left"><p>1.4</p></td>
-<td class="text-left"><p>0.2</p></td>
-<td class="text-left"><p>Iris-setosa</p></td>
+<tr class="row-even"><td><p>4</p></td>
+<td><p>5.0</p></td>
+<td><p>3.6</p></td>
+<td><p>1.4</p></td>
+<td><p>0.2</p></td>
+<td><p>Iris-setosa</p></td>
 </tr>
 </tbody>
 </table>
 </div>
-<p><strong>Hasil Output (Tabel Statistik Deskriptif):</strong></p>
+<p><strong>2. Statistik Deskriptif (<code class="docutils literal notranslate"><span class="pre">df.describe()</span></code>)</strong></p>
+<p>Output <code class="docutils literal notranslate"><span class="pre">df.describe()</span></code>:</p>
 <div class="pst-scrollable-table-container"><table class="table">
 <thead>
-<tr class="row-odd"><th class="head text-left"><p></p></th>
-<th class="head text-left"><p>sepal_length</p></th>
-<th class="head text-left"><p>sepal_width</p></th>
-<th class="head text-left"><p>petal_length</p></th>
-<th class="head text-left"><p>petal_width</p></th>
+<tr class="row-odd"><th class="head"><p></p></th>
+<th class="head"><p>sepal_length</p></th>
+<th class="head"><p>sepal_width</p></th>
+<th class="head"><p>petal_length</p></th>
+<th class="head"><p>petal_width</p></th>
 </tr>
 </thead>
 <tbody>
-<tr class="row-even"><td class="text-left"><p><strong>count</strong></p></td>
-<td class="text-left"><p>150.000000</p></td>
-<td class="text-left"><p>150.000000</p></td>
-<td class="text-left"><p>150.000000</p></td>
-<td class="text-left"><p>150.000000</p></td>
+<tr class="row-even"><td><p>count</p></td>
+<td><p>150.0</p></td>
+<td><p>150.0</p></td>
+<td><p>150.0</p></td>
+<td><p>150.0</p></td>
 </tr>
-<tr class="row-odd"><td class="text-left"><p><strong>mean</strong></p></td>
-<td class="text-left"><p>5.843333</p></td>
-<td class="text-left"><p>3.054000</p></td>
-<td class="text-left"><p>3.758667</p></td>
-<td class="text-left"><p>1.198667</p></td>
+<tr class="row-odd"><td><p>mean</p></td>
+<td><p>5.843333</p></td>
+<td><p>3.054000</p></td>
+<td><p>3.758667</p></td>
+<td><p>1.198667</p></td>
 </tr>
-<tr class="row-even"><td class="text-left"><p><strong>std</strong></p></td>
-<td class="text-left"><p>0.828066</p></td>
-<td class="text-left"><p>0.433594</p></td>
-<td class="text-left"><p>1.764420</p></td>
-<td class="text-left"><p>0.763161</p></td>
+<tr class="row-even"><td><p>std</p></td>
+<td><p>0.828066</p></td>
+<td><p>0.433594</p></td>
+<td><p>1.764420</p></td>
+<td><p>0.763161</p></td>
 </tr>
-<tr class="row-odd"><td class="text-left"><p><strong>min</strong></p></td>
-<td class="text-left"><p>4.300000</p></td>
-<td class="text-left"><p>2.000000</p></td>
-<td class="text-left"><p>1.000000</p></td>
-<td class="text-left"><p>0.100000</p></td>
+<tr class="row-odd"><td><p>min</p></td>
+<td><p>4.300000</p></td>
+<td><p>2.000000</p></td>
+<td><p>1.000000</p></td>
+<td><p>0.100000</p></td>
 </tr>
-<tr class="row-even"><td class="text-left"><p><strong>25%</strong></p></td>
-<td class="text-left"><p>5.100000</p></td>
-<td class="text-left"><p>2.800000</p></td>
-<td class="text-left"><p>1.600000</p></td>
-<td class="text-left"><p>0.300000</p></td>
+<tr class="row-even"><td><p>25%</p></td>
+<td><p>5.100000</p></td>
+<td><p>2.800000</p></td>
+<td><p>1.600000</p></td>
+<td><p>0.300000</p></td>
 </tr>
-<tr class="row-odd"><td class="text-left"><p><strong>50%</strong></p></td>
-<td class="text-left"><p>5.800000</p></td>
-<td class="text-left"><p>3.000000</p></td>
-<td class="text-left"><p>4.350000</p></td>
-<td class="text-left"><p>1.300000</p></td>
+<tr class="row-odd"><td><p>50%</p></td>
+<td><p>5.800000</p></td>
+<td><p>3.000000</p></td>
+<td><p>4.350000</p></td>
+<td><p>1.300000</p></td>
 </tr>
-<tr class="row-even"><td class="text-left"><p><strong>75%</strong></p></td>
-<td class="text-left"><p>6.400000</p></td>
-<td class="text-left"><p>3.300000</p></td>
-<td class="text-left"><p>5.100000</p></td>
-<td class="text-left"><p>1.800000</p></td>
+<tr class="row-even"><td><p>75%</p></td>
+<td><p>6.400000</p></td>
+<td><p>3.300000</p></td>
+<td><p>5.100000</p></td>
+<td><p>1.800000</p></td>
 </tr>
-<tr class="row-odd"><td class="text-left"><p><strong>max</strong></p></td>
-<td class="text-left"><p>7.900000</p></td>
-<td class="text-left"><p>4.400000</p></td>
-<td class="text-left"><p>6.900000</p></td>
-<td class="text-left"><p>2.500000</p></td>
+<tr class="row-odd"><td><p>max</p></td>
+<td><p>7.900000</p></td>
+<td><p>4.400000</p></td>
+<td><p>6.900000</p></td>
+<td><p>2.500000</p></td>
 </tr>
 </tbody>
 </table>
 </div>
-<p><strong>Hasil Output Analisis Kualitas:</strong></p>
-<p><strong>=== ANALISIS KUALITAS DATA ===</strong></p>
-<ul class="simple">
-<li><p><strong>Data Duplikat:</strong> 3</p></li>
-</ul>
-<div class="pst-scrollable-table-container"><table class="table">
-<thead>
-<tr class="row-odd"><th class="head text-left"><p>Atribut</p></th>
-<th class="head text-left"><p>Jumlah Missing Value</p></th>
-</tr>
-</thead>
-<tbody>
-<tr class="row-even"><td class="text-left"><p>sepal_length</p></td>
-<td class="text-left"><p>0</p></td>
-</tr>
-<tr class="row-odd"><td class="text-left"><p>sepal_width</p></td>
-<td class="text-left"><p>0</p></td>
-</tr>
-<tr class="row-even"><td class="text-left"><p>petal_length</p></td>
-<td class="text-left"><p>0</p></td>
-</tr>
-<tr class="row-odd"><td class="text-left"><p>petal_width</p></td>
-<td class="text-left"><p>0</p></td>
-</tr>
-<tr class="row-even"><td class="text-left"><p>species</p></td>
-<td class="text-left"><p>0</p></td>
-</tr>
-</tbody>
-</table>
+<p>Tidak ada nilai negatif atau anomali ekstrem. Dataset dalam kondisi normal secara statistik.</p>
+<p><strong>3. Analisis Kualitas Data (<code class="docutils literal notranslate"><span class="pre">isnull().sum()</span></code> &amp; <code class="docutils literal notranslate"><span class="pre">duplicated().sum()</span></code>)</strong></p>
+<p>Output pengecekan kualitas:</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="o">===</span> <span class="n">ANALISIS</span> <span class="n">KUALITAS</span> <span class="n">DATA</span> <span class="o">===</span>
+<span class="n">Data</span> <span class="n">Duplikat</span><span class="p">:</span> <span class="mi">3</span>
+
+<span class="n">Atribut</span>          <span class="n">Jumlah</span> <span class="n">Missing</span> <span class="n">Value</span>
+<span class="n">sepal_length</span>     <span class="mi">0</span>
+<span class="n">sepal_width</span>      <span class="mi">0</span>
+<span class="n">petal_length</span>     <span class="mi">0</span>
+<span class="n">petal_width</span>      <span class="mi">0</span>
+<span class="n">species</span>          <span class="mi">0</span>
+</pre></div>
 </div>
-<p><strong>Hasil Output Analisa Korelasi:</strong></p>
+<p>Seluruh kolom memiliki <strong>0 missing value</strong>. Terdapat <strong>3 baris duplikat</strong> yang perlu ditangani pada tahap Data Preparation.</p>
+<p><strong>4. Matriks Korelasi Pearson (<code class="docutils literal notranslate"><span class="pre">df.corr()</span></code>)</strong></p>
+<p>Output matriks korelasi:</p>
 <div class="pst-scrollable-table-container"><table class="table">
 <thead>
 <tr class="row-odd"><th class="head"><p></p></th>
@@ -661,34 +690,664 @@ document.write(`
 </tbody>
 </table>
 </div>
-<p><strong>Visualisasi Google Colab:</strong></p>
-<p><strong>- Statistik Deskriptif (Colab):</strong>
-<img alt="Statistik Colab" src="../_images/diagram-colab.png" /></p>
-<p><strong>- Scatter Plot (Colab):</strong>
-<img alt="Scatter Plot Colab" src="../_images/scatterplot-colab.png" /></p>
+<p><code class="docutils literal notranslate"><span class="pre">petal_length</span></code> ↔ <code class="docutils literal notranslate"><span class="pre">petal_width</span></code> memiliki korelasi <strong>0.9628</strong> (sangat kuat positif).</p>
+<p><strong>5. Scatter Plot (<code class="docutils literal notranslate"><span class="pre">sns.scatterplot</span></code>)</strong>
+Plot menampilkan sebaran titik data <code class="docutils literal notranslate"><span class="pre">petal_length</span></code> vs <code class="docutils literal notranslate"><span class="pre">petal_width</span></code> diwarnai per species. Iris-setosa terpisah jelas dari dua spesies lainnya.</p>
+<blockquote>
+<div><p><img alt="Scatter Plot Iris" src="../_images/scatterplot-colab.png" /></p>
+</div></blockquote>
 </section>
-<section id="implementasi-menggunakan-orange-data-mining">
-<h2>Implementasi Menggunakan Orange Data Mining<a class="headerlink" href="#implementasi-menggunakan-orange-data-mining" title="Link to this heading">#</a></h2>
-<p>Selain melalui kode, eksplorasi data juga dapat dilakukan dengan Orange Data Mining menggunakan sistem tarik-lepas (<em>drag and drop</em>) widget.</p>
-<p><strong>Flow Orange:</strong>
-<img alt="Alur Kerja Orange" src="../_images/orange.png" /></p>
-<p>Langkah-langkah di Orange:</p>
+<hr class="docutils" />
+<section id="analisis-pengukuran-jarak-distance-matrix-pada-iris">
+<h2>Analisis Pengukuran Jarak (Distance Matrix) Pada Iris<a class="headerlink" href="#analisis-pengukuran-jarak-distance-matrix-pada-iris" title="Link to this heading">#</a></h2>
+<p>Tujuan mengukur jarak adalah untuk mengetahui apakah data dalam kelas yang sama saling berdekatan. Notasi <span class="math notranslate nohighlight">\(x_{21}\)</span> berarti objek data ke-2 pada fitur ke-1.</p>
+<p>Mari kita ambil 2 baris awal dari Iris.csv untuk menghitung jarak secara <strong>manual</strong>:</p>
+<ul class="simple">
+<li><p><strong>Data A</strong> (index 0): <code class="docutils literal notranslate"><span class="pre">[5.1,</span> <span class="pre">3.5,</span> <span class="pre">1.4,</span> <span class="pre">0.2]</span></code></p></li>
+<li><p><strong>Data B</strong> (index 1): <code class="docutils literal notranslate"><span class="pre">[4.9,</span> <span class="pre">3.0,</span> <span class="pre">1.4,</span> <span class="pre">0.2]</span></code></p></li>
+</ul>
+<section id="konsep-dasar-minkowski-distance">
+<h3>1. Konsep Dasar Minkowski Distance<a class="headerlink" href="#konsep-dasar-minkowski-distance" title="Link to this heading">#</a></h3>
+<p>Rumus umum Minkowski Distance:
+$<span class="math notranslate nohighlight">\(D(A, B) = \left( \sum_{i=1}^{n} |x_i - y_i|^p \right)^{\frac{1}{p}}\)</span><span class="math notranslate nohighlight">\(
+Dimana \)</span>n<span class="math notranslate nohighlight">\( adalah jumlah fitur. Parameter \)</span>p$ menentukan bentuk jarak yang digunakan.</p>
+</section>
+<section id="manual-hitung-manhattan-distance-p-1">
+<h3>2. Manual Hitung Manhattan Distance (<span class="math notranslate nohighlight">\(p = 1\)</span>)<a class="headerlink" href="#manual-hitung-manhattan-distance-p-1" title="Link to this heading">#</a></h3>
+<p>Jika <span class="math notranslate nohighlight">\(p=1\)</span>, Minkowski menjadi Manhattan Distance. Rumus Manhattan mengukur ketidaksamaan objek melalui jumlah nilai absolut selisih setiap fiturnya (tanpa akar atau kuadrat).</p>
+<p><strong>Rumus:</strong>
+$<span class="math notranslate nohighlight">\(Manhattan(A, B) = \sum_{i=1}^{n} | x_i - y_i |\)</span>$</p>
+<p><strong>Langkah Perhitungan Manual:</strong></p>
 <ol class="arabic simple">
-<li><p><strong>File</strong>: Digunakan untuk mengimpor file CSV atau database lokal.</p></li>
-<li><p><strong>Data Table</strong>: Untuk memverifikasi jumlah baris, kolom, dan isi data.</p></li>
-<li><p><strong>Distributions</strong>: Untuk melihat grafik batang dan distribusi frekuensi data.</p></li>
-<li><p><strong>Scatter Plot</strong>: Untuk mendeteksi tren dan pengelompokan spesies secara visual.</p></li>
-<li><p><strong>Box Plot</strong>: Untuk memantau rentang nilai dan mendeteksi pencilan (<em>outlier</em>).</p></li>
+<li><p>Fitur <code class="docutils literal notranslate"><span class="pre">sepal_length</span></code>: <span class="math notranslate nohighlight">\(| 5.1 - 4.9 | = | 0.2 | = 0.2\)</span></p></li>
+<li><p>Fitur <code class="docutils literal notranslate"><span class="pre">sepal_width</span></code>: <span class="math notranslate nohighlight">\(| 3.5 - 3.0 | = | 0.5 | = 0.5\)</span></p></li>
+<li><p>Fitur <code class="docutils literal notranslate"><span class="pre">petal_length</span></code>: <span class="math notranslate nohighlight">\(| 1.4 - 1.4 | = | 0.0 | = 0.0\)</span></p></li>
+<li><p>Fitur <code class="docutils literal notranslate"><span class="pre">petal_width</span></code>: <span class="math notranslate nohighlight">\(| 0.2 - 0.2 | = | 0.0 | = 0.0\)</span></p></li>
 </ol>
-<p><strong>Visualisasi Orange Data Mining:</strong></p>
-<p><strong>1. Impor Data:</strong>
-<img alt="Impor Data Orange" src="../_images/import-data.png" /></p>
-<p><strong>2. Statistik Kolom:</strong>
-<img alt="Statistik Kolom Orange" src="md/..y/img/data-understanding/column-statistic.png" /></p>
-<p><strong>3. Distribusi Fitur:</strong>
-<img alt="Distribusi Orange" src="../_images/distribution.png" /></p>
-<p><strong>4. Scatter Plot:</strong>
-<img alt="Scatter Plot Orange" src="../_images/scatter-plot.png" /></p>
+<p><strong>Total Penjumlahan Manhattan:</strong>
+$<span class="math notranslate nohighlight">\(Manhattan = 0.2 + 0.5 + 0.0 + 0.0 = \mathbf{0.7}\)</span>$</p>
+</section>
+<section id="manual-hitung-euclidean-distance-p-2">
+<h3>3. Manual Hitung Euclidean Distance (<span class="math notranslate nohighlight">\(p = 2\)</span>)<a class="headerlink" href="#manual-hitung-euclidean-distance-p-2" title="Link to this heading">#</a></h3>
+<p>Jika <span class="math notranslate nohighlight">\(p=2\)</span>, Minkowski menjadi Euclidean Distance. Setiap fitur dikurangkan, dikuadratkan selisihnya, lalu dijumlahkan, dan terakhir diakar.</p>
+<p><strong>Rumus Langkah Euclidean:</strong>
+$<span class="math notranslate nohighlight">\(Euclidean(A, B) = \sqrt{ \sum_{i=1}^{n} (x_i - y_i)^2 }\)</span>$</p>
+<p><strong>Langkah Perhitungan Manual Euclidean:</strong></p>
+<ol class="arabic simple">
+<li><p>Selisih Kuadrat <code class="docutils literal notranslate"><span class="pre">sepal_length</span></code>: <span class="math notranslate nohighlight">\((5.1 - 4.9)^2 = (0.2)^2 = 0.04\)</span></p></li>
+<li><p>Selisih Kuadrat <code class="docutils literal notranslate"><span class="pre">sepal_width</span></code>: <span class="math notranslate nohighlight">\((3.5 - 3.0)^2 = (0.5)^2 = 0.25\)</span></p></li>
+<li><p>Selisih Kuadrat <code class="docutils literal notranslate"><span class="pre">petal_length</span></code>: <span class="math notranslate nohighlight">\((1.4 - 1.4)^2 = (0.0)^2 = 0.0\)</span></p></li>
+<li><p>Selisih Kuadrat <code class="docutils literal notranslate"><span class="pre">petal_width</span></code>: <span class="math notranslate nohighlight">\((0.2 - 0.2)^2 = (0.0)^2 = 0.0\)</span></p></li>
+</ol>
+<p><strong>Total Perhitungan Euclidean:</strong>
+$<span class="math notranslate nohighlight">\(Euclidean = \sqrt{0.04 + 0.25 + 0.0 + 0.0}\)</span><span class="math notranslate nohighlight">\(
+\)</span><span class="math notranslate nohighlight">\(Euclidean = \sqrt{0.29} = \mathbf{0.5385}\)</span>$</p>
+<p>Kode Pembuktian di Python:</p>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="kn">import</span><span class="w"> </span><span class="nn">numpy</span><span class="w"> </span><span class="k">as</span><span class="w"> </span><span class="nn">np</span>
+<span class="n">A</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">array</span><span class="p">([</span><span class="mf">5.1</span><span class="p">,</span> <span class="mf">3.5</span><span class="p">,</span> <span class="mf">1.4</span><span class="p">,</span> <span class="mf">0.2</span><span class="p">])</span>
+<span class="n">B</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">array</span><span class="p">([</span><span class="mf">4.9</span><span class="p">,</span> <span class="mf">3.0</span><span class="p">,</span> <span class="mf">1.4</span><span class="p">,</span> <span class="mf">0.2</span><span class="p">])</span>
+
+<span class="nb">print</span><span class="p">(</span><span class="n">np</span><span class="o">.</span><span class="n">sum</span><span class="p">(</span><span class="n">np</span><span class="o">.</span><span class="n">abs</span><span class="p">(</span><span class="n">A</span> <span class="o">-</span> <span class="n">B</span><span class="p">)))</span> <span class="c1"># 0.7 (Manhattan)</span>
+<span class="nb">print</span><span class="p">(</span><span class="n">np</span><span class="o">.</span><span class="n">sqrt</span><span class="p">(</span><span class="n">np</span><span class="o">.</span><span class="n">sum</span><span class="p">((</span><span class="n">A</span> <span class="o">-</span> <span class="n">B</span><span class="p">)</span><span class="o">**</span><span class="mi">2</span><span class="p">)))</span> <span class="c1"># 0.5385 (Euclidean)</span>
+</pre></div>
+</div>
+</section>
+<section id="cosine-similarity">
+<h3>4. Cosine Similarity<a class="headerlink" href="#cosine-similarity" title="Link to this heading">#</a></h3>
+<p>Menghitung derajat kemiripan arah antar dua objek data berdimensi. Cosine similarity menggunakan pendekatan Cosinus sudut vektor.
+$<span class="math notranslate nohighlight">\(cos(A \cdot B) = \frac{ \sum A_i B_i }{ \sqrt{\sum A_i^2} \sqrt{\sum B_i^2} }\)</span>$</p>
+</section>
+</section>
+<hr class="docutils" />
+<section id="implementasi-orange-data-mining-pada-dataset-iris">
+<h2>Implementasi Orange Data Mining Pada Dataset Iris<a class="headerlink" href="#implementasi-orange-data-mining-pada-dataset-iris" title="Link to this heading">#</a></h2>
+<p>Orange Data Mining adalah piranti <em>visual programming</em> berbasis Graphical User Interface (Drag-and-Drop) untuk membuktikan komputasi jarak antar data Iris secara visual tanpa perlu menulis kode.</p>
+<section id="penarikan-data-dari-postgresql-mysql-ke-orange">
+<h3>Penarikan Data dari PostgreSQL / MySQL ke Orange<a class="headerlink" href="#penarikan-data-dari-postgresql-mysql-ke-orange" title="Link to this heading">#</a></h3>
+<p>Dataset Iris tidak hanya dapat diimpor melalui file CSV, tetapi juga bisa diintegrasikan langsung dari sistem manajemen basis data.</p>
+<p><strong>1. Tambahkan Widget SQL Table</strong></p>
+<ul class="simple">
+<li><p>Buka Orange, tambahkan widget <strong>SQL Table</strong> ke kanvas</p></li>
+<li><p>Klik dua kali untuk membuka konfigurasi</p></li>
+</ul>
+<p><strong>2. Konfigurasi Koneksi PostgreSQL</strong></p>
+<ul class="simple">
+<li><p>Host: <code class="docutils literal notranslate"><span class="pre">localhost</span></code></p></li>
+<li><p>Port: <code class="docutils literal notranslate"><span class="pre">5432</span></code></p></li>
+<li><p>Database: <code class="docutils literal notranslate"><span class="pre">iris_flower</span></code></p></li>
+<li><p>User: <code class="docutils literal notranslate"><span class="pre">postgres</span></code></p></li>
+<li><p>Password: (sesuai konfigurasi Laragon)</p></li>
+<li><p>Klik <strong>Connect</strong> -&gt; pilih tabel <code class="docutils literal notranslate"><span class="pre">iris-flower</span></code></p></li>
+</ul>
+<p><strong>3. Konfigurasi Koneksi MySQL</strong></p>
+<ul class="simple">
+<li><p>Host: <code class="docutils literal notranslate"><span class="pre">localhost</span></code></p></li>
+<li><p>Port: <code class="docutils literal notranslate"><span class="pre">3306</span></code></p></li>
+<li><p>Database: <code class="docutils literal notranslate"><span class="pre">iris_db</span></code></p></li>
+<li><p>User: <code class="docutils literal notranslate"><span class="pre">root</span></code></p></li>
+<li><p>Password: (kosong jika default XAMPP)</p></li>
+<li><p>Klik <strong>Connect</strong> -&gt; pilih tabel <code class="docutils literal notranslate"><span class="pre">iris-flower</span></code></p></li>
+</ul>
+<p><strong>4. Menghubungkan ke Widget Analisis</strong>
+Setelah SQL Table berhasil terkoneksi, hubungkan ke:</p>
+<ul class="simple">
+<li><p><strong>Column Statistics</strong> - melihat mean, median, mode tiap kolom</p></li>
+<li><p><strong>Distributions</strong> - distribusi frekuensi fitur</p></li>
+<li><p><strong>Scatter Plot</strong> - visualisasi sebaran antar fitur</p></li>
+<li><p><strong>Distances</strong> - menghitung matriks jarak</p></li>
+</ul>
+<p>Workflow Orange menjadi:</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">SQL</span> <span class="n">Table</span> <span class="o">-&gt;</span> <span class="n">Column</span> <span class="n">Statistics</span>
+<span class="n">SQL</span> <span class="n">Table</span> <span class="o">-&gt;</span> <span class="n">Distributions</span>
+<span class="n">SQL</span> <span class="n">Table</span> <span class="o">-&gt;</span> <span class="n">Scatter</span> <span class="n">Plot</span>
+<span class="n">SQL</span> <span class="n">Table</span> <span class="o">-&gt;</span> <span class="n">Distances</span> <span class="o">-&gt;</span> <span class="n">Distance</span> <span class="n">Matrix</span>
+</pre></div>
+</div>
+<blockquote>
+<div><p><img alt="Konfigurasi Parameter Import Data SQL" src="../_images/postgresql.png" /></p>
+</div></blockquote>
+</section>
+<section id="pengujian-distance-matrix-iris-di-orange-via-file-widget">
+<h3>Pengujian Distance Matrix Iris di Orange (via File Widget)<a class="headerlink" href="#pengujian-distance-matrix-iris-di-orange-via-file-widget" title="Link to this heading">#</a></h3>
+<ol class="arabic simple">
+<li><p><strong>Tambahkan widget File -&gt; Load Iris</strong>: Tarik widget <strong>File</strong> ke kanvas, buka konfigurasinya, pilih file <code class="docutils literal notranslate"><span class="pre">iris.csv</span></code> dari direktori lokal.</p></li>
+<li><p><strong>Tambahkan widget Distances</strong>: Cari dan tarik widget <strong>Distances</strong> ke kanvas.</p></li>
+<li><p><strong>Hubungkan File ke Distances</strong>: Tarik garis dari output <strong>File</strong> ke input <strong>Distances</strong>.</p></li>
+<li><p><strong>Pilih Metric</strong> di konfigurasi widget <strong>Distances</strong>:</p>
+<ul class="simple">
+<li><p><strong>Euclidean</strong> - jarak geometri standar</p></li>
+<li><p><strong>Manhattan</strong> - jarak absolut sumbu</p></li>
+<li><p><strong>Minkowski</strong> - atur nilai <span class="math notranslate nohighlight">\(p\)</span> (contoh: <span class="math notranslate nohighlight">\(p=3\)</span>)</p></li>
+</ul>
+</li>
+<li><p><strong>Tambahkan widget Distance Matrix</strong>: Tarik widget <strong>Distance Matrix</strong> ke kanvas.</p></li>
+<li><p><strong>Hubungkan ke Distance Matrix</strong>: Tarik garis dari output <strong>Distances</strong> ke input <strong>Distance Matrix</strong>.</p></li>
+<li><p><strong>Hasil</strong> akan menampilkan matriks jarak antar seluruh data Iris sesuai metrik yang dipilih.</p></li>
+</ol>
+<blockquote>
+<div><ol class="arabic simple">
+<li><p>Alur Logika Panel Kabel Sistem Database Import Widget Logis Orange: <img alt="Diagram Jalur Jaringan Modul" src="../_images/flow-orange.png" /></p></li>
+<li><p>Pemuatan Input Pembaca File Database RDBMS Connection: <img alt="Konfigurasi Parameter Import Data" src="../_images/import-data.png" /></p></li>
+<li><p>Konfigurasi Widget Distances (Metric Euclidean/Manhattan/Minkowski): <img alt="Konfigurasi Distances Widget" src="../_images/distances.png" /></p></li>
+<li><p>Visualisasi Hasil Jarak Pengujian Data (Distance Matrix Iris UI): <img alt="Distance Matrix Setup Data Jarak Iris" src="img/data-understanding/jarak-matrix-orange.png" /></p></li>
+<li><p>Statistik Evaluasi Kolom Cek Data: <img alt="Pusat Visualisasi Dashboard Data Audit Kolom" src="../_images/column-statistic.png" /></p></li>
+<li><p>Panel Distribusi Frekuensi Data Histografis: <img alt="Distribusi Penampakan Histogram Bimodal" src="../_images/distribution.png" /></p></li>
+<li><p>Klasterisasi Penyebaran Titik Interaksi Scatter Plot Iris: <img alt="Diagram Titik Scatter Plot Ruang Jarak Iris" src="../_images/scatter-plot.png" /></p></li>
+</ol>
+</div></blockquote>
+</section>
+</section>
+</section>
+<hr class="docutils" />
+<section class="tex2jax_ignore mathjax_ignore" id="studi-kasus-2-data-adult-income">
+<h1>Studi Kasus 2: Data Adult Income<a class="headerlink" href="#studi-kasus-2-data-adult-income" title="Link to this heading">#</a></h1>
+<section id="apa-itu-adult-income-dataset">
+<h2>Apa itu Adult Income Dataset?<a class="headerlink" href="#apa-itu-adult-income-dataset" title="Link to this heading">#</a></h2>
+<p><strong>Adult Income Dataset</strong> (juga dikenal sebagai <em>Census Income Dataset</em>) adalah dataset publik yang bersumber dari data sensus populasi Amerika Serikat tahun 1994 yang dikumpulkan oleh Badan Sensus AS (<em>U.S. Census Bureau</em>). Dataset ini pertama kali dipublikasikan oleh <strong>Ronny Kohavi dan Barry Becker</strong> dan tersedia di UCI Machine Learning Repository. Dataset dapat diakses di <a class="reference external" href="https://www.kaggle.com/datasets/wenruliu/adult-income-dataset">Adult Income Dataset - Kaggle</a>.</p>
+<p>Dataset ini berisi <strong>48.842 rekaman</strong> data individu dewasa dengan <strong>15 atribut</strong> yang mencakup informasi demografis, pendidikan, pekerjaan, dan status sosial-ekonomi. Tujuan utama dataset ini adalah untuk <strong>memprediksi apakah pendapatan tahunan seseorang melebihi $50.000 USD</strong> berdasarkan atribut-atribut tersebut.</p>
+<p><strong>Karakteristik utama dataset:</strong></p>
+<ul class="simple">
+<li><p><strong>Total Fitur</strong>: 15 kolom (campuran numerik dan kategorikal)</p></li>
+<li><p><strong>Tipe Data</strong>: Heterogen - memuat kolom numerik, ordinal, nominal, dan biner</p></li>
+<li><p><strong>Target Prediksi</strong>: Kolom <code class="docutils literal notranslate"><span class="pre">income</span></code> dengan dua kelas: <code class="docutils literal notranslate"><span class="pre">&lt;=50K</span></code> atau <code class="docutils literal notranslate"><span class="pre">&gt;50K</span></code></p></li>
+<li><p><strong>Kegunaan</strong>: Klasifikasi biner untuk studi demografi sosial-ekonomi</p></li>
+</ul>
+<p>Dataset ini sangat relevan untuk mempelajari teknik <strong>Data Understanding pada data campuran</strong> karena kombinasi tipe datanya yang kompleks memerlukan pendekatan pengukuran jarak yang berbeda dari dataset numerik murni seperti Iris.</p>
+<p>Kita menggunakan <code class="docutils literal notranslate"><span class="pre">dataset.csv</span></code> yang memuat <strong>kolom campur (mixed data types)</strong>. Mari kita ambil <strong>2 baris pertama (Row 0 dan Row 1)</strong> dari dataset untuk mendemonstrasikan perhitungan jarak secara manual.</p>
+</section>
+<section id="persiapan-dan-pemuatan-dataset-google-colab-python">
+<h2>Persiapan dan Pemuatan Dataset (Google Colab Python)<a class="headerlink" href="#persiapan-dan-pemuatan-dataset-google-colab-python" title="Link to this heading">#</a></h2>
+<p>Sama halnya dengan Iris, langkah awal untuk dataset campuran adalah memuat file ke dalam format dataframe dan melakukan eksplorasi awal.</p>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="o">%</span><span class="n">matplotlib</span> <span class="n">inline</span>
+<span class="kn">import</span><span class="w"> </span><span class="nn">pandas</span><span class="w"> </span><span class="k">as</span><span class="w"> </span><span class="nn">pd</span>
+<span class="kn">import</span><span class="w"> </span><span class="nn">matplotlib.pyplot</span><span class="w"> </span><span class="k">as</span><span class="w"> </span><span class="nn">plt</span>
+<span class="kn">import</span><span class="w"> </span><span class="nn">seaborn</span><span class="w"> </span><span class="k">as</span><span class="w"> </span><span class="nn">sns</span>
+<span class="kn">import</span><span class="w"> </span><span class="nn">numpy</span><span class="w"> </span><span class="k">as</span><span class="w"> </span><span class="nn">np</span>
+
+<span class="c1"># Membaca Dataset Campuran</span>
+<span class="n">df_adult</span> <span class="o">=</span> <span class="n">pd</span><span class="o">.</span><span class="n">read_csv</span><span class="p">(</span><span class="s2">&quot;dataset.csv&quot;</span><span class="p">,</span> <span class="n">sep</span><span class="o">=</span><span class="s2">&quot;;&quot;</span><span class="p">)</span>
+<span class="n">display</span><span class="p">(</span><span class="n">df_adult</span><span class="o">.</span><span class="n">head</span><span class="p">())</span>
+</pre></div>
+</div>
+<p><strong>1. Struktur Awal Data (Head)</strong>
+Lima baris pertama menunjukkan campuran kolom numerik (age, fnlwgt, hours-per-week) dan kategorikal (workclass, education, income).</p>
+<div class="pst-scrollable-table-container"><table class="table">
+<thead>
+<tr class="row-odd"><th class="head"><p>index</p></th>
+<th class="head"><p>age</p></th>
+<th class="head"><p>workclass</p></th>
+<th class="head"><p>fnlwgt</p></th>
+<th class="head"><p>education</p></th>
+<th class="head"><p>educational-num</p></th>
+<th class="head"><p>marital-status</p></th>
+<th class="head"><p>occupation</p></th>
+<th class="head"><p>relationship</p></th>
+<th class="head"><p>race</p></th>
+<th class="head"><p>gender</p></th>
+<th class="head"><p>capital-gain</p></th>
+<th class="head"><p>capital-loss</p></th>
+<th class="head"><p>hours-per-week</p></th>
+<th class="head"><p>native-country</p></th>
+<th class="head"><p>income</p></th>
+</tr>
+</thead>
+<tbody>
+<tr class="row-even"><td><p>0</p></td>
+<td><p>25</p></td>
+<td><p>Private</p></td>
+<td><p>226802</p></td>
+<td><p>11th</p></td>
+<td><p>7</p></td>
+<td><p>Never-married</p></td>
+<td><p>Machine-op-inspct</p></td>
+<td><p>Own-child</p></td>
+<td><p>Black</p></td>
+<td><p>Male</p></td>
+<td><p>0</p></td>
+<td><p>0</p></td>
+<td><p>40</p></td>
+<td><p>United-States</p></td>
+<td><p>&lt;=50K</p></td>
+</tr>
+<tr class="row-odd"><td><p>1</p></td>
+<td><p>38</p></td>
+<td><p>Private</p></td>
+<td><p>89814</p></td>
+<td><p>HS-grad</p></td>
+<td><p>9</p></td>
+<td><p>Married-civ-spouse</p></td>
+<td><p>Farming-fishing</p></td>
+<td><p>Husband</p></td>
+<td><p>White</p></td>
+<td><p>Male</p></td>
+<td><p>0</p></td>
+<td><p>0</p></td>
+<td><p>50</p></td>
+<td><p>United-States</p></td>
+<td><p>&lt;=50K</p></td>
+</tr>
+<tr class="row-even"><td><p>2</p></td>
+<td><p>28</p></td>
+<td><p>Local-gov</p></td>
+<td><p>336951</p></td>
+<td><p>Assoc-acdm</p></td>
+<td><p>12</p></td>
+<td><p>Married-civ-spouse</p></td>
+<td><p>Protective-serv</p></td>
+<td><p>Husband</p></td>
+<td><p>White</p></td>
+<td><p>Male</p></td>
+<td><p>0</p></td>
+<td><p>0</p></td>
+<td><p>40</p></td>
+<td><p>United-States</p></td>
+<td><p>&gt;50K</p></td>
+</tr>
+<tr class="row-odd"><td><p>3</p></td>
+<td><p>44</p></td>
+<td><p>Private</p></td>
+<td><p>160323</p></td>
+<td><p>Some-college</p></td>
+<td><p>10</p></td>
+<td><p>Married-civ-spouse</p></td>
+<td><p>Machine-op-inspct</p></td>
+<td><p>Husband</p></td>
+<td><p>Black</p></td>
+<td><p>Male</p></td>
+<td><p>7688</p></td>
+<td><p>0</p></td>
+<td><p>40</p></td>
+<td><p>United-States</p></td>
+<td><p>&gt;50K</p></td>
+</tr>
+<tr class="row-even"><td><p>4</p></td>
+<td><p>18</p></td>
+<td><p>?</p></td>
+<td><p>103497</p></td>
+<td><p>Some-college</p></td>
+<td><p>10</p></td>
+<td><p>Never-married</p></td>
+<td><p>?</p></td>
+<td><p>Own-child</p></td>
+<td><p>White</p></td>
+<td><p>Female</p></td>
+<td><p>0</p></td>
+<td><p>0</p></td>
+<td><p>30</p></td>
+<td><p>United-States</p></td>
+<td><p>&lt;=50K</p></td>
+</tr>
+</tbody>
+</table>
+</div>
+<p><strong>2. Statistik Deskriptif</strong></p>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="n">display</span><span class="p">(</span><span class="n">df_adult</span><span class="o">.</span><span class="n">describe</span><span class="p">())</span>
+</pre></div>
+</div>
+<div class="pst-scrollable-table-container"><table class="table">
+<thead>
+<tr class="row-odd"><th class="head"><p></p></th>
+<th class="head"><p>age</p></th>
+<th class="head"><p>fnlwgt</p></th>
+<th class="head"><p>educational-num</p></th>
+<th class="head"><p>capital-gain</p></th>
+<th class="head"><p>capital-loss</p></th>
+<th class="head"><p>hours-per-week</p></th>
+</tr>
+</thead>
+<tbody>
+<tr class="row-even"><td><p>count</p></td>
+<td><p>500.0</p></td>
+<td><p>500.0</p></td>
+<td><p>500.0</p></td>
+<td><p>500.0</p></td>
+<td><p>500.0</p></td>
+<td><p>500.0</p></td>
+</tr>
+<tr class="row-odd"><td><p>mean</p></td>
+<td><p>37.338</p></td>
+<td><p>188303.492</p></td>
+<td><p>10.008</p></td>
+<td><p>1470.008</p></td>
+<td><p>70.916</p></td>
+<td><p>40.272</p></td>
+</tr>
+<tr class="row-even"><td><p>std</p></td>
+<td><p>13.653</p></td>
+<td><p>101198.741</p></td>
+<td><p>2.543</p></td>
+<td><p>9298.308</p></td>
+<td><p>354.581</p></td>
+<td><p>11.981</p></td>
+</tr>
+<tr class="row-odd"><td><p>min</p></td>
+<td><p>17.0</p></td>
+<td><p>20308.0</p></td>
+<td><p>2.0</p></td>
+<td><p>0.0</p></td>
+<td><p>0.0</p></td>
+<td><p>5.0</p></td>
+</tr>
+<tr class="row-even"><td><p>25%</p></td>
+<td><p>26.0</p></td>
+<td><p>110718.25</p></td>
+<td><p>9.0</p></td>
+<td><p>0.0</p></td>
+<td><p>0.0</p></td>
+<td><p>38.75</p></td>
+</tr>
+<tr class="row-odd"><td><p>50%</p></td>
+<td><p>35.0</p></td>
+<td><p>177832.0</p></td>
+<td><p>10.0</p></td>
+<td><p>0.0</p></td>
+<td><p>0.0</p></td>
+<td><p>40.0</p></td>
+</tr>
+<tr class="row-even"><td><p>75%</p></td>
+<td><p>46.0</p></td>
+<td><p>238286.5</p></td>
+<td><p>12.0</p></td>
+<td><p>0.0</p></td>
+<td><p>0.0</p></td>
+<td><p>45.0</p></td>
+</tr>
+<tr class="row-odd"><td><p>max</p></td>
+<td><p>80.0</p></td>
+<td><p>599057.0</p></td>
+<td><p>16.0</p></td>
+<td><p>99999.0</p></td>
+<td><p>2415.0</p></td>
+<td><p>99.0</p></td>
+</tr>
+</tbody>
+</table>
+</div>
+<p><strong>3. Analisis Kualitas Data</strong></p>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;Data Duplikat: </span><span class="si">{</span><span class="n">df_adult</span><span class="o">.</span><span class="n">duplicated</span><span class="p">()</span><span class="o">.</span><span class="n">sum</span><span class="p">()</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">)</span>
+<span class="nb">print</span><span class="p">(</span><span class="s2">&quot;Missing Values:&quot;</span><span class="p">)</span>
+<span class="nb">print</span><span class="p">(</span><span class="n">df_adult</span><span class="o">.</span><span class="n">isnull</span><span class="p">()</span><span class="o">.</span><span class="n">sum</span><span class="p">())</span>
+</pre></div>
+</div>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">Data</span> <span class="n">Duplikat</span><span class="p">:</span> <span class="mi">0</span>
+
+<span class="n">Missing</span> <span class="n">Values</span><span class="p">:</span>
+<span class="n">age</span>                <span class="mi">0</span>
+<span class="n">workclass</span>          <span class="mi">0</span>
+<span class="n">fnlwgt</span>             <span class="mi">0</span>
+<span class="n">education</span>          <span class="mi">0</span>
+<span class="n">educational</span><span class="o">-</span><span class="n">num</span>    <span class="mi">0</span>
+<span class="n">marital</span><span class="o">-</span><span class="n">status</span>     <span class="mi">0</span>
+<span class="n">occupation</span>         <span class="mi">0</span>
+<span class="n">relationship</span>       <span class="mi">0</span>
+<span class="n">race</span>               <span class="mi">0</span>
+<span class="n">gender</span>             <span class="mi">0</span>
+<span class="n">capital</span><span class="o">-</span><span class="n">gain</span>       <span class="mi">0</span>
+<span class="n">capital</span><span class="o">-</span><span class="n">loss</span>       <span class="mi">0</span>
+<span class="n">hours</span><span class="o">-</span><span class="n">per</span><span class="o">-</span><span class="n">week</span>     <span class="mi">0</span>
+<span class="n">native</span><span class="o">-</span><span class="n">country</span>     <span class="mi">0</span>
+<span class="n">income</span>             <span class="mi">0</span>
+<span class="n">dtype</span><span class="p">:</span> <span class="n">int64</span>
+</pre></div>
+</div>
+<p>Dataset mengandung nilai <code class="docutils literal notranslate"><span class="pre">?</span></code> pada kolom <code class="docutils literal notranslate"><span class="pre">workclass</span></code> dan <code class="docutils literal notranslate"><span class="pre">occupation</span></code> sebagai penanda missing value kategorikal (bukan null).</p>
+<section id="penjelasan-tipe-data-tiap-fitur">
+<h3>Penjelasan Tipe Data Tiap Fitur<a class="headerlink" href="#penjelasan-tipe-data-tiap-fitur" title="Link to this heading">#</a></h3>
+<p>Untuk bisa menganalisis profil Adult Income ini, kita wajib membongkar arti masing-masing kolom pengamatan tanpa ada satupun yang terlewat:</p>
+<ol class="arabic simple">
+<li><p><strong><code class="docutils literal notranslate"><span class="pre">age</span></code> (Numerik Rasio)</strong>: Usia individu saat survei dilakukan (contoh: 25, 38).</p></li>
+<li><p><strong><code class="docutils literal notranslate"><span class="pre">workclass</span></code> (Kategorikal Nominal)</strong>: Sektor pekerjaan individu. Nilainya tidak berjenjang (contoh: Private, Local-gov, Self-emp-inc).</p></li>
+<li><p><strong><code class="docutils literal notranslate"><span class="pre">fnlwgt</span></code> (Numerik)</strong>: <em>Final Weight</em> — bobot statistik dari Badan Sensus yang menunjukkan perkiraan jumlah orang dengan profil serupa di populasi nyata.</p></li>
+<li><p><strong><code class="docutils literal notranslate"><span class="pre">education</span></code> (Kategorikal Ordinal)</strong>: Tingkat pendidikan terakhir yang diselesaikan (contoh: 11th, HS-grad, Some-college, Bachelors). Berjenjang dan punya urutan.</p></li>
+<li><p><strong><code class="docutils literal notranslate"><span class="pre">educational-num</span></code> (Numerik Diskrit)</strong>: Versi angka dari kolom <code class="docutils literal notranslate"><span class="pre">education</span></code> (contoh: HS-grad = 9, Some-college = 10, Bachelors = 13).</p></li>
+<li><p><strong><code class="docutils literal notranslate"><span class="pre">marital-status</span></code> (Kategorikal Nominal)</strong>: Status pernikahan individu (contoh: Never-married, Married-civ-spouse, Divorced).</p></li>
+<li><p><strong><code class="docutils literal notranslate"><span class="pre">occupation</span></code> (Kategorikal Nominal)</strong>: Jenis pekerjaan yang dijalani (contoh: Machine-op-inspct, Farming-fishing, Protective-serv).</p></li>
+<li><p><strong><code class="docutils literal notranslate"><span class="pre">relationship</span></code> (Kategorikal Nominal)</strong>: Peran individu dalam keluarga (contoh: Own-child, Husband, Wife, Unmarried).</p></li>
+<li><p><strong><code class="docutils literal notranslate"><span class="pre">race</span></code> (Kategorikal Nominal)</strong>: Latar belakang ras individu (contoh: White, Black, Asian-Pac-Islander, Other).</p></li>
+<li><p><strong><code class="docutils literal notranslate"><span class="pre">gender</span></code> (Kategorikal Biner)</strong>: Jenis kelamin individu — hanya dua nilai: Male atau Female.</p></li>
+<li><p><strong><code class="docutils literal notranslate"><span class="pre">capital-gain</span></code> (Numerik)</strong>: Keuntungan finansial dari investasi atau aset. Sering bernilai 0 karena kebanyakan individu tidak punya pendapatan investasi.</p></li>
+<li><p><strong><code class="docutils literal notranslate"><span class="pre">capital-loss</span></code> (Numerik)</strong>: Kerugian finansial dari penurunan nilai aset atau investasi.</p></li>
+<li><p><strong><code class="docutils literal notranslate"><span class="pre">hours-per-week</span></code> (Numerik)</strong>: Jumlah jam kerja per minggu.</p></li>
+<li><p><strong><code class="docutils literal notranslate"><span class="pre">native-country</span></code> (Kategorikal Nominal)</strong>: Negara asal individu (contoh: United-States, Mexico, Philippines).</p></li>
+<li><p><strong><code class="docutils literal notranslate"><span class="pre">income</span></code> (Kategorikal Biner)</strong>: <strong>Target prediksi</strong> — kategori penghasilan tahunan: <strong><code class="docutils literal notranslate"><span class="pre">&lt;=50K</span></code></strong> (tidak lebih dari 50 Ribu USD) atau <strong><code class="docutils literal notranslate"><span class="pre">&gt;50K</span></code></strong> (lebih dari 50 Ribu USD).</p></li>
+</ol>
+<p>Berdasarkan data di atas, kita ambil cuplikan ringkas untuk perhitungan. Titik fokus perhitungan:</p>
+<ul class="simple">
+<li><p><strong>Baris 1 (Index 0)</strong></p>
+<ul>
+<li><p><code class="docutils literal notranslate"><span class="pre">Age</span></code> = 25 (Numerik)</p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">Hours-per-week</span></code> = 40 (Numerik)</p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">Workclass</span></code> = Private (Kategorikal Nominal)</p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">Education</span></code> = 11th (Kategori Ordinal)</p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">Gender</span></code> = Male (Biner)</p></li>
+</ul>
+</li>
+<li><p><strong>Baris 2 (Index 1)</strong></p>
+<ul>
+<li><p><code class="docutils literal notranslate"><span class="pre">Age</span></code> = 38 (Numerik)</p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">Hours-per-week</span></code> = 50 (Numerik)</p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">Workclass</span></code> = Private (Kategorikal Nominal)</p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">Education</span></code> = HS-grad (Kategori Ordinal)</p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">Gender</span></code> = Male (Biner)</p></li>
+</ul>
+</li>
+</ul>
+</section>
+</section>
+<section id="konversi-tipe-data-sebelum-perhitungan">
+<h2>Konversi Tipe Data Sebelum Perhitungan<a class="headerlink" href="#konversi-tipe-data-sebelum-perhitungan" title="Link to this heading">#</a></h2>
+<p>Sebelum menghitung jarak, semua tipe data harus dikonversi ke bentuk numerik terlebih dahulu:</p>
+<div class="pst-scrollable-table-container"><table class="table">
+<thead>
+<tr class="row-odd"><th class="head"><p>Fitur</p></th>
+<th class="head"><p>Tipe</p></th>
+<th class="head"><p>Row 0 (Raw)</p></th>
+<th class="head"><p>Row 1 (Raw)</p></th>
+<th class="head"><p>Konversi</p></th>
+<th class="head"><p>Row 0</p></th>
+<th class="head"><p>Row 1</p></th>
+</tr>
+</thead>
+<tbody>
+<tr class="row-even"><td><p><code class="docutils literal notranslate"><span class="pre">age</span></code></p></td>
+<td><p>Numerik</p></td>
+<td><p>25</p></td>
+<td><p>38</p></td>
+<td><p>Langsung pakai</p></td>
+<td><p><strong>25</strong></p></td>
+<td><p><strong>38</strong></p></td>
+</tr>
+<tr class="row-odd"><td><p><code class="docutils literal notranslate"><span class="pre">hours-per-week</span></code></p></td>
+<td><p>Numerik</p></td>
+<td><p>40</p></td>
+<td><p>50</p></td>
+<td><p>Langsung pakai</p></td>
+<td><p><strong>40</strong></p></td>
+<td><p><strong>50</strong></p></td>
+</tr>
+<tr class="row-even"><td><p><code class="docutils literal notranslate"><span class="pre">workclass</span></code></p></td>
+<td><p>Kategorikal Nominal</p></td>
+<td><p>Private</p></td>
+<td><p>Private</p></td>
+<td><p>Label Encoding (Private=0)</p></td>
+<td><p><strong>0</strong></p></td>
+<td><p><strong>0</strong></p></td>
+</tr>
+<tr class="row-odd"><td><p><code class="docutils literal notranslate"><span class="pre">educational-num</span></code></p></td>
+<td><p>Ordinal Numerik</p></td>
+<td><p>7 (11th)</p></td>
+<td><p>9 (HS-grad)</p></td>
+<td><p>Langsung pakai angkanya</p></td>
+<td><p><strong>7</strong></p></td>
+<td><p><strong>9</strong></p></td>
+</tr>
+<tr class="row-even"><td><p><code class="docutils literal notranslate"><span class="pre">gender</span></code></p></td>
+<td><p>Biner</p></td>
+<td><p>Male</p></td>
+<td><p>Male</p></td>
+<td><p>Male=1, Female=0</p></td>
+<td><p><strong>1</strong></p></td>
+<td><p><strong>1</strong></p></td>
+</tr>
+</tbody>
+</table>
+</div>
+<p><strong>Vektor setelah konversi:</strong></p>
+<ul class="simple">
+<li><p><strong>Vektor A (Row 0):</strong> <code class="docutils literal notranslate"><span class="pre">[25,</span> <span class="pre">40,</span> <span class="pre">0,</span> <span class="pre">7,</span> <span class="pre">1]</span></code></p></li>
+<li><p><strong>Vektor B (Row 1):</strong> <code class="docutils literal notranslate"><span class="pre">[38,</span> <span class="pre">50,</span> <span class="pre">0,</span> <span class="pre">9,</span> <span class="pre">1]</span></code></p></li>
+</ul>
+</section>
+<section id="perhitungan-manual-manhattan-euclidean-minkowski-pada-data-2">
+<h2>Perhitungan Manual: Manhattan, Euclidean, Minkowski Pada Data 2<a class="headerlink" href="#perhitungan-manual-manhattan-euclidean-minkowski-pada-data-2" title="Link to this heading">#</a></h2>
+<p>Dengan vektor yang sudah dikonversi penuh (5 fitur), kita hitung ketiga metrik jarak:</p>
+<ul class="simple">
+<li><p><strong>Vektor A (Row 0):</strong> <code class="docutils literal notranslate"><span class="pre">[25,</span> <span class="pre">40,</span> <span class="pre">0,</span> <span class="pre">7,</span> <span class="pre">1]</span></code></p></li>
+<li><p><strong>Vektor B (Row 1):</strong> <code class="docutils literal notranslate"><span class="pre">[38,</span> <span class="pre">50,</span> <span class="pre">0,</span> <span class="pre">9,</span> <span class="pre">1]</span></code></p></li>
+</ul>
+</section>
+<section id="perhitungan-manual-manhattan-data-adult-income-p-1">
+<h2>1. Perhitungan Manual Manhattan Data Adult Income (p=1)<a class="headerlink" href="#perhitungan-manual-manhattan-data-adult-income-p-1" title="Link to this heading">#</a></h2>
+<p><strong>Rumus</strong>: <span class="math notranslate nohighlight">\(Manhattan = \sum_{i=1}^{n} |A_i - B_i|\)</span></p>
+<p><strong>Hitung Manual (5 fitur setelah konversi)</strong>:</p>
+<ul class="simple">
+<li><p><span class="math notranslate nohighlight">\(|25 - 38| = 13\)</span> (Age)</p></li>
+<li><p><span class="math notranslate nohighlight">\(|40 - 50| = 10\)</span> (Hours)</p></li>
+<li><p><span class="math notranslate nohighlight">\(|0 - 0| = 0\)</span> (Workclass)</p></li>
+<li><p><span class="math notranslate nohighlight">\(|7 - 9| = 2\)</span> (Educational-num)</p></li>
+<li><p><span class="math notranslate nohighlight">\(|1 - 1| = 0\)</span> (Gender)</p></li>
+</ul>
+<div class="math notranslate nohighlight">
+\[Manhattan = 13 + 10 + 0 + 2 + 0 = \mathbf{25}\]</div>
+</section>
+<section id="perhitungan-manual-euclidean-data-adult-income-p-2">
+<h2>2. Perhitungan Manual Euclidean Data Adult Income (p=2)<a class="headerlink" href="#perhitungan-manual-euclidean-data-adult-income-p-2" title="Link to this heading">#</a></h2>
+<p><strong>Rumus</strong>: <span class="math notranslate nohighlight">\(Euclidean = \sqrt{\sum_{i=1}^{n} (A_i - B_i)^2}\)</span></p>
+<p><strong>Hitung Manual (5 fitur setelah konversi)</strong>:</p>
+<ul class="simple">
+<li><p><span class="math notranslate nohighlight">\((25-38)^2 = 169\)</span> (Age)</p></li>
+<li><p><span class="math notranslate nohighlight">\((40-50)^2 = 100\)</span> (Hours)</p></li>
+<li><p><span class="math notranslate nohighlight">\((0-0)^2 = 0\)</span> (Workclass)</p></li>
+<li><p><span class="math notranslate nohighlight">\((7-9)^2 = 4\)</span> (Educational-num)</p></li>
+<li><p><span class="math notranslate nohighlight">\((1-1)^2 = 0\)</span> (Gender)</p></li>
+</ul>
+<div class="math notranslate nohighlight">
+\[Euclidean = \sqrt{169 + 100 + 0 + 4 + 0} = \sqrt{273} = \mathbf{16.523}\]</div>
+</section>
+<section id="perhitungan-manual-minkowski-data-adult-income-p-3">
+<h2>3. Perhitungan Manual Minkowski Data Adult Income (p=3)<a class="headerlink" href="#perhitungan-manual-minkowski-data-adult-income-p-3" title="Link to this heading">#</a></h2>
+<p><strong>Rumus</strong>: <span class="math notranslate nohighlight">\(Minkowski = \left(\sum_{i=1}^{n} |A_i - B_i|^p\right)^{1/p}\)</span></p>
+<p><strong>Hitung Manual (5 fitur setelah konversi)</strong>:</p>
+<ul class="simple">
+<li><p><span class="math notranslate nohighlight">\(|13|^3 = 2197\)</span> (Age)</p></li>
+<li><p><span class="math notranslate nohighlight">\(|10|^3 = 1000\)</span> (Hours)</p></li>
+<li><p><span class="math notranslate nohighlight">\(|0|^3 = 0\)</span> (Workclass)</p></li>
+<li><p><span class="math notranslate nohighlight">\(|2|^3 = 8\)</span> (Educational-num)</p></li>
+<li><p><span class="math notranslate nohighlight">\(|0|^3 = 0\)</span> (Gender)</p></li>
+</ul>
+<div class="math notranslate nohighlight">
+\[Minkowski = (2197 + 1000 + 0 + 8 + 0)^{1/3} = (3205)^{1/3} = \mathbf{14.737}\]</div>
+<blockquote>
+<div><p><strong>Catatan Penting</strong>: Meskipun Manhattan/Euclidean/Minkowski bisa dijalankan setelah konversi, hasilnya masih memiliki kelemahan karena <strong>label encoding kategorikal bersifat arbitrer</strong> (urutan angkanya tidak mencerminkan jarak semantik sesungguhnya). Oleh karena itu, sebagai validasi tambahan, digunakan <strong>Gower Distance</strong> yang dirancang khusus untuk data campuran.</p>
+</div></blockquote>
+<hr class="docutils" />
+</section>
+<section id="perhitungan-manual-gower-distance-pada-data-2">
+<h2>Perhitungan Manual: Gower Distance Pada Data 2<a class="headerlink" href="#perhitungan-manual-gower-distance-pada-data-2" title="Link to this heading">#</a></h2>
+<p>Karena di <code class="docutils literal notranslate"><span class="pre">dataset.csv</span></code> terdapat barisan atribut paduan numerik dan kategorikal, algoritma <strong>Gower Distance</strong> adalah metode paling superior dan benar yang bisa menanganinya secara valid. Metode ini dihitung berdasar skor keanehan fitur per atribut (0 hingga 1), lalu dicari rerata total seluruh gabungan kolom.</p>
+<p>Kita ambil kembali susunan profil lengkap dari dua baris tadi (5 atribut utuh).</p>
+<ul class="simple">
+<li><p><strong>Row 0</strong>: Age=25, Hours=40, Workclass=Private, Edu=11th, Gender=Male</p></li>
+<li><p><strong>Row 1</strong>: Age=38, Hours=50, Workclass=Private, Edu=HS-grad, Gender=Male</p></li>
+</ul>
+<p><em>(Catatan empiris analisis tambahan: Pada observasi keseluruhan populasi <code class="docutils literal notranslate"><span class="pre">dataset.csv</span></code>, telah direkam bahwa Range variabel umur Max-Min = <span class="math notranslate nohighlight">\(90 - 17 = 73\)</span>, dan Range variabel jam kerja Max-Min = <span class="math notranslate nohighlight">\(99 - 1 = 98\)</span>)</em></p>
+</section>
+<section id="rumus-jawab-gower-keseluruhan">
+<h2>Rumus Jawab Gower Keseluruhan<a class="headerlink" href="#rumus-jawab-gower-keseluruhan" title="Link to this heading">#</a></h2>
+<div class="math notranslate nohighlight">
+\[Gower(d_1, d_2) = \frac{\sum (Skor\_Tiap\_Fitur)}{Jumlah\_Total\_Fitur\_Utuh}\]</div>
+</section>
+<section id="detail-langkah-perhitungan-score-tiap-fitur-manual-jaccard-skalar">
+<h2>Detail Langkah Perhitungan Score Tiap Fitur (Manual Jaccard &amp; Skalar):<a class="headerlink" href="#detail-langkah-perhitungan-score-tiap-fitur-manual-jaccard-skalar" title="Link to this heading">#</a></h2>
+<p><strong>1. Skor Jarak Variabel <span class="math notranslate nohighlight">\(Age\)</span> (Numerik murni):</strong>
+Rumus Numerik Jaccard/Gower: (Nilai Selisih Absolut) / (Rentang Maksimal Sebaran Data)</p>
+<ul class="simple">
+<li><p>Selisih Absolut: <span class="math notranslate nohighlight">\(|25 - 38| = 13\)</span></p></li>
+<li><p>Range Populasi Age Keseluruhan: <span class="math notranslate nohighlight">\(73\)</span></p></li>
+<li><p><strong>Skor Output Age</strong>: <span class="math notranslate nohighlight">\(13 / 73 = \mathbf{0.178}\)</span></p></li>
+</ul>
+<p><strong>2. Skor Jarak Variabel <span class="math notranslate nohighlight">\(Hours\)</span> (Numerik murni):</strong></p>
+<ul class="simple">
+<li><p>Selisih Absolut: <span class="math notranslate nohighlight">\(|40 - 50| = 10\)</span></p></li>
+<li><p>Range Populasi Hours Keseluruhan: <span class="math notranslate nohighlight">\(98\)</span></p></li>
+<li><p><strong>Skor Output Hours</strong>: <span class="math notranslate nohighlight">\(10 / 98 = \mathbf{0.102}\)</span></p></li>
+</ul>
+<p><strong>3. Skor Jarak Variabel <span class="math notranslate nohighlight">\(Workclass\)</span> (Kategorikal Nominal Pendekatan Jaccard):</strong></p>
+<ul class="simple">
+<li><p>Pada Row 0 bernilai: <code class="docutils literal notranslate"><span class="pre">Private</span></code> bersanding dengan Row 1: <code class="docutils literal notranslate"><span class="pre">Private</span></code></p></li>
+<li><p>Status Pemeriksaan: String Teks SAMA PERSIS</p></li>
+<li><p><strong>Skor Output Workclass</strong>: <span class="math notranslate nohighlight">\(\mathbf{0}\)</span></p></li>
+</ul>
+<p><strong>4. Skor Jarak Variabel <span class="math notranslate nohighlight">\(Education\)</span> (Kategorikal Ordinal Analitis):</strong></p>
+<ul class="simple">
+<li><p>Pada Row 0 bernilai: <code class="docutils literal notranslate"><span class="pre">11th</span></code> berseling dengan Row 1: <code class="docutils literal notranslate"><span class="pre">HS-grad</span></code></p></li>
+<li><p>Status Pemeriksaan: Susunan Opsi BERBEDA Mutlak</p></li>
+<li><p><strong>Skor Output Education</strong>: <span class="math notranslate nohighlight">\(\mathbf{1}\)</span></p></li>
+</ul>
+<p><strong>5. Skor Jarak Variabel <span class="math notranslate nohighlight">\(Gender\)</span> (Biner Simetris Klasika):</strong></p>
+<ul class="simple">
+<li><p>Pada Row 0 bernilai: <code class="docutils literal notranslate"><span class="pre">Male</span></code> selaras dengan Row 1: <code class="docutils literal notranslate"><span class="pre">Male</span></code></p></li>
+<li><p>Status Pemeriksaan: Kategorikal SAMA PERSIS</p></li>
+<li><p><strong>Skor Output Gender</strong>: <span class="math notranslate nohighlight">\(\mathbf{0}\)</span></p></li>
+</ul>
+<section id="kesimpulan-gower-distance">
+<h3>Kesimpulan Gower Distance<a class="headerlink" href="#kesimpulan-gower-distance" title="Link to this heading">#</a></h3>
+<div class="math notranslate nohighlight">
+\[Gower = \frac{0.178 \text{ (Skor Age)} + 0.102 \text{ (Skor Hrs)} + 0 \text{ (Skor Work)} + 1 \text{ (Skor Edu)} + 0 \text{ (Skor Gndr)}}{5 \text{ (Jumlah Atribut)}}\]</div>
+<div class="math notranslate nohighlight">
+\[Gower = \frac{1.280}{5}\]</div>
+<div class="math notranslate nohighlight">
+\[Gower = \mathbf{0.256}\]</div>
+<p><strong>Interpretasi</strong>:
+Nilai Gower Distance = 0.256 artinya kedua data memiliki perbedaan sekitar 25.6%. Karena nilainya lebih dekat ke 0 dibanding ke 1, kedua individu ini dianggap cukup mirip secara profil sosial-ekonomi meskipun terpaut usia 13 tahun.</p>
+</section>
+</section>
+<section id="implementasi-orange-data-mining-adult-income">
+<h2>Implementasi Orange Data Mining (Adult Income)<a class="headerlink" href="#implementasi-orange-data-mining-adult-income" title="Link to this heading">#</a></h2>
+<p>Workflow Orange untuk membuktikan perhitungan jarak pada dataset campuran:</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">File</span> <span class="o">-&gt;</span> <span class="n">Preprocess</span> <span class="o">-&gt;</span> <span class="n">Distances</span> <span class="o">-&gt;</span> <span class="n">Distance</span> <span class="n">Matrix</span>
+</pre></div>
+</div>
+<p><strong>Langkah:</strong></p>
+<ol class="arabic">
+<li><p><strong>File</strong> → load <code class="docutils literal notranslate"><span class="pre">dataset.csv</span></code>, separator <code class="docutils literal notranslate"><span class="pre">;</span></code></p>
+<blockquote>
+<div><p>Membaca dataset Adult Income ke dalam Orange sebagai sumber data utama.</p>
+</div></blockquote>
+</li>
+<li><p><strong>Preprocess</strong> → tambahkan dua transformasi:</p>
+<ul class="simple">
+<li><p><strong>Continuize Discrete Variables (One feature per value)</strong> — Mengubah kolom kategorikal (seperti <code class="docutils literal notranslate"><span class="pre">workclass</span></code>, <code class="docutils literal notranslate"><span class="pre">education</span></code>, <code class="docutils literal notranslate"><span class="pre">gender</span></code>) menjadi kolom numerik menggunakan <em>one-hot encoding</em>, karena widget Distances hanya bisa memproses angka, bukan teks.</p></li>
+<li><p><strong>Normalize Features (Normalize to interval [0, 1])</strong> — Menyamakan skala semua fitur numerik ke rentang 0–1. Ini penting agar fitur dengan angka besar (seperti <code class="docutils literal notranslate"><span class="pre">fnlwgt</span></code> ratusan ribu) tidak mendominasi perhitungan jarak dibanding fitur kecil (seperti <code class="docutils literal notranslate"><span class="pre">educational-num</span></code> yang hanya 1–16).</p></li>
+</ul>
+</li>
+<li><p><strong>Distances</strong> → Compare: Rows, Metric: <strong>Euclidean (normalized)</strong></p>
+<blockquote>
+<div><p>Menghitung jarak antara setiap pasangan baris data menggunakan rumus Euclidean. Karena data sudah dinormalisasi dan di-encode, hasilnya lebih valid untuk data campuran.</p>
+</div></blockquote>
+</li>
+<li><p><strong>Distance Matrix</strong> → tampilkan hasil matriks jarak antar semua baris</p>
+<blockquote>
+<div><p>Menampilkan tabel matriks lengkap yang menunjukkan seberapa jauh/mirip setiap dua baris data satu sama lain.</p>
+</div></blockquote>
+</li>
+</ol>
+<blockquote>
+<div><ol class="arabic simple">
+<li><p>Alur Workflow Orange Adult Income: <img alt="Flow Orange Adult Income" src="../_images/flow-orange2.png" /></p></li>
+<li><p>Distance Matrix Adult Income: <img alt="Distance Matrix Adult Income" src="../_images/distance-2.png" /></p></li>
+</ol>
+</div></blockquote>
 </section>
 </section>
 
@@ -747,14 +1406,50 @@ document.write(`
   </div>
   <nav class="bd-toc-nav page-toc">
     <ul class="visible nav section-nav flex-column">
-<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#kualitas-dan-kebersihan-data">Kualitas dan Kebersihan Data</a></li>
-<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#komponen-utama-memahami-data">Komponen Utama Memahami Data</a></li>
-<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#struktur-data-dan-seleksi-fitur">Struktur Data dan Seleksi Fitur</a></li>
-<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#teknik-analisis-dan-pemodelan">Teknik Analisis dan Pemodelan</a></li>
-<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#sumber-dan-tipe-data">Sumber dan Tipe Data</a></li>
-<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#implementasi-google-colab">Implementasi Google Colab</a></li>
-<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#implementasi-menggunakan-orange-data-mining">Implementasi Menggunakan Orange Data Mining</a></li>
+<li class="toc-h1 nav-item toc-entry"><a class="reference internal nav-link" href="#">Data Understanding</a><ul class="visible nav section-nav flex-column">
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#pendahuluan">2.1 Pendahuluan</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#tujuan-data-understanding">2.2 Tujuan Data Understanding</a></li>
 </ul>
+</li>
+<li class="toc-h1 nav-item toc-entry"><a class="reference internal nav-link" href="#studi-kasus-1-iris-flower-dataset">Studi Kasus 1: Iris Flower Dataset</a><ul class="visible nav section-nav flex-column">
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#sumber-dan-pengumpulan-data">Sumber dan Pengumpulan Data</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#persiapan-google-colab">Persiapan Google Colab</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#analisis-pengukuran-jarak-distance-matrix-pada-iris">Analisis Pengukuran Jarak (Distance Matrix) Pada Iris</a><ul class="nav section-nav flex-column">
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#konsep-dasar-minkowski-distance">1. Konsep Dasar Minkowski Distance</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#manual-hitung-manhattan-distance-p-1">2. Manual Hitung Manhattan Distance (<span class="math notranslate nohighlight">\(p = 1\)</span>)</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#manual-hitung-euclidean-distance-p-2">3. Manual Hitung Euclidean Distance (<span class="math notranslate nohighlight">\(p = 2\)</span>)</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#cosine-similarity">4. Cosine Similarity</a></li>
+</ul>
+</li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#implementasi-orange-data-mining-pada-dataset-iris">Implementasi Orange Data Mining Pada Dataset Iris</a><ul class="nav section-nav flex-column">
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#penarikan-data-dari-postgresql-mysql-ke-orange">Penarikan Data dari PostgreSQL / MySQL ke Orange</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#pengujian-distance-matrix-iris-di-orange-via-file-widget">Pengujian Distance Matrix Iris di Orange (via File Widget)</a></li>
+</ul>
+</li>
+</ul>
+</li>
+<li class="toc-h1 nav-item toc-entry"><a class="reference internal nav-link" href="#studi-kasus-2-data-adult-income">Studi Kasus 2: Data Adult Income</a><ul class="visible nav section-nav flex-column">
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#apa-itu-adult-income-dataset">Apa itu Adult Income Dataset?</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#persiapan-dan-pemuatan-dataset-google-colab-python">Persiapan dan Pemuatan Dataset (Google Colab Python)</a><ul class="nav section-nav flex-column">
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#penjelasan-tipe-data-tiap-fitur">Penjelasan Tipe Data Tiap Fitur</a></li>
+</ul>
+</li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#konversi-tipe-data-sebelum-perhitungan">Konversi Tipe Data Sebelum Perhitungan</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#perhitungan-manual-manhattan-euclidean-minkowski-pada-data-2">Perhitungan Manual: Manhattan, Euclidean, Minkowski Pada Data 2</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#perhitungan-manual-manhattan-data-adult-income-p-1">1. Perhitungan Manual Manhattan Data Adult Income (p=1)</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#perhitungan-manual-euclidean-data-adult-income-p-2">2. Perhitungan Manual Euclidean Data Adult Income (p=2)</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#perhitungan-manual-minkowski-data-adult-income-p-3">3. Perhitungan Manual Minkowski Data Adult Income (p=3)</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#perhitungan-manual-gower-distance-pada-data-2">Perhitungan Manual: Gower Distance Pada Data 2</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#rumus-jawab-gower-keseluruhan">Rumus Jawab Gower Keseluruhan</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#detail-langkah-perhitungan-score-tiap-fitur-manual-jaccard-skalar">Detail Langkah Perhitungan Score Tiap Fitur (Manual Jaccard &amp; Skalar):</a><ul class="nav section-nav flex-column">
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#kesimpulan-gower-distance">Kesimpulan Gower Distance</a></li>
+</ul>
+</li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#implementasi-orange-data-mining-adult-income">Implementasi Orange Data Mining (Adult Income)</a></li>
+</ul>
+</li>
+</ul>
+
   </nav></div>
 
 </div></div>
