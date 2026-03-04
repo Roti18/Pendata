@@ -528,6 +528,3 @@ File -> Preprocess -> Distances -> Distance Matrix
 4. **Distance Matrix** → tampilkan hasil matriks jarak antar semua baris
    > Menampilkan tabel matriks lengkap yang menunjukkan seberapa jauh/mirip setiap dua baris data satu sama lain.
 
-> 1. Alur Workflow Orange Adult Income: ![Flow Orange Adult Income](../img/data-understanding/flow-orange2.png)
-> 2. Distance Matrix Adult Income: ![Distance Matrix Adult Income](../img/data-understanding/distance-2.png)
-
