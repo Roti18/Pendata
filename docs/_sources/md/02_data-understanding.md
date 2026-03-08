@@ -1,10 +1,10 @@
-# Data Understanding
+﻿# Data Understanding
 
-### 2.1 Pendahuluan
+## 1. Pendahuluan
 
 Dalam proses data mining, Data Understanding merupakan tahap yang sangat krusial karena menjadi fondasi sebelum dilakukan pembersihan data (Data Preparation) dan pemodelan (Modeling). Tahap ini bertujuan untuk memahami karakteristik data secara menyeluruh, baik dari sisi struktur, tipe data, kualitas data, maupun pola distribusinya. Tanpa pemahaman data yang baik, model yang dibangun berisiko menghasilkan kesimpulan yang bias atau tidak valid.
 
-### 2.2 Tujuan Data Understanding
+## 2. Tujuan Data Understanding
 
 Tujuan utama dari tahap ini adalah:
 
@@ -17,7 +17,7 @@ Tujuan utama dari tahap ini adalah:
 
 ---
 
-# Studi Kasus 1: Iris Flower Dataset
+## 3. Studi Kasus 1: Iris Flower Dataset
 
 ### Sumber dan Pengumpulan Data
 
@@ -28,7 +28,7 @@ Tipe data fitur-fitur pada Iris adalah murni Numerik (`sepal_length`, `sepal_wid
 
 Berikut adalah kode lengkap untuk melakukan eksplorasi data Iris secara menyeluruh di Google Colab:
 
-```python
+```ipython
 !pip install pandas seaborn matplotlib numpy
 
 import pandas as pd
@@ -154,75 +154,66 @@ Plot menampilkan sebaran titik data `petal_length` vs `petal_width` diwarnai per
 
 ---
 
-## Analisis Pengukuran Jarak (Distance Matrix) Pada Iris
+## Perhitungan Manual Jarak Pada Dataset Iris
 
-Tujuan mengukur jarak adalah untuk mengetahui apakah data dalam kelas yang sama saling berdekatan. Notasi $x_{21}$ berarti objek data ke-2 pada fitur ke-1.
+Kita akan melakukan perhitungan jarak antar baris **kolom per kolom** secara manual, tidak peduli seberapa kecil datanya. Proses ini memastikan kita memahami dasar aritmatika untuk mendapatkan nilai kemiripan kolom heterogen tersebut.
 
-Mari kita ambil 2 baris awal dari Iris.csv untuk menghitung jarak secara **manual**:
+Kita akan menghitung jarak antara **Row 0** dan **Row 1** dari `iris.csv` yang semuanya bertipe **Numerik**, sehingga kita hanya akan menggunakan tipe jarak Euclidean, dan jarak kategorikal pada kolom spesies (jika dipandang sebagai variabel bebas, meski dalam konteks ini biasanya dianggap label target).
 
-- **Data A** (index 0): `[5.1, 3.5, 1.4, 0.2]`
-- **Data B** (index 1): `[4.9, 3.0, 1.4, 0.2]`
+**A. Tabel Data Awal (Row 0 vs Row 1)**
 
-### 1. Konsep Dasar Minkowski Distance
+| Nama Kolom (Fitur) | Baris 0 | Baris 1 | Tipe Data |
+| ------------------ | ------- | ------- | --------- |
+| `sepal_length`     | 5.1     | 4.9     | Numerik   |
+| `sepal_width`      | 3.5     | 3.0     | Numerik   |
+| `petal_length`     | 1.4     | 1.4     | Numerik   |
+| `petal_width`      | 0.2     | 0.2     | Numerik   |
+| `species`          | setosa  | setosa  | Kategori  |
 
-Rumus umum Minkowski Distance:
-$$D(A, B) = \left( \sum_{i=1}^{n} |x_i - y_i|^p \right)^{\frac{1}{p}}$$
-Dimana $n$ adalah jumlah fitur. Parameter $p$ menentukan bentuk jarak yang digunakan.
+### Langkah 1: Menghitung Jarak Numerik (Euclidean)
 
-### 2. Manual Hitung Manhattan Distance ($p = 1$)
+Untuk bagian numerik, kita mencari selisih masing-masing kolom terlebih dahulu, lalu dikuadratkan secara mendatar untuk persiapan penjumlahan:
 
-Jika $p=1$, Minkowski menjadi Manhattan Distance. Rumus Manhattan mengukur ketidaksamaan objek melalui jumlah nilai absolut selisih setiap fiturnya (tanpa akar atau kuadrat).
+| Fitur | Nilai (Row 0) | Nilai (Row 1) | Selisih ($A - B$) | Kuadrat Selisih $(A - B)^2$ |
+| --- | --- | --- | --- | --- |
+| `sepal_length` | 5.1 | 4.9 | $5.1 - 4.9 = \mathbf{0.2}$ | $0.2 \times 0.2 = \mathbf{0.04}$ |
+| `sepal_width` | 3.5 | 3.0 | $3.5 - 3.0 = \mathbf{0.5}$ | $0.5 \times 0.5 = \mathbf{0.25}$ |
+| `petal_length` | 1.4 | 1.4 | $1.4 - 1.4 = \mathbf{0}$ | $0 \times 0 = \mathbf{0}$ |
+| `petal_width` | 0.2 | 0.2 | $0.2 - 0.2 = \mathbf{0}$ | $0 \times 0 = \mathbf{0}$ |
 
-**Rumus:**
-$$Manhattan(A, B) = \sum_{i=1}^{n} | x_i - y_i |$$
+-   **Jumlah Total Kuadrat**: $\Sigma = 0.04 + 0.25 + 0 + 0 = \mathbf{0.29}$
+-   **Jarak Numerik ($D_{num}$)**: Akar dari jumlah total => $\sqrt{0.29} = \mathbf{0.5385}$
 
-**Langkah Perhitungan Manual:**
+### Langkah 2: Menghitung Jarak Kategorikal (Simple Matching)
 
-1. Fitur `sepal_length`: $| 5.1 - 4.9 | = | 0.2 | = 0.2$
-2. Fitur `sepal_width`: $| 3.5 - 3.0 | = | 0.5 | = 0.5$
-3. Fitur `petal_length`: $| 1.4 - 1.4 | = | 0.0 | = 0.0$
-4. Fitur `petal_width`: $| 0.2 - 0.2 | = | 0.0 | = 0.0$
+Rumus yang ditetapkan adalah $\frac{P - M}{P}$, dimana $P$ adalah total kolom kategorikal dan $M$ adalah jumlah kecocokan (sama).
 
-**Total Penjumlahan Manhattan:**
-$$Manhattan = 0.2 + 0.5 + 0.0 + 0.0 = \mathbf{0.7}$$
+| Fitur | Row 0 | Row 1 | Status |
+| --- | --- | --- | --- |
+| `species` | Iris-setosa | Iris-setosa | **Sama** |
 
-### 3. Manual Hitung Euclidean Distance ($p = 2$)
+-   Banyaknya kolom kategorikal (**P**) = 1
+-   Data yang sama (**M**) = 1
+-   **Jarak Kategorikal ($D_{cat}$)**: $\frac{1 - 1}{1} = \frac{0}{1} = \mathbf{0}$
 
-Jika $p=2$, Minkowski menjadi Euclidean Distance. Setiap fitur dikurangkan, dikuadratkan selisihnya, lalu dijumlahkan, dan terakhir diakar.
+### Langkah 3: Penjumlahan Akhir (D_total)
 
-**Rumus Langkah Euclidean:**
-$$Euclidean(A, B) = \sqrt{ \sum_{i=1}^{n} (x_i - y_i)^2 }$$
-
-**Langkah Perhitungan Manual Euclidean:**
-
-1. Selisih Kuadrat `sepal_length`: $(5.1 - 4.9)^2 = (0.2)^2 = 0.04$
-2. Selisih Kuadrat `sepal_width`: $(3.5 - 3.0)^2 = (0.5)^2 = 0.25$
-3. Selisih Kuadrat `petal_length`: $(1.4 - 1.4)^2 = (0.0)^2 = 0.0$
-4. Selisih Kuadrat `petal_width`: $(0.2 - 0.2)^2 = (0.0)^2 = 0.0$
-
-**Total Perhitungan Euclidean:**
-$$Euclidean = \sqrt{0.04 + 0.25 + 0.0 + 0.0}$$
-$$Euclidean = \sqrt{0.29} = \mathbf{0.5385}$$
-
-Kode Pembuktian di Python:
-
-```python
-import numpy as np
-A = np.array([5.1, 3.5, 1.4, 0.2])
-B = np.array([4.9, 3.0, 1.4, 0.2])
-
-print(np.sum(np.abs(A - B))) # 0.7 (Manhattan)
-print(np.sqrt(np.sum((A - B)**2))) # 0.5385 (Euclidean)
-```
-
-### 4. Cosine Similarity
-
-Menghitung derajat kemiripan arah antar dua objek data berdimensi. Cosine similarity menggunakan pendekatan Cosinus sudut vektor.
-$$cos(A \cdot B) = \frac{ \sum A_i B_i }{ \sqrt{\sum A_i^2} \sqrt{\sum B_i^2} }$$
+Menyambung kaidah pengeksekusian jarak Euclidean-Ordinal, kedua hasil tersebut langsung dijumlahkan:
+$$D_{total} = D_{num} + D_{cat}$$
+**$$D_{total} = 0.5385 + 0 = \mathbf{0.5385}$$**
 
 ---
 
-## Implementasi Orange Data Mining Pada Dataset Iris
+### Cosine Similarity (Arah Sudut)
+Digunakan untuk melihat kemiripan proporsi antar fitur numerik:
+$$cos(\theta) = \frac{ (5.1 \times 4.9) + (3.5 \times 3.0) + (1.4 \times 1.4) + (0.2 \times 0.2) }{ \sqrt{5.1^2+3.5^2+1.4^2+0.2^2} \times \sqrt{4.9^2+3.0^2+1.4^2+0.2^2} }$$
+$$cos(\theta) = \frac{24.99 + 10.5 + 1.96 + 0.04}{6.345 \times 5.918} = \mathbf{0.9984}$$
+
+---
+
+---
+
+### Implementasi Orange Data Mining Pada Dataset Iris
 
 Orange Data Mining adalah piranti _visual programming_ berbasis Graphical User Interface (Drag-and-Drop) untuk membuktikan komputasi jarak antar data Iris secara visual tanpa perlu menulis kode.
 
@@ -242,7 +233,7 @@ Dataset Iris tidak hanya dapat diimpor melalui file CSV, tetapi juga bisa diinte
 - Database: `iris_flower`
 - User: `postgres`
 - Password: (sesuai konfigurasi Laragon)
-- Klik **Connect** -> pilih tabel `iris-flower`
+- Klik **Connect** => pilih tabel `iris-flower`
 
 **3. Konfigurasi Koneksi MySQL**
 
@@ -251,7 +242,7 @@ Dataset Iris tidak hanya dapat diimpor melalui file CSV, tetapi juga bisa diinte
 - Database: `iris_db`
 - User: `root`
 - Password: (kosong jika default XAMPP)
-- Klik **Connect** -> pilih tabel `iris-flower`
+- Klik **Connect** => pilih tabel `iris-flower`
 
 **4. Menghubungkan ke Widget Analisis**
 Setelah SQL Table berhasil terkoneksi, hubungkan ke:
@@ -264,17 +255,17 @@ Setelah SQL Table berhasil terkoneksi, hubungkan ke:
 Workflow Orange menjadi:
 
 ```
-SQL Table -> Column Statistics
-SQL Table -> Distributions
-SQL Table -> Scatter Plot
-SQL Table -> Distances -> Distance Matrix
+SQL Table => Column Statistics
+SQL Table => Distributions
+SQL Table => Scatter Plot
+SQL Table => Distances => Distance Matrix
 ```
 
 > ![Konfigurasi Parameter Import Data SQL](../img/data-understanding/postgresql.png)
 
 ### Pengujian Distance Matrix Iris di Orange (via File Widget)
 
-1. **Tambahkan widget File -> Load Iris**: Tarik widget **File** ke kanvas, buka konfigurasinya, pilih file `iris.csv` dari direktori lokal.
+1. **Tambahkan widget File => Load Iris**: Tarik widget **File** ke kanvas, buka konfigurasinya, pilih file `iris.csv` dari direktori lokal.
 2. **Tambahkan widget Distances**: Cari dan tarik widget **Distances** ke kanvas.
 3. **Hubungkan File ke Distances**: Tarik garis dari output **File** ke input **Distances**.
 4. **Pilih Metric** di konfigurasi widget **Distances**:
@@ -288,14 +279,14 @@ SQL Table -> Distances -> Distance Matrix
 > 1. Alur Logika Panel Kabel Sistem Database Import Widget Logis Orange: ![Diagram Jalur Jaringan Modul](../img/data-understanding/flow-orange.png)
 > 2. Pemuatan Input Pembaca File Database RDBMS Connection: ![Konfigurasi Parameter Import Data](../img/data-understanding/import-data.png)
 > 3. Konfigurasi Widget Distances (Metric Euclidean/Manhattan/Minkowski): ![Konfigurasi Distances Widget](../img/data-understanding/distances.png)
-> 4. Visualisasi Hasil Jarak Pengujian Data (Distance Matrix Iris UI): ![Distance Matrix Setup Data Jarak Iris](../img/data-understanding/jarak-matrix-orange.png)
+> 4. Visualisasi Hasil Jarak Pengujian Data (Distance Matrix Iris UI): ![Distance Matrix Setup Data Jarak Iris](../img/data-understanding/distances.png)
 > 5. Statistik Evaluasi Kolom Cek Data: ![Pusat Visualisasi Dashboard Data Audit Kolom](../img/data-understanding/column-statistic.png)
 > 6. Panel Distribusi Frekuensi Data Histografis: ![Distribusi Penampakan Histogram Bimodal](../img/data-understanding/distribution.png)
 > 7. Klasterisasi Penyebaran Titik Interaksi Scatter Plot Iris: ![Diagram Titik Scatter Plot Ruang Jarak Iris](../img/data-understanding/scatter-plot.png)
 
 ---
 
-# Studi Kasus 2: Data Adult Income
+## 4. Studi Kasus 2: Data Adult Income
 
 ### Apa itu Adult Income Dataset?
 
@@ -390,25 +381,25 @@ dtype: int64
 
 Dataset mengandung nilai `?` pada kolom `workclass` dan `occupation` sebagai penanda missing value kategorikal (bukan null).
 
-#### Penjelasan Tipe Data Tiap Fitur
+### Penjelasan Tipe Data Tiap Fitur
 
 Untuk bisa menganalisis profil Adult Income ini, kita wajib membongkar arti masing-masing kolom pengamatan tanpa ada satupun yang terlewat:
 
 1. **`age` (Numerik)**: Usia individu saat survei dilakukan (contoh: 25, 38).
 2. **`workclass` (Kategorikal)**: Sektor pekerjaan individu. Nilainya tidak berjenjang (contoh: Private, Local-gov, Self-emp-inc).
-3. **`fnlwgt` (Numerik)**: _Final Weight_ — bobot statistik dari Badan Sensus yang menunjukkan perkiraan jumlah orang dengan profil serupa di populasi nyata.
+3. **`fnlwgt` (Numerik)**: _Final Weight_ - bobot statistik dari Badan Sensus yang menunjukkan perkiraan jumlah orang dengan profil serupa di populasi nyata.
 4. **`education` (Kategorikal)**: Tingkat pendidikan terakhir yang diselesaikan (contoh: 11th, HS-grad, Some-college, Bachelors). Berjenjang dan punya urutan.
 5. **`educational-num` (Numerik)**: Versi angka dari kolom `education` (contoh: HS-grad = 9, Some-college = 10, Bachelors = 13).
 6. **`marital-status` (Kategorikal)**: Status pernikahan individu (contoh: Never-married, Married-civ-spouse, Divorced).
 7. **`occupation` (Kategorikal)**: Jenis pekerjaan yang dijalani (contoh: Machine-op-inspct, Farming-fishing, Protective-serv).
 8. **`relationship` (Kategorikal)**: Peran individu dalam keluarga (contoh: Own-child, Husband, Wife, Unmarried).
 9. **`race` (Kategorikal)**: Latar belakang ras individu (contoh: White, Black, Asian-Pac-Islander, Other).
-10. **`gender` (Kategorikal Biner)**: Jenis kelamin individu — hanya dua nilai: Male atau Female.
+10. **`gender` (Kategorikal Biner)**: Jenis kelamin individu - hanya dua nilai: Male atau Female.
 11. **`capital-gain` (Numerik)**: Keuntungan finansial dari investasi atau aset. Sering bernilai 0 karena kebanyakan individu tidak punya pendapatan investasi.
 12. **`capital-loss` (Numerik)**: Kerugian finansial dari penurunan nilai aset atau investasi.
 13. **`hours-per-week` (Numerik)**: Jumlah jam kerja per minggu.
 14. **`native-country` (Kategorikal)**: Negara asal individu (contoh: United-States, Mexico, Philippines).
-15. **`income` (Kategorikal Biner)**: **Target prediksi** — kategori penghasilan tahunan: **`<=50K`** (tidak lebih dari 50 Ribu USD) atau **`>50K`** (lebih dari 50 Ribu USD).
+15. **`income` (Kategorikal Biner)**: **Target prediksi** - kategori penghasilan tahunan: **`<=50K`** (tidak lebih dari 50 Ribu USD) atau **`>50K`** (lebih dari 50 Ribu USD).
 
 Berdasarkan data di atas, kita ambil cuplikan ringkas untuk perhitungan. Titik fokus perhitungan:
 
@@ -429,150 +420,134 @@ Berdasarkan data di atas, kita ambil cuplikan ringkas untuk perhitungan. Titik f
 
 Sebelum menghitung jarak, semua tipe data harus dikonversi ke bentuk numerik terlebih dahulu:
 
-| Fitur             | Tipe        | Row 0 (Raw) | Row 1 (Raw) | Konversi                   | Row 0  | Row 1  |
+| Fitur | Tipe | Row 0 (Raw) | Row 1 (Raw) | Konversi | Row 0 | Row 1 |
 | ----------------- | ----------- | ----------- | ----------- | -------------------------- | ------ | ------ |
-| `age`             | Numerik     | 25          | 38          | Langsung pakai             | **25** | **38** |
-| `hours-per-week`  | Numerik     | 40          | 50          | Langsung pakai             | **40** | **50** |
-| `workclass`       | Kategorikal | Private     | Private     | Label Encoding (Private=0) | **0**  | **0**  |
-| `educational-num` | Ordinal     | 7 (11th)    | 9 (HS-grad) | Langsung pakai angkanya    | **7**  | **9**  |
-| `gender`          | Biner       | Male        | Male        | Male=1, Female=0           | **1**  | **1**  |
+| `age` | Numerik | 25 | 38 | Langsung pakai | **25** | **38** |
+| `hours-per-week` | Numerik | 40 | 50 | Langsung pakai | **40** | **50** |
+| `workclass` | Kategorikal | Private | Private | Label Encoding (Private=0) | **0** | **0** |
+| `educational-num` | Ordinal | 7 (11th) | 9 (HS-grad) | Langsung pakai angkanya | **7** | **9** |
+| `gender` | Biner | Male | Male | Male=1, Female=0 | **1** | **1** |
 
 **Vektor setelah konversi:**
 
-- **Vektor A (Row 0):** `[25, 40, 0, 7, 1]`
-- **Vektor B (Row 1):** `[38, 50, 0, 9, 1]`
+-   **Vektor A (Row 0):** `[25, 40, 0, 7, 1]`
+-   **Vektor B (Row 1):** `[38, 50, 0, 9, 1]`
 
-### Perhitungan Manual: Manhattan, Euclidean, Minkowski Pada Data 2
+## Perhitungan Manual Jarak Campuran (Adult Income)
 
-Dengan vektor yang sudah dikonversi penuh (5 fitur), kita hitung ketiga metrik jarak:
+Dataset campuran diproses dengan metode mengonversi struktur **Ordinal menjadi Numerik**, menghitung jarak tersebut bersama atribut numerik murni melalui Euclidean, menghitung Kategorikal dengan rumus standard probabilitas `(P - M)/P`, dan diakhiri dengan menjumlahkan keduanya secara ekuivalen.
 
-- **Vektor A (Row 0):** `[25, 40, 0, 7, 1]`
-- **Vektor B (Row 1):** `[38, 50, 0, 9, 1]`
+Berikut adalah data sampel untuk pengujian (**Row 0** dan **Row 1**):
 
-### 1. Perhitungan Manual Manhattan Data Adult Income (p=1)
+| Fitur | Row 0 | Row 1 | Tipe Asli | Metode Jarak |
+| --- | --- | --- | --- | --- |
+| `educational-num` | 7 | 9 | Ordinal | Konversi ke Skala Normal => Euclidean |
+| `age` | 25 | 38 | Numerik | Nilai Asli (Raw) => Euclidean |
+| `hours-per-week` | 40 | 50 | Numerik | Nilai Asli (Raw) => Euclidean |
+| `workclass` | Private | Private | Kategorikal | Simple Matching |
+| `marital-status` | Never-mar | Married | Kategorikal | Simple Matching |
+| `occupation` | Machine | Farming | Kategorikal | Simple Matching |
+| `relationship` | Own-child | Husband | Kategorikal | Simple Matching |
+| `race` | Black | White | Kategorikal | Simple Matching |
+| `gender` | Male | Male | Kategorikal | Simple Matching |
+| `native-country` | US | US | Kategorikal | Simple Matching |
+| `income` | <=50K | <=50K | Kategorikal | Simple Matching |
 
-**Rumus**: $Manhattan = \sum_{i=1}^{n} |A_i - B_i|$
+### Langkah 1: Konversi Ordinal ke Numerik
 
-**Hitung Manual (5 fitur setelah konversi)**:
+Atribut **Ordinal** harus diubah menjadi probabilitas skala 0-1, dengan rumus:
+$$\frac{x - Min}{Max - Min}$$
+Berdasarkan data *Adult Income*, `educational-num` memiliki nilai terkecil 2 dan terbesar 16. Mari hitung konversinya:
+- **Row 0 (x=7)**: $\frac{7 - 2}{16 - 2} = \frac{5}{14} = \mathbf{0.3571}$
+- **Row 1 (x=9)**: $\frac{9 - 2}{16 - 2} = \frac{7}{14} = \mathbf{0.5000}$
 
-- $|25 - 38| = 13$ (Age)
-- $|40 - 50| = 10$ (Hours)
-- $|0 - 0| = 0$ (Workclass)
-- $|7 - 9| = 2$ (Educational-num)
-- $|1 - 1| = 0$ (Gender)
+### Langkah 2: Jarak Numerik & Ordinal (Berdasar Kolom)
 
-$$Manhattan = 13 + 10 + 0 + 2 + 0 = \mathbf{25}$$
+Sekarang atribut yang ditarik ke Euclidean sudah mencakup: Numerik Murni + Konversi Ordinal.
 
-### 2. Perhitungan Manual Euclidean Data Adult Income (p=2)
+| Fitur Numerik/Ordinal | Nilai Row 0 | Nilai Row 1 | Selisih Turunan ($R_0 - R_1$) | Kuadrat Hasil ($(\dots)^2$) |
+| --- | --- | --- | --- | --- |
+| **Ordinal: Edu-num** | 0.3571 | 0.5000 | $0.3571 - 0.5000 = -0.1429$ | $(-0.1429)^2 = \mathbf{0.0204}$ |
+| **Numerik: Age** | 25 | 38 | $25 - 38 = -13$ | $(-13)^2 = \mathbf{169}$ |
+| **Numerik: Hours** | 40 | 50 | $40 - 50 = -10$ | $(-10)^2 = \mathbf{100}$ |
 
-**Rumus**: $Euclidean = \sqrt{\sum_{i=1}^{n} (A_i - B_i)^2}$
+-   **Merekap Sigma Kuadrat ($\Sigma$)**: $0.0204 + 169 + 100 = \mathbf{269.0204}$
+-   **Jarak Euclidean ($D_{num}$)**: $\sqrt{269.0204} = \mathbf{16.4018}$
 
-**Hitung Manual (5 fitur setelah konversi)**:
+### Langkah 3: Jarak Kategorikal (Simple Matching)
 
-- $(25-38)^2 = 169$ (Age)
-- $(40-50)^2 = 100$ (Hours)
-- $(0-0)^2 = 0$ (Workclass)
-- $(7-9)^2 = 4$ (Educational-num)
-- $(1-1)^2 = 0$ (Gender)
+Secara kolom demi kolom, kita mengeksplor status persamaannya:
 
-$$Euclidean = \sqrt{169 + 100 + 0 + 4 + 0} = \sqrt{273} = \mathbf{16.523}$$
+| Fitur Kategorikal | Row 0 | Row 1 | Perbandingan | Status Kecocokan |
+| --- | --- | --- | --- | --- |
+| `workclass` | Private | Private | Private == Private | **Sama** |
+| `marital-status` | Never-mar | Married | Never-mar != Married | **Beda** |
+| `occupation` | Machine | Farming | Machine != Farming | **Beda** |
+| `relationship` | Own-child | Husband | Own-child != Husband | **Beda** |
+| `race` | Black | White | Black != White | **Beda** |
+| `gender` | Male | Male | Male == Male | **Sama** |
+| `native-country` | US | US | US == US | **Sama** |
+| `income` | <=50K | <=50K | <=50K == <=50K | **Sama** |
 
-### 3. Perhitungan Manual Minkowski Data Adult Income (p=3)
+Identifikasi untuk rumus $(P - M) / P$:
+- **Banyak Kolom Kategorikal (P)**: 8 atribut
+- **Data yang Sama (M)**: 4 (Terdapat 4 status "Sama")
+- **Jarak Kategorikal ($D_{cat}$)**: $\frac{8 - 4}{8} = \frac{4}{8} = \mathbf{0.5}$
 
-**Rumus**: $Minkowski = \left(\sum_{i=1}^{n} |A_i - B_i|^p\right)^{1/p}$
+### Langkah 4: Kalkulasi Jarak Total
 
-**Hitung Manual (5 fitur setelah konversi)**:
-
-- $|13|^3 = 2197$ (Age)
-- $|10|^3 = 1000$ (Hours)
-- $|0|^3 = 0$ (Workclass)
-- $|2|^3 = 8$ (Educational-num)
-- $|0|^3 = 0$ (Gender)
-
-$$Minkowski = (2197 + 1000 + 0 + 8 + 0)^{1/3} = (3205)^{1/3} = \mathbf{14.737}$$
-
-> **Catatan Penting**: Meskipun Manhattan/Euclidean/Minkowski bisa dijalankan setelah konversi, hasilnya masih memiliki kelemahan karena **label encoding kategorikal bersifat arbitrer** (urutan angkanya tidak mencerminkan jarak semantik sesungguhnya). Oleh karena itu, sebagai validasi tambahan, digunakan **Gower Distance** yang dirancang khusus untuk data campuran.
+Setelah variabel dipisah menjadi numerik/ordinal dan murni heterogen kategorikal, nilai integrasinya digabung kedalam satu total penjumlahan utuh:
+$$D_{total} = D_{num} + D_{cat}$$
+**$$D_{total} = 16.4018 + 0.5 = \mathbf{16.9018}$$**
 
 ---
 
-### Perhitungan Manual: Gower Distance Pada Data 2
+## Prosedur Hitung Manual KNN (Imputasi Missing Values)
 
-Karena di `dataset.csv` terdapat barisan atribut paduan numerik dan kategorikal, algoritma **Gower Distance** adalah metode paling superior dan benar yang bisa menanganinya secara valid. Metode ini dihitung berdasar skor keanehan fitur per atribut (0 hingga 1), lalu dicari rerata total seluruh gabungan kolom.
+Sebagai penerapan akhir dari fungsi di atas, kita masuk ke inti penggunaan Distance Matrix, yakni interpolasi K-Nearest Neighbors (KNN) saat ditemukannya kasus Missing Values (baris berisi `?`). Untuk melakukan pemulihan, kita akan mempraktikkan pencarian melalui **3 Tetangga Terdekat**.
 
-Kita ambil kembali susunan profil lengkap dari dua baris tadi (5 atribut utuh).
+### Praktik Prosedural (Simulasi Baris 5)
 
-- **Row 0**: Age=25, Hours=40, Workclass=Private, Edu=11th, Gender=Male
-- **Row 1**: Age=38, Hours=50, Workclass=Private, Edu=HS-grad, Gender=Male
+Mari kita asumsikan **Baris 5** rusak pada kolom `workclass`. Metode yang diterapkan:
 
-_(Catatan empiris analisis tambahan: Pada observasi keseluruhan populasi `dataset.csv`, telah direkam bahwa Range variabel umur Max-Min = $90 - 17 = 73$, dan Range variabel jam kerja Max-Min = $99 - 1 = 98$)_
+**1. Operasi Komparasi Iteratif**
+Karena data `workclass` pada Baris 5 tidak ada, hitung jarak menggunakan kolom lain yang tersedia secara terpisah dengan cara:
+- Ukur baris 5 dikurangi baris 1 (dihitung mengikuti kolom persis langkah di atas)
+- Ukur baris 5 dikurangi baris 2
+- Ukur baris 5 dikurangi baris 3
+- Ukur baris 5 dikurangi baris 4
+- ... begitu seterusnya untuk setiap baris.
 
-### Rumus Jawab Gower Keseluruhan
+**2. Pencarian Tetangga (K=3)**
+Setelah didapatkan skor jarak di setiap prosesnya, data dicari mana yang jarak hitungnya paling kecil (paling mirip logikanya). Misalnya "Baris 5 mengambil data dari 3 data terdekat" (Row 1, Row 3, dan Row 8).
 
-$$Gower(d_1, d_2) = \frac{\sum (Skor\_Tiap\_Fitur)}{Jumlah\_Total\_Fitur\_Utuh}$$
-
-### Detail Langkah Perhitungan Score Tiap Fitur (Manual Jaccard & Skalar):
-
-**1. Skor Jarak Variabel $Age$ (Numerik murni):**
-Rumus Numerik Jaccard/Gower: (Nilai Selisih Absolut) / (Rentang Maksimal Sebaran Data)
-
-- Selisih Absolut: $|25 - 38| = 13$
-- Range Populasi Age Keseluruhan: $73$
-- **Skor Output Age**: $13 / 73 = \mathbf{0.178}$
-
-**2. Skor Jarak Variabel $Hours$ (Numerik murni):**
-
-- Selisih Absolut: $|40 - 50| = 10$
-- Range Populasi Hours Keseluruhan: $98$
-- **Skor Output Hours**: $10 / 98 = \mathbf{0.102}$
-
-**3. Skor Jarak Variabel $Workclass$ (Kategorikal Pendekatan Jaccard):**
-
-- Pada Row 0 bernilai: `Private` bersanding dengan Row 1: `Private`
-- Status Pemeriksaan: String Teks SAMA PERSIS
-- **Skor Output Workclass**: $\mathbf{0}$
-
-**4. Skor Jarak Variabel $Education$ (Kategorikal Analitis):**
-
-- Pada Row 0 bernilai: `11th` berseling dengan Row 1: `HS-grad`
-- Status Pemeriksaan: Susunan Opsi BERBEDA Mutlak
-- **Skor Output Education**: $\mathbf{1}$
-
-**5. Skor Jarak Variabel $Gender$ (Biner Simetris Klasika):**
-
-- Pada Row 0 bernilai: `Male` selaras dengan Row 1: `Male`
-- Status Pemeriksaan: Kategorikal SAMA PERSIS
-- **Skor Output Gender**: $\mathbf{0}$
-
-#### Kesimpulan Gower Distance
-
-$$Gower = \frac{0.178 \text{ (Skor Age)} + 0.102 \text{ (Skor Hrs)} + 0 \text{ (Skor Work)} + 1 \text{ (Skor Edu)} + 0 \text{ (Skor Gndr)}}{5 \text{ (Jumlah Atribut)}}$$
-$$Gower = \frac{1.280}{5}$$
-$$Gower = \mathbf{0.256}$$
-
-**Interpretasi**:
-Nilai Gower Distance = 0.256 artinya kedua data memiliki perbedaan sekitar 25.6%. Karena nilainya lebih dekat ke 0 dibanding ke 1, kedua individu ini dianggap cukup mirip secara profil sosial-ekonomi meskipun terpaut usia 13 tahun.
+**3. Evaluasi dan Imbal-Hukum Imputasi**
+Berdasarkan "3 Data Terdekat" itu, nilainya dirata-ratakan atau dicari modusnya:
+- Jika jaraknya memprediksi kolom berupa tipe Kategorikal (`workclass`), kita gunakan konsep Modus. Misal tiga baris terdekat kerja di = `Private`, `Local-gov`, `Private`. Maka kolom ke-5 diisi `Private`.
+- Jika jaraknya memprediksi angka (Numerik), dihitung "rata-rata dari baris-baris terdekat" tersebut.
 
 ### Implementasi Orange Data Mining (Adult Income)
 
 Workflow Orange untuk membuktikan perhitungan jarak pada dataset campuran:
 
 ```
-File -> Preprocess -> Distances -> Distance Matrix
+File => Preprocess => Distances => Distance Matrix
 ```
 
 **Langkah:**
 
-1. **File** → load `dataset.csv`, separator `;`
+1.  **File** → load `dataset.csv`, separator `;`
+2.  **Preprocess** → tambahkan dua transformasi:
+    -   **Impute Missing Values** → Menggunakan model (seperti KNN) untuk mengisi nilai `?` berdasarkan tetangga terdekat.
+    -   **Continuize Discrete Variables** → Mengubah kategori menjadi numerik.
+    -   **Normalize Features** → Menyamakan skala fitur ke rentang [0, 1].
+3.  **Distances** → Hitung jarak antar baris (Euclidean/Manhattan).
+4.  **Distance Matrix** → Tampilkan tabel jarak antar data.
 
-   > Membaca dataset Adult Income ke dalam Orange sebagai sumber data utama.
-
-2. **Preprocess** → tambahkan dua transformasi:
-   - **Continuize Discrete Variables (One feature per value)** — Mengubah kolom kategorikal (seperti `workclass`, `education`, `gender`) menjadi kolom numerik menggunakan _one-hot encoding_, karena widget Distances hanya bisa memproses angka, bukan teks.
-   - **Normalize Features (Normalize to interval [0, 1])** — Menyamakan skala semua fitur numerik ke rentang 0–1. Ini penting agar fitur dengan angka besar (seperti `fnlwgt` ratusan ribu) tidak mendominasi perhitungan jarak dibanding fitur kecil (seperti `educational-num` yang hanya 1–16).
-
-3. **Distances** → Compare: Rows, Metric: **Euclidean (normalized)**
-
-   > Menghitung jarak antara setiap pasangan baris data menggunakan rumus Euclidean. Karena data sudah dinormalisasi dan di-encode, hasilnya lebih valid untuk data campuran.
-
-4. **Distance Matrix** → tampilkan hasil matriks jarak antar semua baris
-   > Menampilkan tabel matriks lengkap yang menunjukkan seberapa jauh/mirip setiap dua baris data satu sama lain.
+> 1. Alur Logika Panel Kabel Sistem Database Import Widget Logis Orange: ![Diagram Jalur Jaringan Modul](../img/data-understanding/flow-orange.png)
+> 2. Pemuatan Input Pembaca File Database RDBMS Connection: ![Konfigurasi Parameter Import Data](../img/data-understanding/import-data.png)
+> 3. Konfigurasi Widget Distances (Metric Euclidean/Manhattan/Minkowski): ![Konfigurasi Distances Widget](../img/data-understanding/distances.png)
+> 4. Visualisasi Hasil Jarak Pengujian Data (Distance Matrix Iris UI): ![Distance Matrix Setup Data Jarak Iris](../img/data-understanding/distances.png)
+> 5. Statistik Evaluasi Kolom Cek Data: ![Pusat Visualisasi Dashboard Data Audit Kolom](../img/data-understanding/column-statistic.png)
+> 6. Panel Distribusi Frekuensi Data Histografis: ![Distribusi Penampakan Histogram Bimodal](../img/data-understanding/distribution.png)
+> 7. Klasterisasi Penyebaran Titik Interaksi Scatter Plot Iris: ![Diagram Titik Scatter Plot Ruang Jarak Iris](../img/data-understanding/scatter-plot.png)
