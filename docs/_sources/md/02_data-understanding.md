@@ -154,63 +154,6 @@ Plot menampilkan sebaran titik data `petal_length` vs `petal_width` diwarnai per
 
 ---
 
-## Perhitungan Manual Jarak Pada Dataset Iris
-
-Kita akan melakukan perhitungan jarak antar baris **kolom per kolom** secara manual, tidak peduli seberapa kecil datanya. Proses ini memastikan kita memahami dasar aritmatika untuk mendapatkan nilai kemiripan kolom heterogen tersebut.
-
-Kita akan menghitung jarak antara **Row 0** dan **Row 1** dari `iris.csv` yang semuanya bertipe **Numerik**, sehingga kita hanya akan menggunakan tipe jarak Euclidean, dan jarak kategorikal pada kolom spesies (jika dipandang sebagai variabel bebas, meski dalam konteks ini biasanya dianggap label target).
-
-**A. Tabel Data Awal (Row 0 vs Row 1)**
-
-| Nama Kolom (Fitur) | Baris 0 | Baris 1 | Tipe Data |
-| ------------------ | ------- | ------- | --------- |
-| `sepal_length`     | 5.1     | 4.9     | Numerik   |
-| `sepal_width`      | 3.5     | 3.0     | Numerik   |
-| `petal_length`     | 1.4     | 1.4     | Numerik   |
-| `petal_width`      | 0.2     | 0.2     | Numerik   |
-| `species`          | setosa  | setosa  | Kategori  |
-
-### Langkah 1: Menghitung Jarak Numerik (Euclidean)
-
-Untuk bagian numerik, kita mencari selisih masing-masing kolom terlebih dahulu, lalu dikuadratkan secara mendatar untuk persiapan penjumlahan:
-
-| Fitur | Nilai (Row 0) | Nilai (Row 1) | Selisih ($A - B$) | Kuadrat Selisih $(A - B)^2$ |
-| --- | --- | --- | --- | --- |
-| `sepal_length` | 5.1 | 4.9 | $5.1 - 4.9 = \mathbf{0.2}$ | $0.2 \times 0.2 = \mathbf{0.04}$ |
-| `sepal_width` | 3.5 | 3.0 | $3.5 - 3.0 = \mathbf{0.5}$ | $0.5 \times 0.5 = \mathbf{0.25}$ |
-| `petal_length` | 1.4 | 1.4 | $1.4 - 1.4 = \mathbf{0}$ | $0 \times 0 = \mathbf{0}$ |
-| `petal_width` | 0.2 | 0.2 | $0.2 - 0.2 = \mathbf{0}$ | $0 \times 0 = \mathbf{0}$ |
-
--   **Jumlah Total Kuadrat**: $\Sigma = 0.04 + 0.25 + 0 + 0 = \mathbf{0.29}$
--   **Jarak Numerik ($D_{num}$)**: Akar dari jumlah total => $\sqrt{0.29} = \mathbf{0.5385}$
-
-### Langkah 2: Menghitung Jarak Kategorikal (Simple Matching)
-
-Rumus yang ditetapkan adalah $\frac{P - M}{P}$, dimana $P$ adalah total kolom kategorikal dan $M$ adalah jumlah kecocokan (sama).
-
-| Fitur | Row 0 | Row 1 | Status |
-| --- | --- | --- | --- |
-| `species` | Iris-setosa | Iris-setosa | **Sama** |
-
--   Banyaknya kolom kategorikal (**P**) = 1
--   Data yang sama (**M**) = 1
--   **Jarak Kategorikal ($D_{cat}$)**: $\frac{1 - 1}{1} = \frac{0}{1} = \mathbf{0}$
-
-### Langkah 3: Penjumlahan Akhir (D_total)
-
-Menyambung kaidah pengeksekusian jarak Euclidean-Ordinal, kedua hasil tersebut langsung dijumlahkan:
-$$D_{total} = D_{num} + D_{cat}$$
-**$$D_{total} = 0.5385 + 0 = \mathbf{0.5385}$$**
-
----
-
-### Cosine Similarity (Arah Sudut)
-Digunakan untuk melihat kemiripan proporsi antar fitur numerik:
-$$cos(\theta) = \frac{ (5.1 \times 4.9) + (3.5 \times 3.0) + (1.4 \times 1.4) + (0.2 \times 0.2) }{ \sqrt{5.1^2+3.5^2+1.4^2+0.2^2} \times \sqrt{4.9^2+3.0^2+1.4^2+0.2^2} }$$
-$$cos(\theta) = \frac{24.99 + 10.5 + 1.96 + 0.04}{6.345 \times 5.918} = \mathbf{0.9984}$$
-
----
-
 ---
 
 ### Implementasi Orange Data Mining Pada Dataset Iris
@@ -250,7 +193,6 @@ Setelah SQL Table berhasil terkoneksi, hubungkan ke:
 - **Column Statistics** - melihat mean, median, mode tiap kolom
 - **Distributions** - distribusi frekuensi fitur
 - **Scatter Plot** - visualisasi sebaran antar fitur
-- **Distances** - menghitung matriks jarak
 
 Workflow Orange menjadi:
 
@@ -258,31 +200,15 @@ Workflow Orange menjadi:
 SQL Table => Column Statistics
 SQL Table => Distributions
 SQL Table => Scatter Plot
-SQL Table => Distances => Distance Matrix
 ```
 
 > ![Konfigurasi Parameter Import Data SQL](../img/data-understanding/postgresql.png)
 
-### Pengujian Distance Matrix Iris di Orange (via File Widget)
-
-1. **Tambahkan widget File => Load Iris**: Tarik widget **File** ke kanvas, buka konfigurasinya, pilih file `iris.csv` dari direktori lokal.
-2. **Tambahkan widget Distances**: Cari dan tarik widget **Distances** ke kanvas.
-3. **Hubungkan File ke Distances**: Tarik garis dari output **File** ke input **Distances**.
-4. **Pilih Metric** di konfigurasi widget **Distances**:
-   - **Euclidean** - jarak geometri standar
-   - **Manhattan** - jarak absolut sumbu
-   - **Minkowski** - atur nilai $p$ (contoh: $p=3$)
-5. **Tambahkan widget Distance Matrix**: Tarik widget **Distance Matrix** ke kanvas.
-6. **Hubungkan ke Distance Matrix**: Tarik garis dari output **Distances** ke input **Distance Matrix**.
-7. **Hasil** akan menampilkan matriks jarak antar seluruh data Iris sesuai metrik yang dipilih.
-
 > 1. Alur Logika Panel Kabel Sistem Database Import Widget Logis Orange: ![Diagram Jalur Jaringan Modul](../img/data-understanding/flow-orange.png)
 > 2. Pemuatan Input Pembaca File Database RDBMS Connection: ![Konfigurasi Parameter Import Data](../img/data-understanding/import-data.png)
-> 3. Konfigurasi Widget Distances (Metric Euclidean/Manhattan/Minkowski): ![Konfigurasi Distances Widget](../img/data-understanding/distances.png)
-> 4. Visualisasi Hasil Jarak Pengujian Data (Distance Matrix Iris UI): ![Distance Matrix Setup Data Jarak Iris](../img/data-understanding/distances.png)
-> 5. Statistik Evaluasi Kolom Cek Data: ![Pusat Visualisasi Dashboard Data Audit Kolom](../img/data-understanding/column-statistic.png)
-> 6. Panel Distribusi Frekuensi Data Histografis: ![Distribusi Penampakan Histogram Bimodal](../img/data-understanding/distribution.png)
-> 7. Klasterisasi Penyebaran Titik Interaksi Scatter Plot Iris: ![Diagram Titik Scatter Plot Ruang Jarak Iris](../img/data-understanding/scatter-plot.png)
+> 3. Statistik Evaluasi Kolom Cek Data: ![Pusat Visualisasi Dashboard Data Audit Kolom](../img/data-understanding/column-statistic.png)
+> 4. Panel Distribusi Frekuensi Data Histografis: ![Distribusi Penampakan Histogram Bimodal](../img/data-understanding/distribution.png)
+> 5. Klasterisasi Penyebaran Titik Interaksi Scatter Plot Iris: ![Diagram Titik Scatter Plot Ruang Jarak Iris](../img/data-understanding/scatter-plot.png)
 
 ---
 
@@ -394,137 +320,172 @@ Untuk bisa menganalisis profil Adult Income ini, kita wajib membongkar arti masi
 7. **`occupation` (Kategorikal)**: Jenis pekerjaan yang dijalani (contoh: Machine-op-inspct, Farming-fishing, Protective-serv).
 8. **`relationship` (Kategorikal)**: Peran individu dalam keluarga (contoh: Own-child, Husband, Wife, Unmarried).
 9. **`race` (Kategorikal)**: Latar belakang ras individu (contoh: White, Black, Asian-Pac-Islander, Other).
-10. **`gender` (Kategorikal Biner)**: Jenis kelamin individu - hanya dua nilai: Male atau Female.
+10. **`gender` (Biner)**: Jenis kelamin individu - hanya dua nilai: Male atau Female.
 11. **`capital-gain` (Numerik)**: Keuntungan finansial dari investasi atau aset. Sering bernilai 0 karena kebanyakan individu tidak punya pendapatan investasi.
 12. **`capital-loss` (Numerik)**: Kerugian finansial dari penurunan nilai aset atau investasi.
 13. **`hours-per-week` (Numerik)**: Jumlah jam kerja per minggu.
 14. **`native-country` (Kategorikal)**: Negara asal individu (contoh: United-States, Mexico, Philippines).
-15. **`income` (Kategorikal Biner)**: **Target prediksi** - kategori penghasilan tahunan: **`<=50K`** (tidak lebih dari 50 Ribu USD) atau **`>50K`** (lebih dari 50 Ribu USD).
+15. **`income` (Biner)**: **Target prediksi** - kategori penghasilan tahunan: **`<=50K`** (tidak lebih dari 50 Ribu USD) atau **`>50K`** (lebih dari 50 Ribu USD).
 
 Berdasarkan data di atas, kita ambil cuplikan ringkas untuk perhitungan. Titik fokus perhitungan:
 
-- **Baris 1 (Index 0)**
-  - `Age` = 25 (Numerik)
+- **Baris 1 (Line 9 dalam dataset.csv)**
+  - `Age` = 63 (Numerik)
+  - `Hours-per-week` = 32 (Numerik)
+  - `Workclass` = Self-emp-not-inc (Kategorikal)
+  - `Education` = Prof-school (Kategori Ordinal, Edu-num = 15)
+  - `Gender` = Male (Biner)
+  - `Income` = >50K (Biner)
+- **Baris 2 (Line 10 dalam dataset.csv)**
+  - `Age` = 24 (Numerik)
   - `Hours-per-week` = 40 (Numerik)
   - `Workclass` = Private (Kategorikal)
-  - `Education` = 11th (Kategori Ordinal)
-  - `Gender` = Male (Biner)
-- **Baris 2 (Index 1)**
-  - `Age` = 38 (Numerik)
-  - `Hours-per-week` = 50 (Numerik)
-  - `Workclass` = Private (Kategorikal)
-  - `Education` = HS-grad (Kategori Ordinal)
-  - `Gender` = Male (Biner)
+  - `Education` = Some-college (Kategori Ordinal, Edu-num = 10)
+  - `Gender` = Female (Biner)
+  - `Income` = <=50K (Biner)
 
 ### Konversi Tipe Data Sebelum Perhitungan
 
 Sebelum menghitung jarak, semua tipe data harus dikonversi ke bentuk numerik terlebih dahulu:
 
-| Fitur | Tipe | Row 0 (Raw) | Row 1 (Raw) | Konversi | Row 0 | Row 1 |
+| Fitur | Tipe | Baris 1 (Raw) | Baris 2 (Raw) | Konversi | Baris 1 | Baris 2 |
 | ----------------- | ----------- | ----------- | ----------- | -------------------------- | ------ | ------ |
-| `age` | Numerik | 25 | 38 | Langsung pakai | **25** | **38** |
-| `hours-per-week` | Numerik | 40 | 50 | Langsung pakai | **40** | **50** |
-| `workclass` | Kategorikal | Private | Private | Label Encoding (Private=0) | **0** | **0** |
-| `educational-num` | Ordinal | 7 (11th) | 9 (HS-grad) | Langsung pakai angkanya | **7** | **9** |
-| `gender` | Biner | Male | Male | Male=1, Female=0 | **1** | **1** |
+| `age` | Numerik | 63 | 24 | Langsung pakai | **63** | **24** |
+| `hours-per-week` | Numerik | 32 | 40 | Langsung pakai | **32** | **40** |
+| `workclass` | Kategorikal | Self-emp | Private | Label Encoding | **0** | **1** |
+| `educational-num` | Ordinal | 15 | 10 | Langsung pakai angkanya | **15** | **10** |
+| `gender` | Biner | Male | Female | Male=1, Female=0 | **1** | **0** |
+| `income` | Biner | >50K | <=50K | >50K=1, <=50K=0 | **1** | **0** |
 
 **Vektor setelah konversi:**
 
--   **Vektor A (Row 0):** `[25, 40, 0, 7, 1]`
--   **Vektor B (Row 1):** `[38, 50, 0, 9, 1]`
+-   **Vektor A (Baris 1):** `[63, 32, 0, 15, 1, 1]`
+-   **Vektor B (Baris 2):** `[24, 40, 1, 10, 0, 0]`
 
 ## Perhitungan Manual Jarak Campuran (Adult Income)
 
 Dataset campuran diproses dengan metode mengonversi struktur **Ordinal menjadi Numerik**, menghitung jarak tersebut bersama atribut numerik murni melalui Euclidean, menghitung Kategorikal dengan rumus standard probabilitas `(P - M)/P`, dan diakhiri dengan menjumlahkan keduanya secara ekuivalen.
 
-Berikut adalah data sampel untuk pengujian (**Row 0** dan **Row 1**):
+Berikut adalah data sampel untuk pengujian (**Baris 1** dan **Baris 2**):
 
-| Fitur | Row 0 | Row 1 | Tipe Asli | Metode Jarak |
+| Fitur | Baris 1 | Baris 2 | Tipe Asli | Metode Jarak |
 | --- | --- | --- | --- | --- |
-| `educational-num` | 7 | 9 | Ordinal | Konversi ke Skala Normal => Euclidean |
-| `age` | 25 | 38 | Numerik | Nilai Asli (Raw) => Euclidean |
-| `hours-per-week` | 40 | 50 | Numerik | Nilai Asli (Raw) => Euclidean |
-| `workclass` | Private | Private | Kategorikal | Simple Matching |
-| `marital-status` | Never-mar | Married | Kategorikal | Simple Matching |
-| `occupation` | Machine | Farming | Kategorikal | Simple Matching |
-| `relationship` | Own-child | Husband | Kategorikal | Simple Matching |
-| `race` | Black | White | Kategorikal | Simple Matching |
-| `gender` | Male | Male | Kategorikal | Simple Matching |
+| `educational-num` | 15 | 10 | Ordinal | Konversi Skala [0,1] => Euclidean |
+| `age` | 63 | 24 | Numerik | Nilai Raw => Euclidean |
+| `hours-per-week` | 32 | 40 | Numerik | Nilai Raw => Euclidean |
+| `gender` | Male | Female | Biner | Konversi (1, 0) => Euclidean |
+| `income` | >50K | <=50K | Biner | Konversi (1, 0) => Euclidean |
+| `workclass` | Self-emp | Private | Kategorikal | Simple Matching |
+| `marital-status` | Married | Never-mar | Kategorikal | Simple Matching |
+| `occupation` | Specialty | Other-serv | Kategorikal | Simple Matching |
+| `relationship` | Husband | Unmarried | Kategorikal | Simple Matching |
+| `race` | White | White | Kategorikal | Simple Matching |
 | `native-country` | US | US | Kategorikal | Simple Matching |
-| `income` | <=50K | <=50K | Kategorikal | Simple Matching |
 
-### Langkah 1: Konversi Ordinal ke Numerik
+### Langkah 1: Konversi Ordinal & Biner ke Numerik
 
-Atribut **Ordinal** harus diubah menjadi probabilitas skala 0-1, dengan rumus:
-$$\frac{x - Min}{Max - Min}$$
-Berdasarkan data *Adult Income*, `educational-num` memiliki nilai terkecil 2 dan terbesar 16. Mari hitung konversinya:
-- **Row 0 (x=7)**: $\frac{7 - 2}{16 - 2} = \frac{5}{14} = \mathbf{0.3571}$
-- **Row 1 (x=9)**: $\frac{9 - 2}{16 - 2} = \frac{7}{14} = \mathbf{0.5000}$
+Sebelum masuk ke rumus *sqrt* (Euclidean), data non-numerik yang punya tingkatan atau biner harus diubah:
 
-### Langkah 2: Jarak Numerik & Ordinal (Berdasar Kolom)
+**A. Skala Ordinal (`educational-num`)**
 
-Sekarang atribut yang ditarik ke Euclidean sudah mencakup: Numerik Murni + Konversi Ordinal.
+### **Rumus Konversi Ordinal**
 
-| Fitur Numerik/Ordinal | Nilai Row 0 | Nilai Row 1 | Selisih Turunan ($R_0 - R_1$) | Kuadrat Hasil ($(\dots)^2$) |
+$$\huge z = \frac{x - min_{f}}{max_{f} - min_{f}}$$
+- **Baris 1 (x=15)**: $\frac{15 - 2}{16 - 2} = \mathbf{0.9286}$
+- **Baris 2 (x=10)**: $\frac{10 - 2}{16 - 2} = \mathbf{0.5714}$
+
+**B. Skala Biner (`gender` & `income`)**
+
+Untuk variabel biner, kita harus menentukan sifat kedekatannya apakah **Simetris** atau **Asimetris**:
+- **`gender` (Simetris)**: Karena kedua kategori (Male/Female) dianggap memiliki bobot yang setara untuk diukur jaraknya.
+- **`income` (Asimetris)**: Karena biasanya kita lebih fokus pada kondisi "kritis" atau "spesifik" (seperti pendapatan >50K).
+
+Berikut adalah rumus yang digunakan untuk menghitung jarak biner:
+
+**Jarak Biner Simetris (Symmetric Binary)**
+$$\huge d(i, j) = \frac{r + s}{q + r + s + t}$$
+
+**Jarak Biner Tidak Simetris (Asymmetric Binary)**
+$$\huge d(i, j) = \frac{r + s}{q + r + s}$$
+
+**Identifikasi Parameter:**
+- **q**: Jumlah atribut di mana kedua baris bernilai 1.
+- **r**: Jumlah atribut di mana Baris $i=1$ dan Baris $j=0$.
+- **s**: Jumlah atribut di mana Baris $i=0$ dan Baris $j=1$.
+- **t**: Jumlah atribut di mana kedua baris bernilai 0.
+
+**Mapping Data:**
+- **Gender**: Baris 1 (Male) = **1**, Baris 2 (Female) = **0**
+- **Income**: Baris 1 (>50K) = **1**, Baris 2 (<=50K) = **0**
+
+### Langkah 2: Jarak Numerik & Ordinal (Euclidean)
+
+Atribut numerik murni dan ordinal (yang sudah dikonversi) dihitung selisihnya, dikuadratkan, lalu diakar (*sqrt*):
+
+| Fitur | Nilai Baris 1 | Nilai Baris 2 | Selisih ($A - B$) | Kuadrat $(\dots)^2$ |
 | --- | --- | --- | --- | --- |
-| **Ordinal: Edu-num** | 0.3571 | 0.5000 | $0.3571 - 0.5000 = -0.1429$ | $(-0.1429)^2 = \mathbf{0.0204}$ |
-| **Numerik: Age** | 25 | 38 | $25 - 38 = -13$ | $(-13)^2 = \mathbf{169}$ |
-| **Numerik: Hours** | 40 | 50 | $40 - 50 = -10$ | $(-10)^2 = \mathbf{100}$ |
+| **Age (Num)** | 63 | 24 | $39$ | $\mathbf{1521}$ |
+| **Hours (Num)** | 32 | 40 | $-8$ | $\mathbf{64}$ |
+| **Edu-num (Ord)** | 0.9286 | 0.5714 | $0.3572$ | $\mathbf{0.1276}$ |
 
--   **Merekap Sigma Kuadrat ($\Sigma$)**: $0.0204 + 169 + 100 = \mathbf{269.0204}$
--   **Jarak Euclidean ($D_{num}$)**: $\sqrt{269.0204} = \mathbf{16.4018}$
+-   **Sigma Kuadrat ($\Sigma$)**: $1521 + 64 + 0.1276 = \mathbf{1585.1276}$
+-   **Jarak Euclidean ($D_{num\_ord}$)**: $\sqrt{1585.1276} = \mathbf{39.8137}$
 
-### Langkah 3: Jarak Kategorikal (Simple Matching)
+### Langkah 3: Jarak Biner (Symmetric & Asymmetric)
+
+Kita membedah kemunculan nilai pada variabel `gender` dan `income`. Karena terdapat atribut biner asimetris (`income`), maka secara umum sekumpulan variabel biner ini dapat diproses menggunakan pendekatan asimetris, namun kita akan hitung keduanya untuk melihat perbandingannya:
+
+| Fitur Biner | Baris 1 | Baris 2 | Pasangan (i, j) | Kategori |
+| --- | --- | --- | --- | --- |
+| `gender` | 1 | 0 | (1, 0) | **r** |
+| `income` | 1 | 0 | (1, 0) | **r** |
+
+**Identifikasi Parameter Akhir:**
+- **q (1,1)**: 0
+- **r (1,0)**: 2
+- **s (0,1)**: 0
+- **t (0,0)**: 0
+
+**Kalkulasi Jarak:**
+- **Jarak Biner Simetris ($D_{bin\_sym}$)**: $\frac{2 + 0}{0 + 2 + 0 + 0} = \mathbf{1.0}$
+- **Jarak Biner Asimetris ($D_{bin\_asym}$)**: $\frac{2+0}{0+2+0} = \mathbf{1.0}$
+
+*(Dalam studi kasus Row 1 vs Row 2 ini, kedua hasil bernilai 1.0 karena tidak adanya kecocokan nilai 0-0 ataupun 1-1 pada kolom biner).*
+
+### Langkah 4: Jarak Kategorikal (Simple Matching)
 
 Secara kolom demi kolom, kita mengeksplor status persamaannya:
 
-| Fitur Kategorikal | Row 0 | Row 1 | Perbandingan | Status Kecocokan |
+| Fitur Kategorikal | Baris 1 | Baris 2 | Perbandingan | Status Kecocokan |
 | --- | --- | --- | --- | --- |
-| `workclass` | Private | Private | Private == Private | **Sama** |
-| `marital-status` | Never-mar | Married | Never-mar != Married | **Beda** |
-| `occupation` | Machine | Farming | Machine != Farming | **Beda** |
-| `relationship` | Own-child | Husband | Own-child != Husband | **Beda** |
-| `race` | Black | White | Black != White | **Beda** |
-| `gender` | Male | Male | Male == Male | **Sama** |
+| `workclass` | Self-emp | Private | Self-emp != Private | **Beda** |
+| `marital-status` | Married | Never-mar | Married != Never-mar | **Beda** |
+| `occupation` | Specialty | Other-serv | Specialty != Other-serv | **Beda** |
+| `relationship` | Husband | Unmarried | Husband != Unmarried | **Beda** |
+| `race` | White | White | White == White | **Sama** |
 | `native-country` | US | US | US == US | **Sama** |
-| `income` | <=50K | <=50K | <=50K == <=50K | **Sama** |
 
-Identifikasi untuk rumus $(P - M) / P$:
-- **Banyak Kolom Kategorikal (P)**: 8 atribut
-- **Data yang Sama (M)**: 4 (Terdapat 4 status "Sama")
-- **Jarak Kategorikal ($D_{cat}$)**: $\frac{8 - 4}{8} = \frac{4}{8} = \mathbf{0.5}$
+### **Rumus Jarak Kategorikal (Simple Matching)**
 
-### Langkah 4: Kalkulasi Jarak Total
+$$\huge D_{cat} = \frac{p - m}{p}$$
 
-Setelah variabel dipisah menjadi numerik/ordinal dan murni heterogen kategorikal, nilai integrasinya digabung kedalam satu total penjumlahan utuh:
-$$D_{total} = D_{num} + D_{cat}$$
-**$$D_{total} = 16.4018 + 0.5 = \mathbf{16.9018}$$**
+Identifikasi untuk rumus di atas:
+- **Banyak Kolom Kategorikal (P)**: 6 atribut
+- **Data yang Sama (M)**: 2 (race, native-country)
+- **Jarak Kategorikal ($D_{cat}$)**: $\frac{6 - 2}{6} = \frac{4}{6} = \mathbf{0.6667}$
+
+### Langkah 5: Kalkulasi Jarak Total
+
+Setelah variabel dipisah menjadi numerik, ordinal, biner, dan murni heterogen kategorikal, nilai integrasinya digabung kedalam satu total penjumlahan utuh:
+
+### **Rumus Total Jarak Heterogen**
+
+$$\huge D_{total} = D_{num\_ord} + D_{bin} + D_{cat}$$
+**$$D_{total} = 39.8137 + 1.0 + 0.6667 = \mathbf{41.4804}$$**
 
 ---
 
-## Prosedur Hitung Manual KNN (Imputasi Missing Values)
-
-Sebagai penerapan akhir dari fungsi di atas, kita masuk ke inti penggunaan Distance Matrix, yakni interpolasi K-Nearest Neighbors (KNN) saat ditemukannya kasus Missing Values (baris berisi `?`). Untuk melakukan pemulihan, kita akan mempraktikkan pencarian melalui **3 Tetangga Terdekat**.
-
-### Praktik Prosedural (Simulasi Baris 5)
-
-Mari kita asumsikan **Baris 5** rusak pada kolom `workclass`. Metode yang diterapkan:
-
-**1. Operasi Komparasi Iteratif**
-Karena data `workclass` pada Baris 5 tidak ada, hitung jarak menggunakan kolom lain yang tersedia secara terpisah dengan cara:
-- Ukur baris 5 dikurangi baris 1 (dihitung mengikuti kolom persis langkah di atas)
-- Ukur baris 5 dikurangi baris 2
-- Ukur baris 5 dikurangi baris 3
-- Ukur baris 5 dikurangi baris 4
-- ... begitu seterusnya untuk setiap baris.
-
-**2. Pencarian Tetangga (K=3)**
-Setelah didapatkan skor jarak di setiap prosesnya, data dicari mana yang jarak hitungnya paling kecil (paling mirip logikanya). Misalnya "Baris 5 mengambil data dari 3 data terdekat" (Row 1, Row 3, dan Row 8).
-
-**3. Evaluasi dan Imbal-Hukum Imputasi**
-Berdasarkan "3 Data Terdekat" itu, nilainya dirata-ratakan atau dicari modusnya:
-- Jika jaraknya memprediksi kolom berupa tipe Kategorikal (`workclass`), kita gunakan konsep Modus. Misal tiga baris terdekat kerja di = `Private`, `Local-gov`, `Private`. Maka kolom ke-5 diisi `Private`.
-- Jika jaraknya memprediksi angka (Numerik), dihitung "rata-rata dari baris-baris terdekat" tersebut.
+---
 
 ### Implementasi Orange Data Mining (Adult Income)
 
@@ -538,7 +499,7 @@ File => Preprocess => Distances => Distance Matrix
 
 1.  **File** → load `dataset.csv`, separator `;`
 2.  **Preprocess** → tambahkan dua transformasi:
-    -   **Impute Missing Values** → Menggunakan model (seperti KNN) untuk mengisi nilai `?` berdasarkan tetangga terdekat.
+    -   **Impute Missing Values** → Menggunakan model statistik untuk mengisi nilai `?` berdasarkan tetangga terdekat.
     -   **Continuize Discrete Variables** → Mengubah kategori menjadi numerik.
     -   **Normalize Features** → Menyamakan skala fitur ke rentang [0, 1].
 3.  **Distances** → Hitung jarak antar baris (Euclidean/Manhattan).
@@ -546,8 +507,6 @@ File => Preprocess => Distances => Distance Matrix
 
 > 1. Alur Logika Panel Kabel Sistem Database Import Widget Logis Orange: ![Diagram Jalur Jaringan Modul](../img/data-understanding/flow-orange.png)
 > 2. Pemuatan Input Pembaca File Database RDBMS Connection: ![Konfigurasi Parameter Import Data](../img/data-understanding/import-data.png)
-> 3. Konfigurasi Widget Distances (Metric Euclidean/Manhattan/Minkowski): ![Konfigurasi Distances Widget](../img/data-understanding/distances.png)
-> 4. Visualisasi Hasil Jarak Pengujian Data (Distance Matrix Iris UI): ![Distance Matrix Setup Data Jarak Iris](../img/data-understanding/distances.png)
-> 5. Statistik Evaluasi Kolom Cek Data: ![Pusat Visualisasi Dashboard Data Audit Kolom](../img/data-understanding/column-statistic.png)
-> 6. Panel Distribusi Frekuensi Data Histografis: ![Distribusi Penampakan Histogram Bimodal](../img/data-understanding/distribution.png)
-> 7. Klasterisasi Penyebaran Titik Interaksi Scatter Plot Iris: ![Diagram Titik Scatter Plot Ruang Jarak Iris](../img/data-understanding/scatter-plot.png)
+> 3. Statistik Evaluasi Kolom Cek Data: ![Pusat Visualisasi Dashboard Data Audit Kolom](../img/data-understanding/column-statistic.png)
+> 4. Panel Distribusi Frekuensi Data Histografis: ![Distribusi Penampakan Histogram Bimodal](../img/data-understanding/distribution.png)
+> 5. Klasterisasi Penyebaran Titik Interaksi Scatter Plot Adult Income: ![Diagram Titik Scatter Plot Ruang Jarak Adult Income](../img/data-understanding/scatter-plot.png)
