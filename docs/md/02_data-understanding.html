@@ -407,6 +407,44 @@ document.write(`
 <li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#implementasi-orange-data-mining-adult-income">Implementasi Orange Data Mining (Adult Income)</a></li>
 </ul>
 </li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#missing-values-inputation-dengan-metode-wknn">5. Missing values inputation dengan metode WKNN</a><ul class="nav section-nav flex-column">
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#dataset-yang-digunakan">5.1 Dataset yang Digunakan</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#perhitungan-wknn-secara-manual">5.2 Perhitungan WKNN secara Manual</a><ul class="nav section-nav flex-column">
+<li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#menentukan-missing-values">1. Menentukan Missing Values</a></li>
+<li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#melakukan-normalisasi-data">2. Melakukan Normalisasi Data</a></li>
+<li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#menghitung-nilai-similarity">3. Menghitung Nilai Similarity</a></li>
+<li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#menghitung-penyebut">4. Menghitung Penyebut</a></li>
+<li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#menghitung-pembilang">5. Menghitung Pembilang</a></li>
+<li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#menghitung-hasil-nilai-imputasi">6. Menghitung Hasil Nilai Imputasi</a></li>
+</ul>
+</li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#perhitungan-wknn-mengalokasikan-python">5.3 Perhitungan WKNN Mengalokasikan Python</a><ul class="nav section-nav flex-column">
+<li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#setting-library-dan-akses-file">1. Setting Library dan Akses File</a></li>
+<li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#menentukan-titik-missing-values-target-variable">2. Menentukan Titik Missing Values (Target Variable)</a></li>
+<li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#normalisasi-data">3. Normalisasi Data</a></li>
+<li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#menghitung-similarity-menggunakan-euclidean-distance">4. Menghitung Similarity Menggunakan Euclidean Distance</a></li>
+<li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#menghitung-pembilang-pembobot-dan-penyebut-prediksi">5. Menghitung Pembilang Pembobot dan Penyebut Prediksi</a></li>
+<li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#menghitung-nilai-imputasi-terspekulasi-akhir">6. Menghitung Nilai Imputasi Terspekulasi Akhir</a></li>
+</ul>
+</li>
+</ul>
+</li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#id1">6. Normalisasi data</a><ul class="nav section-nav flex-column">
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#materi-normalisasi-data">6.1 Materi normalisasi data</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#macam-macam-normalisasi-data">6.2 Macam-macam normalisasi data</a><ul class="nav section-nav flex-column">
+<li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#min-max-normalization">1. Min-Max Normalization</a></li>
+<li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#z-score-normalization">2. Z-score normalization</a></li>
+<li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#decimal-scaling-normalization">3. Decimal scaling normalization</a></li>
+</ul>
+</li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#normalisasi-data-menggunakan-python-dengan-library-scikit-learn">6.3 Normalisasi data menggunakan python dengan library Scikit-learn</a><ul class="nav section-nav flex-column">
+<li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#id2">1. Min-max normalization</a></li>
+<li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#id3">2. Z-score normalization</a></li>
+<li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#id4">3. Decimal scaling normalization</a></li>
+</ul>
+</li>
+</ul>
+</li>
 </ul>
             </nav>
         </div>
@@ -678,7 +716,6 @@ Plot menampilkan sebaran titik data <code class="docutils literal notranslate"><
 <blockquote>
 <div><p><img alt="Scatter Plot Iris" src="../_images/scatterplot-colab.png" /></p>
 </div></blockquote>
-<hr class="docutils" />
 </section>
 <hr class="docutils" />
 <section id="implementasi-orange-data-mining-pada-dataset-iris">
@@ -744,7 +781,7 @@ Setelah SQL Table berhasil terkoneksi, hubungkan ke:</p>
 <section id="apa-itu-adult-income-dataset">
 <h3>Apa itu Adult Income Dataset?<a class="headerlink" href="#apa-itu-adult-income-dataset" title="Link to this heading">#</a></h3>
 <p><strong>Adult Income Dataset</strong> (juga dikenal sebagai <em>Census Income Dataset</em>) adalah dataset publik yang bersumber dari data sensus populasi Amerika Serikat tahun 1994 yang dikumpulkan oleh Badan Sensus AS (<em>U.S. Census Bureau</em>). Dataset ini pertama kali dipublikasikan oleh <strong>Ronny Kohavi dan Barry Becker</strong> dan tersedia di UCI Machine Learning Repository. Dataset dapat diakses di <a class="reference external" href="https://www.kaggle.com/datasets/wenruliu/adult-income-dataset">Adult Income Dataset - Kaggle</a>.</p>
-<p>Dataset ini berisi <strong>48.842 rekaman</strong> data individu dewasa dengan <strong>15 atribut</strong> yang mencakup informasi demografis, pendidikan, pekerjaan, dan status sosial-ekonomi. Tujuan utama dataset ini adalah untuk <strong>memprediksi apakah pendapatan tahunan seseorang melebihi $50.000 USD</strong> berdasarkan atribut-atribut tersebut.</p>
+<p>Dataset ini berisi <strong>48.842 rekaman</strong> data individu dewasa dengan <strong>15 atribut</strong> yang mencakup informasi demografis, pendidikan, pekerjaan, dan status sosial-ekonomi. Tujuan utama dataset ini adalah untuk <strong>memprediksi apakah pendapatan tahunan seseorang melebihi 50.000 USD</strong> berdasarkan atribut-atribut tersebut.</p>
 <p><strong>Karakteristik utama dataset:</strong></p>
 <ul class="simple">
 <li><p><strong>Total Fitur</strong>: 15 kolom (campuran numerik dan kategorikal)</p></li>
@@ -753,7 +790,7 @@ Setelah SQL Table berhasil terkoneksi, hubungkan ke:</p>
 <li><p><strong>Kegunaan</strong>: Klasifikasi biner untuk studi demografi sosial-ekonomi</p></li>
 </ul>
 <p>Dataset ini sangat relevan untuk mempelajari teknik <strong>Data Understanding pada data campuran</strong> karena kombinasi tipe datanya yang kompleks memerlukan pendekatan pengukuran jarak yang berbeda dari dataset numerik murni seperti Iris.</p>
-<p>Kita menggunakan <code class="docutils literal notranslate"><span class="pre">dataset.csv</span></code> yang memuat <strong>kolom campur (mixed data types)</strong>. Mari kita ambil <strong>2 baris pertama (Row 0 dan Row 1)</strong> dari dataset untuk mendemonstrasikan perhitungan jarak secara manual.</p>
+<p>Kita menggunakan <code class="docutils literal notranslate"><span class="pre">dataset/dataset.csv</span></code> yang memuat <strong>kolom campur (mixed data types)</strong>. Mari kita ambil <strong>2 baris pertama (Row 0 dan Row 1)</strong> dari dataset untuk mendemonstrasikan perhitungan jarak secara manual.</p>
 </section>
 <section id="persiapan-dan-pemuatan-dataset-google-colab-python">
 <h3>Persiapan dan Pemuatan Dataset (Google Colab Python)<a class="headerlink" href="#persiapan-dan-pemuatan-dataset-google-colab-python" title="Link to this heading">#</a></h3>
@@ -765,7 +802,7 @@ Setelah SQL Table berhasil terkoneksi, hubungkan ke:</p>
 <span class="kn">import</span><span class="w"> </span><span class="nn">numpy</span><span class="w"> </span><span class="k">as</span><span class="w"> </span><span class="nn">np</span>
 
 <span class="c1"># Membaca Dataset Campuran</span>
-<span class="n">df_adult</span> <span class="o">=</span> <span class="n">pd</span><span class="o">.</span><span class="n">read_csv</span><span class="p">(</span><span class="s2">&quot;dataset.csv&quot;</span><span class="p">,</span> <span class="n">sep</span><span class="o">=</span><span class="s2">&quot;;&quot;</span><span class="p">)</span>
+<span class="n">df_adult</span> <span class="o">=</span> <span class="n">pd</span><span class="o">.</span><span class="n">read_csv</span><span class="p">(</span><span class="s2">&quot;dataset/dataset.csv&quot;</span><span class="p">,</span> <span class="n">sep</span><span class="o">=</span><span class="s2">&quot;;&quot;</span><span class="p">)</span>
 <span class="n">display</span><span class="p">(</span><span class="n">df_adult</span><span class="o">.</span><span class="n">head</span><span class="p">())</span>
 </pre></div>
 </div>
@@ -1014,7 +1051,7 @@ Lima baris pertama menunjukkan campuran kolom numerik (age, fnlwgt, hours-per-we
 </ol>
 <p>Berdasarkan data di atas, kita ambil cuplikan ringkas untuk perhitungan. Titik fokus perhitungan:</p>
 <ul class="simple">
-<li><p><strong>Baris 1 (Line 9 dalam dataset.csv)</strong></p>
+<li><p><strong>Baris 1 (Line 9 dalam dataset/dataset.csv)</strong></p>
 <ul>
 <li><p><code class="docutils literal notranslate"><span class="pre">Age</span></code> = 63 (Numerik)</p></li>
 <li><p><code class="docutils literal notranslate"><span class="pre">Hours-per-week</span></code> = 32 (Numerik)</p></li>
@@ -1024,7 +1061,7 @@ Lima baris pertama menunjukkan campuran kolom numerik (age, fnlwgt, hours-per-we
 <li><p><code class="docutils literal notranslate"><span class="pre">Income</span></code> = &gt;50K (Biner)</p></li>
 </ul>
 </li>
-<li><p><strong>Baris 2 (Line 10 dalam dataset.csv)</strong></p>
+<li><p><strong>Baris 2 (Line 10 dalam dataset/dataset.csv)</strong></p>
 <ul>
 <li><p><code class="docutils literal notranslate"><span class="pre">Age</span></code> = 24 (Numerik)</p></li>
 <li><p><code class="docutils literal notranslate"><span class="pre">Hours-per-week</span></code> = 40 (Numerik)</p></li>
@@ -1200,7 +1237,9 @@ Lima baris pertama menunjukkan campuran kolom numerik (age, fnlwgt, hours-per-we
 <section id="rumus-konversi-ordinal">
 <h3><strong>Rumus Konversi Ordinal</strong><a class="headerlink" href="#rumus-konversi-ordinal" title="Link to this heading">#</a></h3>
 <div class="math notranslate nohighlight">
-\[\huge z = \frac{x - min_{f}}{max_{f} - min_{f}}\]</div>
+\[
+\huge z = \frac{x - min_{f}}{max_{f} - min_{f}}
+\]</div>
 <ul class="simple">
 <li><p><strong>Baris 1 (x=15)</strong>: <span class="math notranslate nohighlight">\(\frac{15 - 2}{16 - 2} = \mathbf{0.9286}\)</span></p></li>
 <li><p><strong>Baris 2 (x=10)</strong>: <span class="math notranslate nohighlight">\(\frac{10 - 2}{16 - 2} = \mathbf{0.5714}\)</span></p></li>
@@ -1212,10 +1251,16 @@ Lima baris pertama menunjukkan campuran kolom numerik (age, fnlwgt, hours-per-we
 <li><p><strong><code class="docutils literal notranslate"><span class="pre">income</span></code> (Asimetris)</strong>: Karena biasanya kita lebih fokus pada kondisi “kritis” atau “spesifik” (seperti pendapatan &gt;50K).</p></li>
 </ul>
 <p>Berikut adalah rumus yang digunakan untuk menghitung jarak biner:</p>
-<p><strong>Jarak Biner Simetris (Symmetric Binary)</strong>
-$<span class="math notranslate nohighlight">\(\huge d(i, j) = \frac{r + s}{q + r + s + t}\)</span>$</p>
-<p><strong>Jarak Biner Tidak Simetris (Asymmetric Binary)</strong>
-$<span class="math notranslate nohighlight">\(\huge d(i, j) = \frac{r + s}{q + r + s}\)</span>$</p>
+<p><strong>Jarak Biner Simetris (Symmetric Binary)</strong></p>
+<div class="math notranslate nohighlight">
+\[
+\huge d(i, j) = \frac{r + s}{q + r + s + t}
+\]</div>
+<p><strong>Jarak Biner Tidak Simetris (Asymmetric Binary)</strong></p>
+<div class="math notranslate nohighlight">
+\[
+\huge d(i, j) = \frac{r + s}{q + r + s}
+\]</div>
 <p><strong>Identifikasi Parameter:</strong></p>
 <ul class="simple">
 <li><p><strong>q</strong>: Jumlah atribut di mana kedua baris bernilai 1.</p></li>
@@ -1366,7 +1411,9 @@ $<span class="math notranslate nohighlight">\(\huge d(i, j) = \frac{r + s}{q + r
 <section id="rumus-jarak-kategorikal-simple-matching">
 <h3><strong>Rumus Jarak Kategorikal (Simple Matching)</strong><a class="headerlink" href="#rumus-jarak-kategorikal-simple-matching" title="Link to this heading">#</a></h3>
 <div class="math notranslate nohighlight">
-\[\huge D_{cat} = \frac{p - m}{p}\]</div>
+\[
+\huge D_{cat} = \frac{p - m}{p}
+\]</div>
 <p>Identifikasi untuk rumus di atas:</p>
 <ul class="simple">
 <li><p><strong>Banyak Kolom Kategorikal (P)</strong>: 6 atribut</p></li>
@@ -1381,9 +1428,10 @@ $<span class="math notranslate nohighlight">\(\huge d(i, j) = \frac{r + s}{q + r
 <section id="rumus-total-jarak-heterogen">
 <h3><strong>Rumus Total Jarak Heterogen</strong><a class="headerlink" href="#rumus-total-jarak-heterogen" title="Link to this heading">#</a></h3>
 <div class="math notranslate nohighlight">
-\[\huge D_{total} = D_{num\_ord} + D_{bin} + D_{cat}\]</div>
+\[
+\huge D_{total} = D_{num\_ord} + D_{bin} + D_{cat}
+\]</div>
 <p><strong>$<span class="math notranslate nohighlight">\(D_{total} = 39.8137 + 1.0 + 0.6667 = \mathbf{41.4804}\)</span>$</strong></p>
-<hr class="docutils" />
 </section>
 <hr class="docutils" />
 <section id="implementasi-orange-data-mining-adult-income">
@@ -1394,7 +1442,7 @@ $<span class="math notranslate nohighlight">\(\huge d(i, j) = \frac{r + s}{q + r
 </div>
 <p><strong>Langkah:</strong></p>
 <ol class="arabic simple">
-<li><p><strong>File</strong> → load <code class="docutils literal notranslate"><span class="pre">dataset.csv</span></code>, separator <code class="docutils literal notranslate"><span class="pre">;</span></code></p></li>
+<li><p><strong>File</strong> → load <code class="docutils literal notranslate"><span class="pre">dataset/dataset.csv</span></code>, separator <code class="docutils literal notranslate"><span class="pre">;</span></code></p></li>
 <li><p><strong>Preprocess</strong> → tambahkan dua transformasi:</p>
 <ul class="simple">
 <li><p><strong>Impute Missing Values</strong> → Menggunakan model statistik untuk mengisi nilai <code class="docutils literal notranslate"><span class="pre">?</span></code> berdasarkan tetangga terdekat.</p></li>
@@ -1414,6 +1462,763 @@ $<span class="math notranslate nohighlight">\(\huge d(i, j) = \frac{r + s}{q + r
 <li><p>Klasterisasi Penyebaran Titik Interaksi Scatter Plot Adult Income: <img alt="Diagram Titik Scatter Plot Ruang Jarak Adult Income" src="../_images/scatter-plot.png" /></p></li>
 </ol>
 </div></blockquote>
+</section>
+</section>
+<hr class="docutils" />
+<section id="missing-values-inputation-dengan-metode-wknn">
+<h2>5. Missing values inputation dengan metode WKNN<a class="headerlink" href="#missing-values-inputation-dengan-metode-wknn" title="Link to this heading">#</a></h2>
+<p>Missing values adalah suatu kondisi dimana dataset yang dimiliki memiliki nilai atribut yang tidak tersedia atau kosong. Hal itu akan memengaruhi kualitas suatu data, sehingga ada metode yang dapat digunakan untuk mengisi atau lebih tepatnya memperkirakan untuk mengisi missing values tersebut. Salah satu metode yang dapat digunakan adalah Weighted K-Nearest Neighbour (WKNN).</p>
+<p>Metode WKNN merupakan pengembangan dari metode K-Nearest Neighbour (KNN) yang digunakan untuk melakukan imputasi nilai yang hilang berdasarkan kemiripan antar data. Pada metode ini nilai yang hilang diperkirakan dengan tetangga terdekat (nearest neighbours) yang memiliki kemiripan tertinggi. Perbedaan utama antara KNN dengan WKNN terletak pada pemberian bobot untuk setiap tetangga, dalam WKNN data yang jaraknya dekat akan diberikan bobot lebih besar dibandingkan jarak yang jauh.</p>
+<p>Langkah-langkah melakukan metode WKNN:</p>
+<ol class="arabic simple">
+<li><p>Mengidentifikasi missing values pada data</p></li>
+<li><p>Melakukan normalisasi data</p></li>
+<li><p>Menghitung similarity antar data</p></li>
+<li><p>Menentukan beberapa tetangga terdekat (K tetangga)</p></li>
+<li><p>Menghitung nilai imputasi</p></li>
+</ol>
+<p><strong>Rumus normalisasi data (min-max method)</strong></p>
+<div class="math notranslate nohighlight">
+\[
+X_{norm} = \frac{X - X_{min}}{X_{max} - X_{min}}
+\]</div>
+<p>Keterangan:</p>
+<ul class="simple">
+<li><p><span class="math notranslate nohighlight">\(X\)</span> : nilai data asli</p></li>
+<li><p><span class="math notranslate nohighlight">\(X_{min}\)</span> : nilai minimum pada atribut</p></li>
+<li><p><span class="math notranslate nohighlight">\(X_{max}\)</span> : nilai maksimum pada atribut</p></li>
+<li><p><span class="math notranslate nohighlight">\(X_{norm}\)</span> : nilai hasil normalisasi</p></li>
+</ul>
+<p><strong>Rumus Similarity pada WKNN</strong></p>
+<div class="math notranslate nohighlight">
+\[
+S_i = \frac{1}{d(X_t, X_i)}
+\]</div>
+<p>Keterangan:</p>
+<ul class="simple">
+<li><p><span class="math notranslate nohighlight">\(S_i\)</span> : nilai similarity antara data target dan data ke-i</p></li>
+<li><p><span class="math notranslate nohighlight">\(X_t\)</span> : nilai atribut pada data target yang memiliki missing value</p></li>
+<li><p><span class="math notranslate nohighlight">\(X_i\)</span> : nilai atribut pada data tetangga</p></li>
+</ul>
+<p><strong>Rumus perhitungan nilai imputasi</strong></p>
+<div class="math notranslate nohighlight">
+\[
+Y_t = \frac{\sum_{i=1}^{k} S_i \times Y_i}{\sum_{i=1}^{k} S_i}
+\]</div>
+<p>Keterangan:</p>
+<ul class="simple">
+<li><p><span class="math notranslate nohighlight">\(Y_t\)</span> : nilai imputasi pada atribut dari data ke-t</p></li>
+<li><p><span class="math notranslate nohighlight">\(K\)</span> : himpunan indeks dari k tetangga terdekat</p></li>
+<li><p><span class="math notranslate nohighlight">\(S_i\)</span> : nilai similarity antara data target dan data tetangga</p></li>
+<li><p><span class="math notranslate nohighlight">\(Y_i\)</span> : nilai atribut dari data tetangga ke-i</p></li>
+</ul>
+<p>Perlu diingat dalam metode ini, penentuan tetangga terdekat tidak ada metode pasti atau jumlah pasti yang digunakan, semuanya tergantung kebutuhan dataset tersebut.</p>
+<section id="dataset-yang-digunakan">
+<h3>5.1 Dataset yang Digunakan<a class="headerlink" href="#dataset-yang-digunakan" title="Link to this heading">#</a></h3>
+<p>Dataset yang digunakan berisi data makroekonomi mengenai PDRB (Produk Domestik Regional Bruto) per Kapita dan Tingkat Pengangguran di berbagai provinsi di Indonesia sejak tahun 1986 hingga 2018. Dataset ini memuat beragam indikator ekonomi yang dapat digunakan untuk melihat tren, gap, serta menguji metode imputed pada nilai yang kosong.</p>
+<p>Kumpulan data ini memuat fitur seperti PDRB, Tingkat Pengangguran, log natural PDRB (ln_gdp), serta gap dan nilai tren pada setiap tahunnya. Kita menggunakan sampel dari <code class="docutils literal notranslate"><span class="pre">dataset/Provincial</span> <span class="pre">GDP</span> <span class="pre">per</span> <span class="pre">capita</span> <span class="pre">and</span> <span class="pre">Unemployment</span> <span class="pre">in</span> <span class="pre">Indonesia</span> <span class="pre">1986-2018.csv</span></code> yang juga sudah dibersihkan format angkanya melalui <code class="docutils literal notranslate"><span class="pre">fix_no_scientific.xlsx</span></code>.</p>
+<p><strong>Penjelasan beberapa fitur dan class:</strong></p>
+<div class="pst-scrollable-table-container"><table class="table">
+<thead>
+<tr class="row-odd"><th class="head"><p>Column</p></th>
+<th class="head"><p>Deskripsi</p></th>
+</tr>
+</thead>
+<tbody>
+<tr class="row-even"><td><p>prov</p></td>
+<td><p>Nama Provinsi di Indonesia</p></td>
+</tr>
+<tr class="row-odd"><td><p>year</p></td>
+<td><p>Tahun pengambilan data</p></td>
+</tr>
+<tr class="row-even"><td><p>gap_ln_gpd</p></td>
+<td><p>Nilai kesenjangan (gap) dari log natural PDRB</p></td>
+</tr>
+<tr class="row-odd"><td><p>gap_unemp</p></td>
+<td><p>Nilai kesenjangan (gap) dari tingkat pengangguran</p></td>
+</tr>
+<tr class="row-even"><td><p>gdp</p></td>
+<td><p>Produk Domestik Regional Bruto (PDRB)</p></td>
+</tr>
+<tr class="row-odd"><td><p>unemp</p></td>
+<td><p>Tingkat Pengangguran</p></td>
+</tr>
+<tr class="row-even"><td><p>ln_gdp</p></td>
+<td><p>Log Natural dari nilai PDRB</p></td>
+</tr>
+<tr class="row-odd"><td><p>trend_unemp</p></td>
+<td><p>Nilai tren tingkat pengangguran</p></td>
+</tr>
+<tr class="row-even"><td><p>trend_ln_gpd</p></td>
+<td><p>Nilai tren dari log natural PDRB</p></td>
+</tr>
+<tr class="row-odd"><td><p>c_unemp</p></td>
+<td><p>Parameter tambahan angka pengangguran (sering kosong/tidak lengkap)</p></td>
+</tr>
+<tr class="row-even"><td><p>g_gdp</p></td>
+<td><p>Growth of GDP (Target perhitungan yang akan kita isi nilai <em>missing</em>-nya)</p></td>
+</tr>
+</tbody>
+</table>
+</div>
+</section>
+<section id="perhitungan-wknn-secara-manual">
+<h3>5.2 Perhitungan WKNN secara Manual<a class="headerlink" href="#perhitungan-wknn-secara-manual" title="Link to this heading">#</a></h3>
+<section id="menentukan-missing-values">
+<h4>1. Menentukan Missing Values<a class="headerlink" href="#menentukan-missing-values" title="Link to this heading">#</a></h4>
+<p>Pada dataset ini kita akan mengambil <strong>5 data teratas</strong> sebagai contoh (Provinsi Aceh, tahun 1986-1990). Pada baris pertama (index 0 / Row 0), ditemukan bahwa kolom target yaitu <code class="docutils literal notranslate"><span class="pre">g_gdp</span></code> <strong>(Growth of GDP)</strong> memiliki nilai kosong (missing value / NaN). Kita akan menggunakan metode WKNN untuk menaksir atau mengisi nilai kosong pada baris tersebut.</p>
+</section>
+<section id="melakukan-normalisasi-data">
+<h4>2. Melakukan Normalisasi Data<a class="headerlink" href="#melakukan-normalisasi-data" title="Link to this heading">#</a></h4>
+<p>Selanjutnya, kita akan melakukan normalisasi pada 5 data teratas ini untuk 7 fitur numerik dasar (<code class="docutils literal notranslate"><span class="pre">gap_ln_gpd</span></code>, <code class="docutils literal notranslate"><span class="pre">gap_unemp</span></code>, <code class="docutils literal notranslate"><span class="pre">gdp</span></code>, <code class="docutils literal notranslate"><span class="pre">unemp</span></code>, <code class="docutils literal notranslate"><span class="pre">ln_gdp</span></code>, <code class="docutils literal notranslate"><span class="pre">trend_unemp</span></code>, <code class="docutils literal notranslate"><span class="pre">trend_ln_gpd</span></code>) dengan metode min-max normalization. Baris pertama (Row 0) memiliki nilai kosong pada <code class="docutils literal notranslate"><span class="pre">g_gdp</span></code>, namun fitur-fitur pendukungnya lengkap.</p>
+<p><strong>Data Asli 5 Baris Teratas:</strong></p>
+<div class="pst-scrollable-table-container"><table class="table">
+<thead>
+<tr class="row-odd"><th class="head text-left"><p>prov</p></th>
+<th class="head text-right"><p>year</p></th>
+<th class="head text-right"><p>gap_ln_gpd</p></th>
+<th class="head text-right"><p>gap_unemp</p></th>
+<th class="head text-right"><p>gdp</p></th>
+<th class="head text-right"><p>unemp</p></th>
+<th class="head text-right"><p>ln_gdp</p></th>
+<th class="head text-right"><p>trend_unemp</p></th>
+<th class="head text-right"><p>trend_ln_gpd</p></th>
+<th class="head text-left"><p>g_gdp</p></th>
+</tr>
+</thead>
+<tbody>
+<tr class="row-even"><td class="text-left"><p>ACEH</p></td>
+<td class="text-right"><p>1986</p></td>
+<td class="text-right"><p>-0.064435</p></td>
+<td class="text-right"><p>0.84854</p></td>
+<td class="text-right"><p>29460043</p></td>
+<td class="text-right"><p>23971448</p></td>
+<td class="text-right"><p>10290791</p></td>
+<td class="text-right"><p>15486045</p></td>
+<td class="text-right"><p>10355226</p></td>
+<td class="text-left"><p>?</p></td>
+</tr>
+<tr class="row-odd"><td class="text-left"><p>ACEH</p></td>
+<td class="text-right"><p>1987</p></td>
+<td class="text-right"><p>-0.043851</p></td>
+<td class="text-right"><p>-0.182799</p></td>
+<td class="text-right"><p>31132713</p></td>
+<td class="text-right"><p>16683953</p></td>
+<td class="text-right"><p>10346014</p></td>
+<td class="text-right"><p>18511945</p></td>
+<td class="text-right"><p>10389865</p></td>
+<td class="text-left"><p>55224228</p></td>
+</tr>
+<tr class="row-even"><td class="text-left"><p>ACEH</p></td>
+<td class="text-right"><p>1988</p></td>
+<td class="text-right"><p>-0.018569</p></td>
+<td class="text-right"><p>-0.071466</p></td>
+<td class="text-right"><p>33033934</p></td>
+<td class="text-right"><p>20908041</p></td>
+<td class="text-right"><p>10405291</p></td>
+<td class="text-right"><p>21622698</p></td>
+<td class="text-right"><p>1042386</p></td>
+<td class="text-left"><p>5927619</p></td>
+</tr>
+<tr class="row-odd"><td class="text-left"><p>ACEH</p></td>
+<td class="text-right"><p>1989</p></td>
+<td class="text-right"><p>-0.000234</p></td>
+<td class="text-right"><p>0.722377</p></td>
+<td class="text-right"><p>34748563</p></td>
+<td class="text-right"><p>32108653</p></td>
+<td class="text-right"><p>10455894</p></td>
+<td class="text-right"><p>2488488</p></td>
+<td class="text-right"><p>10456127</p></td>
+<td class="text-left"><p>50602856</p></td>
+</tr>
+<tr class="row-even"><td class="text-left"><p>ACEH</p></td>
+<td class="text-right"><p>1990</p></td>
+<td class="text-right"><p>-0.004329</p></td>
+<td class="text-right"><p>-0.552065</p></td>
+<td class="text-right"><p>35634551</p></td>
+<td class="text-right"><p>22837267</p></td>
+<td class="text-right"><p>10481071</p></td>
+<td class="text-right"><p>28357916</p></td>
+<td class="text-right"><p>10485399</p></td>
+<td class="text-left"><p>25177517</p></td>
+</tr>
+</tbody>
+</table>
+</div>
+<p>Untuk melakukan normalisasi, tentukan nilai min dan max setiap kolom numerik tersebut:</p>
+<div class="pst-scrollable-table-container"><table class="table">
+<thead>
+<tr class="row-odd"><th class="head text-left"><p></p></th>
+<th class="head text-right"><p>gap_ln_gpd</p></th>
+<th class="head text-right"><p>gap_unemp</p></th>
+<th class="head text-right"><p>gdp</p></th>
+<th class="head text-right"><p>unemp</p></th>
+<th class="head text-right"><p>ln_gdp</p></th>
+<th class="head text-right"><p>trend_unemp</p></th>
+<th class="head text-right"><p>trend_ln_gpd</p></th>
+</tr>
+</thead>
+<tbody>
+<tr class="row-even"><td class="text-left"><p>min</p></td>
+<td class="text-right"><p>-0.064435</p></td>
+<td class="text-right"><p>-0.552065</p></td>
+<td class="text-right"><p>29460043</p></td>
+<td class="text-right"><p>16683953</p></td>
+<td class="text-right"><p>10290791</p></td>
+<td class="text-right"><p>2488488</p></td>
+<td class="text-right"><p>1042386</p></td>
+</tr>
+<tr class="row-odd"><td class="text-left"><p>max</p></td>
+<td class="text-right"><p>-0.000234</p></td>
+<td class="text-right"><p>0.84854</p></td>
+<td class="text-right"><p>35634551</p></td>
+<td class="text-right"><p>32108653</p></td>
+<td class="text-right"><p>10481071</p></td>
+<td class="text-right"><p>28357916</p></td>
+<td class="text-right"><p>10485399</p></td>
+</tr>
+</tbody>
+</table>
+</div>
+<p><em>Contoh perhitungan normalisasi min-max (untuk Index 0 kolom <code class="docutils literal notranslate"><span class="pre">unemp</span></code>):</em></p>
+<div class="math notranslate nohighlight">
+\[
+X_{norm} = \frac{23971448 - 16683953}{32108653 - 16683953} = \frac{7287495}{15424700} = 0.472456
+\]</div>
+<p>Hasil normalisasi keseluruhan data:</p>
+<div class="pst-scrollable-table-container"><table class="table">
+<thead>
+<tr class="row-odd"><th class="head text-left"><p>prov</p></th>
+<th class="head text-right"><p>year</p></th>
+<th class="head text-right"><p>gap_ln_gpd</p></th>
+<th class="head text-right"><p>gap_unemp</p></th>
+<th class="head text-right"><p>gdp</p></th>
+<th class="head text-right"><p>unemp</p></th>
+<th class="head text-right"><p>ln_gdp</p></th>
+<th class="head text-right"><p>trend_unemp</p></th>
+<th class="head text-right"><p>trend_ln_gpd</p></th>
+<th class="head text-left"><p>g_gdp</p></th>
+</tr>
+</thead>
+<tbody>
+<tr class="row-even"><td class="text-left"><p>ACEH</p></td>
+<td class="text-right"><p>1986</p></td>
+<td class="text-right"><p>0</p></td>
+<td class="text-right"><p>1</p></td>
+<td class="text-right"><p>0</p></td>
+<td class="text-right"><p>0.472456</p></td>
+<td class="text-right"><p>0</p></td>
+<td class="text-right"><p>0.502429</p></td>
+<td class="text-right"><p>0.986215</p></td>
+<td class="text-left"><p>?</p></td>
+</tr>
+<tr class="row-odd"><td class="text-left"><p>ACEH</p></td>
+<td class="text-right"><p>1987</p></td>
+<td class="text-right"><p>0.320618</p></td>
+<td class="text-right"><p>0.263647</p></td>
+<td class="text-right"><p>0.270899</p></td>
+<td class="text-right"><p>0</p></td>
+<td class="text-right"><p>0.29022</p></td>
+<td class="text-right"><p>0.619397</p></td>
+<td class="text-right"><p>0.989883</p></td>
+<td class="text-left"><p>55224228</p></td>
+</tr>
+<tr class="row-even"><td class="text-left"><p>ACEH</p></td>
+<td class="text-right"><p>1988</p></td>
+<td class="text-right"><p>0.714409</p></td>
+<td class="text-right"><p>0.343137</p></td>
+<td class="text-right"><p>0.578814</p></td>
+<td class="text-right"><p>0.273852</p></td>
+<td class="text-right"><p>0.601745</p></td>
+<td class="text-right"><p>0.739646</p></td>
+<td class="text-right"><p>0</p></td>
+<td class="text-left"><p>5927619</p></td>
+</tr>
+<tr class="row-odd"><td class="text-left"><p>ACEH</p></td>
+<td class="text-right"><p>1989</p></td>
+<td class="text-right"><p>1</p></td>
+<td class="text-right"><p>0.909923</p></td>
+<td class="text-right"><p>0.856509</p></td>
+<td class="text-right"><p>1</p></td>
+<td class="text-right"><p>0.867684</p></td>
+<td class="text-right"><p>0</p></td>
+<td class="text-right"><p>0.9969</p></td>
+<td class="text-left"><p>50602856</p></td>
+</tr>
+<tr class="row-even"><td class="text-left"><p>ACEH</p></td>
+<td class="text-right"><p>1990</p></td>
+<td class="text-right"><p>0.936215</p></td>
+<td class="text-right"><p>0</p></td>
+<td class="text-right"><p>1</p></td>
+<td class="text-right"><p>0.398926</p></td>
+<td class="text-right"><p>1</p></td>
+<td class="text-right"><p>1</p></td>
+<td class="text-right"><p>1</p></td>
+<td class="text-left"><p>25177517</p></td>
+</tr>
+</tbody>
+</table>
+</div>
+</section>
+<section id="menghitung-nilai-similarity">
+<h4>3. Menghitung Nilai Similarity<a class="headerlink" href="#menghitung-nilai-similarity" title="Link to this heading">#</a></h4>
+<p>Yang dihitung adalah euclidean distance baris data yang memiliki missing value (baris ke-0 / Index 0) terhadap baris-baris lainnya. Lalu diubah menjadi kemiripan (<span class="math notranslate nohighlight">\(S_i = \frac{1}{dist}\)</span>).</p>
+<div class="pst-scrollable-table-container"><table class="table">
+<thead>
+<tr class="row-odd"><th class="head text-left"><p>Pasangan</p></th>
+<th class="head text-left"><p>S_i</p></th>
+</tr>
+</thead>
+<tbody>
+<tr class="row-even"><td class="text-left"><p>Index 0</p></td>
+<td class="text-left"><p>?</p></td>
+</tr>
+<tr class="row-odd"><td class="text-left"><p>Index 1</p></td>
+<td class="text-left"><p>1.035502</p></td>
+</tr>
+<tr class="row-even"><td class="text-left"><p>Index 2</p></td>
+<td class="text-left"><p>0.552508</p></td>
+</tr>
+<tr class="row-odd"><td class="text-left"><p>Index 3</p></td>
+<td class="text-left"><p>0.553513</p></td>
+</tr>
+<tr class="row-even"><td class="text-left"><p>Index 4</p></td>
+<td class="text-left"><p>0.537299</p></td>
+</tr>
+</tbody>
+</table>
+</div>
+</section>
+<section id="menghitung-penyebut">
+<h4>4. Menghitung Penyebut<a class="headerlink" href="#menghitung-penyebut" title="Link to this heading">#</a></h4>
+<p>Kita menyatukan semua bobot kedekatan (<span class="math notranslate nohighlight">\(S_i\)</span>) tetangganya:</p>
+<div class="math notranslate nohighlight">
+\[
+\text{Penyebut} = 1.035502 + 0.552508 + 0.553513 + 0.537299 = \mathbf{2.678822}
+\]</div>
+<p>Maka sigma dari <span class="math notranslate nohighlight">\(S_i\)</span> adalah <strong>2.678822</strong>.</p>
+</section>
+<section id="menghitung-pembilang">
+<h4>5. Menghitung Pembilang<a class="headerlink" href="#menghitung-pembilang" title="Link to this heading">#</a></h4>
+<p>Pembilang didapat dari mendistribusikan masing-masing kedekatan dengan nilai <code class="docutils literal notranslate"><span class="pre">g_gdp</span></code> yang telah tersedia:</p>
+<div class="pst-scrollable-table-container"><table class="table">
+<thead>
+<tr class="row-odd"><th class="head text-right"><p>Y_i (g_gdp)</p></th>
+<th class="head text-right"><p>S_i</p></th>
+<th class="head text-right"><p>S_i * Y_i</p></th>
+</tr>
+</thead>
+<tbody>
+<tr class="row-even"><td class="text-right"><p>55224228</p></td>
+<td class="text-right"><p>1.035502</p></td>
+<td class="text-right"><p>57184784.85</p></td>
+</tr>
+<tr class="row-odd"><td class="text-right"><p>5927619</p></td>
+<td class="text-right"><p>0.552508</p></td>
+<td class="text-right"><p>3275056.81</p></td>
+</tr>
+<tr class="row-even"><td class="text-right"><p>50602856</p></td>
+<td class="text-right"><p>0.553513</p></td>
+<td class="text-right"><p>28009323.74</p></td>
+</tr>
+<tr class="row-odd"><td class="text-right"><p>25177517</p></td>
+<td class="text-right"><p>0.537299</p></td>
+<td class="text-right"><p>13527860.40</p></td>
+</tr>
+</tbody>
+</table>
+</div>
+<div class="math notranslate nohighlight">
+\[
+\text{Pembilang} = 57184784.85 + 3275056.81 + 28009323.74 + 13527860.40 = \mathbf{101997025.80}
+\]</div>
+</section>
+<section id="menghitung-hasil-nilai-imputasi">
+<h4>6. Menghitung Hasil Nilai Imputasi<a class="headerlink" href="#menghitung-hasil-nilai-imputasi" title="Link to this heading">#</a></h4>
+<p>Prediksi baris kosong <span class="math notranslate nohighlight">\(Y_{pred}\)</span> dilakukan dengan merasiokan total atas vs bawah.</p>
+<div class="math notranslate nohighlight">
+\[
+Y_{pred} = \frac{\text{Pembilang}}{\text{Penyebut}} = \frac{101997025.80}{2.678822} = \mathbf{38075327.81}
+\]</div>
+<p>Maka baris ke-0 yang tadinya kosong, nilai PDRB-nya diprediksi tumbuh sebesar <strong>38075327.81</strong>.</p>
+</section>
+</section>
+<section id="perhitungan-wknn-mengalokasikan-python">
+<h3>5.3 Perhitungan WKNN Mengalokasikan Python<a class="headerlink" href="#perhitungan-wknn-mengalokasikan-python" title="Link to this heading">#</a></h3>
+<p>Berikut implementasi lengkap dari pemuatan Excel dataset terkait, pengeksekusian formula WKNN di Python murni menggunakan Library pendukung Pandas, Numpy, lalu diprediksi dengan kemiripan Euclidean Distance:</p>
+<section id="setting-library-dan-akses-file">
+<h4>1. Setting Library dan Akses File<a class="headerlink" href="#setting-library-dan-akses-file" title="Link to this heading">#</a></h4>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="kn">import</span><span class="w"> </span><span class="nn">pandas</span><span class="w"> </span><span class="k">as</span><span class="w"> </span><span class="nn">pd</span>
+<span class="kn">import</span><span class="w"> </span><span class="nn">numpy</span><span class="w"> </span><span class="k">as</span><span class="w"> </span><span class="nn">np</span>
+<span class="kn">from</span><span class="w"> </span><span class="nn">sklearn.preprocessing</span><span class="w"> </span><span class="kn">import</span> <span class="n">MinMaxScaler</span>
+<span class="kn">from</span><span class="w"> </span><span class="nn">sklearn.metrics</span><span class="w"> </span><span class="kn">import</span> <span class="n">pairwise_distances</span>
+
+<span class="n">file_path</span> <span class="o">=</span> <span class="s2">&quot;dataset/Provincial GDP per capita and Unemployment in Indonesia 1986-2018.csv&quot;</span>
+<span class="n">df</span> <span class="o">=</span> <span class="n">pd</span><span class="o">.</span><span class="n">read_csv</span><span class="p">(</span><span class="n">file_path</span><span class="p">,</span> <span class="n">sep</span><span class="o">=</span><span class="s1">&#39;;&#39;</span><span class="p">)</span> 
+
+<span class="c1"># HANYA bongkar titik (ribuan) pada kolom tertentu saja agar tidak merusak desimal di kolom lain</span>
+<span class="n">kolom_uang_jutaan</span> <span class="o">=</span> <span class="p">[</span><span class="s1">&#39;gdp&#39;</span><span class="p">,</span> <span class="s1">&#39;unemp&#39;</span><span class="p">,</span> <span class="s1">&#39;ln_gdp&#39;</span><span class="p">,</span> <span class="s1">&#39;trend_unemp&#39;</span><span class="p">,</span> <span class="s1">&#39;trend_ln_gpd&#39;</span><span class="p">,</span> <span class="s1">&#39;c_unemp&#39;</span><span class="p">,</span> <span class="s1">&#39;g_gdp&#39;</span><span class="p">]</span>
+<span class="k">for</span> <span class="n">col</span> <span class="ow">in</span> <span class="n">kolom_uang_jutaan</span><span class="p">:</span>
+    <span class="k">if</span> <span class="n">col</span> <span class="ow">in</span> <span class="n">df</span><span class="o">.</span><span class="n">columns</span> <span class="ow">and</span> <span class="n">df</span><span class="p">[</span><span class="n">col</span><span class="p">]</span><span class="o">.</span><span class="n">dtype</span> <span class="o">==</span> <span class="nb">object</span><span class="p">:</span>
+        <span class="n">df</span><span class="p">[</span><span class="n">col</span><span class="p">]</span> <span class="o">=</span> <span class="n">df</span><span class="p">[</span><span class="n">col</span><span class="p">]</span><span class="o">.</span><span class="n">str</span><span class="o">.</span><span class="n">replace</span><span class="p">(</span><span class="s1">&#39;.&#39;</span><span class="p">,</span> <span class="s1">&#39;&#39;</span><span class="p">,</span> <span class="n">regex</span><span class="o">=</span><span class="kc">False</span><span class="p">)</span><span class="o">.</span><span class="n">astype</span><span class="p">(</span><span class="nb">float</span><span class="p">)</span>
+
+<span class="c1"># Format angka saat melakukan display</span>
+<span class="n">pd</span><span class="o">.</span><span class="n">options</span><span class="o">.</span><span class="n">display</span><span class="o">.</span><span class="n">float_format</span> <span class="o">=</span> <span class="s1">&#39;</span><span class="si">{:,.2f}</span><span class="s1">&#39;</span><span class="o">.</span><span class="n">format</span>
+
+<span class="c1"># Kita ambil 5 baris teratas saja untuk komparasi perhitungan manual</span>
+<span class="n">df_5</span> <span class="o">=</span> <span class="n">df</span><span class="o">.</span><span class="n">head</span><span class="p">(</span><span class="mi">5</span><span class="p">)</span><span class="o">.</span><span class="n">copy</span><span class="p">()</span>
+<span class="n">display</span><span class="p">(</span><span class="n">df_5</span><span class="p">)</span>
+</pre></div>
+</div>
+<ul class="simple">
+<li><p><code class="docutils literal notranslate"><span class="pre">import</span> <span class="pre">pandas</span></code> : Digunakan untuk manipulasi tabel dataset.</p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">import</span> <span class="pre">numpy</span></code> : Digunakan untuk perhitungan logis matematika.</p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">MinMaxScaler</span></code> : Menormalisasi nilai interval data pada ruang numerik 0-1.</p></li>
+</ul>
+</section>
+<section id="menentukan-titik-missing-values-target-variable">
+<h4>2. Menentukan Titik Missing Values (Target Variable)<a class="headerlink" href="#menentukan-titik-missing-values-target-variable" title="Link to this heading">#</a></h4>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="c1"># Cek lokasi kolom mana pada baris index ke-0 yang missing</span>
+<span class="n">row_missing</span> <span class="o">=</span> <span class="mi">0</span>
+<span class="n">missing_column</span> <span class="o">=</span> <span class="s1">&#39;g_gdp&#39;</span>
+
+<span class="nb">print</span><span class="p">(</span><span class="s2">&quot;Missing value ditemukan pada baris ke:&quot;</span><span class="p">,</span> <span class="n">row_missing</span><span class="p">)</span>
+</pre></div>
+</div>
+</section>
+<section id="normalisasi-data">
+<h4>3. Normalisasi Data<a class="headerlink" href="#normalisasi-data" title="Link to this heading">#</a></h4>
+<p>Lakukan normalisasi data pada fitur prediktor (tanpa menyentuh missing value).</p>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="n">features</span> <span class="o">=</span> <span class="p">[</span><span class="s1">&#39;gap_ln_gpd&#39;</span><span class="p">,</span> <span class="s1">&#39;gap_unemp&#39;</span><span class="p">,</span> <span class="s1">&#39;gdp&#39;</span><span class="p">,</span> <span class="s1">&#39;unemp&#39;</span><span class="p">,</span> <span class="s1">&#39;ln_gdp&#39;</span><span class="p">,</span> <span class="s1">&#39;trend_unemp&#39;</span><span class="p">,</span> <span class="s1">&#39;trend_ln_gpd&#39;</span><span class="p">]</span>
+
+<span class="c1"># Fit and Transform menggunakan MinMaxScaler murni (0-1)</span>
+<span class="n">cols_to_normalize</span> <span class="o">=</span> <span class="n">features</span>
+<span class="n">scaler</span> <span class="o">=</span> <span class="n">MinMaxScaler</span><span class="p">()</span>
+<span class="n">df_5</span><span class="p">[</span><span class="n">cols_to_normalize</span><span class="p">]</span> <span class="o">=</span> <span class="n">scaler</span><span class="o">.</span><span class="n">fit_transform</span><span class="p">(</span><span class="n">df_5</span><span class="p">[</span><span class="n">cols_to_normalize</span><span class="p">])</span>
+
+<span class="nb">print</span><span class="p">(</span><span class="s2">&quot;Data setelah normalisasi min max:&quot;</span><span class="p">)</span>
+<span class="n">display</span><span class="p">(</span><span class="n">df_5</span><span class="p">[</span><span class="n">cols_to_normalize</span><span class="p">])</span>
+</pre></div>
+</div>
+</section>
+<section id="menghitung-similarity-menggunakan-euclidean-distance">
+<h4>4. Menghitung Similarity Menggunakan Euclidean Distance<a class="headerlink" href="#menghitung-similarity-menggunakan-euclidean-distance" title="Link to this heading">#</a></h4>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="n">similarities</span> <span class="o">=</span> <span class="p">[]</span>
+<span class="n">target_row</span> <span class="o">=</span> <span class="n">df_5</span><span class="o">.</span><span class="n">loc</span><span class="p">[</span><span class="n">row_missing</span><span class="p">,</span> <span class="n">features</span><span class="p">]</span><span class="o">.</span><span class="n">values</span><span class="o">.</span><span class="n">reshape</span><span class="p">(</span><span class="mi">1</span><span class="p">,</span><span class="o">-</span><span class="mi">1</span><span class="p">)</span>
+
+<span class="k">for</span> <span class="n">i</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="nb">len</span><span class="p">(</span><span class="n">df_5</span><span class="p">)):</span>
+    <span class="k">if</span> <span class="n">i</span> <span class="o">==</span> <span class="n">row_missing</span><span class="p">:</span>
+        <span class="n">similarities</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="kc">None</span><span class="p">)</span>
+        <span class="k">continue</span>
+
+    <span class="n">compare_row</span> <span class="o">=</span> <span class="n">df_5</span><span class="o">.</span><span class="n">loc</span><span class="p">[</span><span class="n">i</span><span class="p">,</span> <span class="n">features</span><span class="p">]</span><span class="o">.</span><span class="n">values</span><span class="o">.</span><span class="n">reshape</span><span class="p">(</span><span class="mi">1</span><span class="p">,</span><span class="o">-</span><span class="mi">1</span><span class="p">)</span>
+    
+    <span class="c1"># Hitung Jarak Euclidean</span>
+    <span class="n">dist</span> <span class="o">=</span> <span class="n">pairwise_distances</span><span class="p">(</span><span class="n">target_row</span><span class="p">,</span> <span class="n">compare_row</span><span class="p">,</span> <span class="n">metric</span><span class="o">=</span><span class="s1">&#39;euclidean&#39;</span><span class="p">)[</span><span class="mi">0</span><span class="p">][</span><span class="mi">0</span><span class="p">]</span>
+
+    <span class="c1"># Mengubah jarak jadi mirip</span>
+    <span class="n">Si</span> <span class="o">=</span> <span class="mi">1</span> <span class="o">/</span> <span class="n">dist</span>
+    <span class="n">similarities</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">Si</span><span class="p">)</span>
+
+<span class="nb">print</span><span class="p">(</span><span class="s2">&quot;Similarity antar indeks tetangga terdekat:&quot;</span><span class="p">)</span>
+<span class="nb">print</span><span class="p">(</span><span class="n">similarities</span><span class="p">)</span>
+</pre></div>
+</div>
+</section>
+<section id="menghitung-pembilang-pembobot-dan-penyebut-prediksi">
+<h4>5. Menghitung Pembilang Pembobot dan Penyebut Prediksi<a class="headerlink" href="#menghitung-pembilang-pembobot-dan-penyebut-prediksi" title="Link to this heading">#</a></h4>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="c1"># Penyebut</span>
+<span class="n">denominator</span> <span class="o">=</span> <span class="nb">sum</span><span class="p">([</span><span class="n">s</span> <span class="k">for</span> <span class="n">s</span> <span class="ow">in</span> <span class="n">similarities</span> <span class="k">if</span> <span class="n">s</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span><span class="p">])</span>
+
+<span class="c1"># Pembilang</span>
+<span class="n">numerator</span> <span class="o">=</span> <span class="mi">0</span>
+<span class="k">for</span> <span class="n">i</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="nb">len</span><span class="p">(</span><span class="n">df_5</span><span class="p">)):</span>
+    <span class="k">if</span> <span class="n">similarities</span><span class="p">[</span><span class="n">i</span><span class="p">]</span> <span class="ow">is</span> <span class="kc">None</span><span class="p">:</span>
+        <span class="k">continue</span>
+    <span class="c1"># Ambil original prediktor</span>
+    <span class="n">Yjh</span> <span class="o">=</span> <span class="n">df</span><span class="o">.</span><span class="n">loc</span><span class="p">[</span><span class="n">i</span><span class="p">,</span> <span class="n">missing_column</span><span class="p">]</span>
+    <span class="n">numerator</span> <span class="o">+=</span> <span class="n">similarities</span><span class="p">[</span><span class="n">i</span><span class="p">]</span> <span class="o">*</span> <span class="n">Yjh</span>
+
+<span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;Penyebut (Denominator): </span><span class="si">{</span><span class="n">denominator</span><span class="si">:</span><span class="s2">.6f</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">)</span>
+<span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;Pembilang (Numerator): </span><span class="si">{</span><span class="n">numerator</span><span class="si">:</span><span class="s2">.6f</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">)</span>
+</pre></div>
+</div>
+</section>
+<section id="menghitung-nilai-imputasi-terspekulasi-akhir">
+<h4>6. Menghitung Nilai Imputasi Terspekulasi Akhir<a class="headerlink" href="#menghitung-nilai-imputasi-terspekulasi-akhir" title="Link to this heading">#</a></h4>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="n">imputed_value</span> <span class="o">=</span> <span class="n">numerator</span> <span class="o">/</span> <span class="n">denominator</span>
+
+<span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;Nilai Imputasi (Imputed Value): </span><span class="si">{</span><span class="n">imputed_value</span><span class="si">:</span><span class="s2">.6f</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">)</span>
+</pre></div>
+</div>
+<p>Output:</p>
+<div class="highlight-text notranslate"><div class="highlight"><pre><span></span>Nilai Imputasi: 37373790.633946
+</pre></div>
+</div>
+<p>Nilai ini sah terkomputasi menggantikan variabel target yang memiliki kondisi <em>Missing Data</em>.</p>
+</section>
+</section>
+</section>
+<section id="id1">
+<h2>6. Normalisasi data<a class="headerlink" href="#id1" title="Link to this heading">#</a></h2>
+<section id="materi-normalisasi-data">
+<h3>6.1 Materi normalisasi data<a class="headerlink" href="#materi-normalisasi-data" title="Link to this heading">#</a></h3>
+<p>Normalisasi data merupakan proses transformasi nilai pada atribut yang sudah ada dengan cara mengubah skalanya ke dalam rentang tertentu agar distribusi nilainya menjadi lebih sesuai untuk proses analisis. Tahapan ini termasuk dalam prepocessing data.</p>
+<p>Tujuan dari normalisasi adalah menyamakan skala antar variabel sehingga tidak ada atribut yang terlalu mendominasi karena memiliki nilai yang jauh lebih besar dibandingkan atribut lainnya. Dengan melakukan normalisasi, setiap fitur dalam dataset dapat memberikan kontribusi yang lebih seimbang dalam proses perhitungan dan membantu meningkatkan kemampuan model dalam menghasilkan prediksi yang lebih akurat.</p>
+</section>
+<section id="macam-macam-normalisasi-data">
+<h3>6.2 Macam-macam normalisasi data<a class="headerlink" href="#macam-macam-normalisasi-data" title="Link to this heading">#</a></h3>
+<section id="min-max-normalization">
+<h4>1. Min-Max Normalization<a class="headerlink" href="#min-max-normalization" title="Link to this heading">#</a></h4>
+<p>Min-Max Normalization adalah metode normalisasi yang digunakan untuk mengubah nilai data ke dalam rentang tertentu, biasanya 0 sampai 1. Metode ini bekerja dengan cara mengurangi setiap nilai data dengan nilai minimum pada dataset, kemudian membaginya dengan selisih antara nilai maksimum dan minimum.</p>
+<p><strong>Rumus Min-Max Normalization:</strong></p>
+<div class="math notranslate nohighlight">
+\[
+X_{norm} = \frac{X - X_{min}}{X_{max} - X_{min}}
+\]</div>
+<p>Keterangan:</p>
+<ul class="simple">
+<li><p><span class="math notranslate nohighlight">\(X\)</span> : nilai data asli</p></li>
+<li><p><span class="math notranslate nohighlight">\(X_{min}\)</span> : nilai minimum pada atribut</p></li>
+<li><p><span class="math notranslate nohighlight">\(X_{max}\)</span> : nilai maksimum pada atribut</p></li>
+<li><p><span class="math notranslate nohighlight">\(X_{norm}\)</span> : nilai hasil normalisasi</p></li>
+</ul>
+<p><strong>Contoh perhitungan min-max normalization terhadap atribut “unemp” (Tingkat Pengangguran Provinsi Aceh)</strong></p>
+<p>Data sebelum di normalisasi:</p>
+<div class="pst-scrollable-table-container"><table class="table">
+<thead>
+<tr class="row-odd"><th class="head"><p>unemp</p></th>
+</tr>
+</thead>
+<tbody>
+<tr class="row-even"><td><p>23971448</p></td>
+</tr>
+<tr class="row-odd"><td><p>16683953</p></td>
+</tr>
+<tr class="row-even"><td><p>20908041</p></td>
+</tr>
+</tbody>
+</table>
+</div>
+<p>Diketahui: Min = 16683953, Max = 23971448.</p>
+<p>Contoh perhitungan normalisasi min-max (baris ke-3 yaitu nilai 20908041):</p>
+<div class="math notranslate nohighlight">
+\[
+X_{norm} = \frac{20908041 - 16683953}{23971448 - 16683953} = \frac{4224088}{7287495} = 0.579635
+\]</div>
+<p>Hasil keseluruhan data ketika sudah di normalisasi:</p>
+<div class="pst-scrollable-table-container"><table class="table">
+<thead>
+<tr class="row-odd"><th class="head"><p>unemp</p></th>
+</tr>
+</thead>
+<tbody>
+<tr class="row-even"><td><p>1.0</p></td>
+</tr>
+<tr class="row-odd"><td><p>0.0</p></td>
+</tr>
+<tr class="row-even"><td><p>0.579635</p></td>
+</tr>
+</tbody>
+</table>
+</div>
+</section>
+<section id="z-score-normalization">
+<h4>2. Z-score normalization<a class="headerlink" href="#z-score-normalization" title="Link to this heading">#</a></h4>
+<p>Z-Score Normalization (atau standardization) adalah metode normalisasi yang mengubah nilai data berdasarkan rata-rata (mean) dan standar deviasi dari dataset. Tujuannya adalah agar data memiliki rata-rata 0 dan standar deviasi 1, sehingga distribusi data menjadi lebih terstandarisasi.</p>
+<p><strong>Rumus Z-Score Normalization:</strong></p>
+<div class="math notranslate nohighlight">
+\[
+Z = \frac{X - \mu}{\sigma}
+\]</div>
+<p>Keterangan:</p>
+<ul class="simple">
+<li><p><span class="math notranslate nohighlight">\(X\)</span> : nilai data asli</p></li>
+<li><p><span class="math notranslate nohighlight">\(\mu\)</span> : rata-rata data</p></li>
+<li><p><span class="math notranslate nohighlight">\(\sigma\)</span> : standar deviasi data</p></li>
+<li><p><span class="math notranslate nohighlight">\(Z\)</span> : nilai hasil normalisasi</p></li>
+</ul>
+<p><strong>Contoh perhitungan Z-score normalization terhadap atribut “unemp” (Tingkat Pengangguran)</strong></p>
+<p>Data sebelum di normalisasi:</p>
+<div class="pst-scrollable-table-container"><table class="table">
+<thead>
+<tr class="row-odd"><th class="head"><p>unemp</p></th>
+</tr>
+</thead>
+<tbody>
+<tr class="row-even"><td><p>23971448</p></td>
+</tr>
+<tr class="row-odd"><td><p>16683953</p></td>
+</tr>
+<tr class="row-even"><td><p>20908041</p></td>
+</tr>
+</tbody>
+</table>
+</div>
+<p>Menghitung nilai mean (rata-rata):</p>
+<div class="math notranslate nohighlight">
+\[
+\mu = \frac{23971448 + 16683953 + 20908041}{3} = 20521147.33
+\]</div>
+<p>Menghitung standar deviasi populasi (\sigma):</p>
+<div class="math notranslate nohighlight">
+\[
+\sigma = \sqrt{\frac{(23971448 - 20521147.33)^2 + (16683953 - 20521147.33)^2 + (20908041 - 20521147.33)^2}{3}} = 2987659.16
+\]</div>
+<p>Contoh untuk perhitungan pada data pertama (23971448):</p>
+<div class="math notranslate nohighlight">
+\[
+Z = \frac{23971448 - 20521147.33}{2987659.16} = 1.154851
+\]</div>
+<p>Hasil normalisasi keseluruhan (berdasarkan deviasi):</p>
+<div class="pst-scrollable-table-container"><table class="table">
+<thead>
+<tr class="row-odd"><th class="head"><p>unemp</p></th>
+</tr>
+</thead>
+<tbody>
+<tr class="row-even"><td><p>1.154851</p></td>
+</tr>
+<tr class="row-odd"><td><p>-1.284348</p></td>
+</tr>
+<tr class="row-even"><td><p>0.129497</p></td>
+</tr>
+</tbody>
+</table>
+</div>
+</section>
+<section id="decimal-scaling-normalization">
+<h4>3. Decimal scaling normalization<a class="headerlink" href="#decimal-scaling-normalization" title="Link to this heading">#</a></h4>
+<p>Decimal Scaling adalah metode normalisasi yang dilakukan dengan menggeser titik desimal pada nilai data sehingga semua nilai berada pada rentang yang lebih kecil (biasanya kurang dari 1). Proses ini dilakukan dengan cara membagi setiap nilai data dengan 10^j di mana j adalah jumlah digit dari nilai absolut terbesar dalam dataset.</p>
+<p><strong>Rumus decimal scaling:</strong></p>
+<div class="math notranslate nohighlight">
+\[
+X_{dec} = \frac{X}{10^j}
+\]</div>
+<p>Keterangan:</p>
+<ul class="simple">
+<li><p><span class="math notranslate nohighlight">\(X\)</span> : nilai data asli</p></li>
+<li><p><span class="math notranslate nohighlight">\(j\)</span> : jumlah digit dari nilai absolut terbesar dalam data</p></li>
+<li><p>X_{dec} : nilai hasil normalisasi</p></li>
+</ul>
+<p><strong>Contoh perhitungan Decimal scaling normalization terhadap atribut “unemp” (Tingkat Pengangguran)</strong></p>
+<p>Data sebelum di normalisasi:</p>
+<div class="pst-scrollable-table-container"><table class="table">
+<thead>
+<tr class="row-odd"><th class="head"><p>unemp</p></th>
+</tr>
+</thead>
+<tbody>
+<tr class="row-even"><td><p>23971448</p></td>
+</tr>
+<tr class="row-odd"><td><p>16683953</p></td>
+</tr>
+<tr class="row-even"><td><p>20908041</p></td>
+</tr>
+</tbody>
+</table>
+</div>
+<p>Tentukan nilai j:
+Nilai terbesar dalam data adalah 23971448, dimana angka tersebut berjumlah 8 digit, maka j = 8.</p>
+<p>Contoh perhitungan (Data 23971448):</p>
+<div class="math notranslate nohighlight">
+\[
+X_{dec} = \frac{23971448}{10^8} = 0.23971448
+\]</div>
+<p>Sehingga hasil akhir data:</p>
+<div class="pst-scrollable-table-container"><table class="table">
+<thead>
+<tr class="row-odd"><th class="head"><p>unemp</p></th>
+</tr>
+</thead>
+<tbody>
+<tr class="row-even"><td><p>0.23971448</p></td>
+</tr>
+<tr class="row-odd"><td><p>0.16683953</p></td>
+</tr>
+<tr class="row-even"><td><p>0.20908041</p></td>
+</tr>
+</tbody>
+</table>
+</div>
+</section>
+</section>
+<section id="normalisasi-data-menggunakan-python-dengan-library-scikit-learn">
+<h3>6.3 Normalisasi data menggunakan python dengan library Scikit-learn<a class="headerlink" href="#normalisasi-data-menggunakan-python-dengan-library-scikit-learn" title="Link to this heading">#</a></h3>
+<p>Selain melakukan perhitungan normalisasi secara manual, normalisasi data juga dapat dilakukan menggunakan library Python yaitu scikit-learn (sklearn). Library ini menyediakan berbagai fungsi preprocessing data yang memudahkan proses normalisasi sebelum data digunakan dalam proses analisis atau machine learning.</p>
+<p>Kita pakai contoh atribut “unemp” (Tingkat Pengangguran) dari dataset provinsi.</p>
+<section id="id2">
+<h4>1. Min-max normalization<a class="headerlink" href="#id2" title="Link to this heading">#</a></h4>
+<p>Pada sklearn ada library MinMaxScaler yang dapat digunakan untuk normalisasi ini.</p>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="kn">import</span><span class="w"> </span><span class="nn">pandas</span><span class="w"> </span><span class="k">as</span><span class="w"> </span><span class="nn">pd</span>
+<span class="kn">import</span><span class="w"> </span><span class="nn">numpy</span><span class="w"> </span><span class="k">as</span><span class="w"> </span><span class="nn">np</span>
+<span class="kn">from</span><span class="w"> </span><span class="nn">sklearn.preprocessing</span><span class="w"> </span><span class="kn">import</span> <span class="n">MinMaxScaler</span>
+
+<span class="n">data</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">array</span><span class="p">([[</span><span class="mi">23971448</span><span class="p">],</span> <span class="p">[</span><span class="mi">16683953</span><span class="p">],</span> <span class="p">[</span><span class="mi">20908041</span><span class="p">]])</span>
+
+<span class="n">df</span> <span class="o">=</span> <span class="n">pd</span><span class="o">.</span><span class="n">DataFrame</span><span class="p">(</span><span class="n">data</span><span class="p">,</span> <span class="n">columns</span><span class="o">=</span><span class="p">[</span><span class="s1">&#39;unemp&#39;</span><span class="p">])</span>
+
+<span class="n">scaler</span> <span class="o">=</span> <span class="n">MinMaxScaler</span><span class="p">()</span>
+<span class="n">df</span><span class="p">[</span><span class="s1">&#39;minmax_normalisasi&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="n">scaler</span><span class="o">.</span><span class="n">fit_transform</span><span class="p">(</span><span class="n">df</span><span class="p">[[</span><span class="s1">&#39;unemp&#39;</span><span class="p">]])</span>
+
+<span class="nb">print</span><span class="p">(</span><span class="n">df</span><span class="p">)</span>
+</pre></div>
+</div>
+<p>Output:</p>
+<div class="highlight-text notranslate"><div class="highlight"><pre><span></span>      unemp  minmax_normalisasi
+0  23971448            1.000000
+1  16683953            0.000000
+2  20908041            0.579635
+</pre></div>
+</div>
+</section>
+<section id="id3">
+<h4>2. Z-score normalization<a class="headerlink" href="#id3" title="Link to this heading">#</a></h4>
+<p>Dalam scikit-learn ini disebut StandardScaler di dalam library nya.</p>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="kn">import</span><span class="w"> </span><span class="nn">pandas</span><span class="w"> </span><span class="k">as</span><span class="w"> </span><span class="nn">pd</span>
+<span class="kn">import</span><span class="w"> </span><span class="nn">numpy</span><span class="w"> </span><span class="k">as</span><span class="w"> </span><span class="nn">np</span>
+<span class="kn">from</span><span class="w"> </span><span class="nn">sklearn.preprocessing</span><span class="w"> </span><span class="kn">import</span> <span class="n">StandardScaler</span>
+
+<span class="n">data</span> <span class="o">=</span> <span class="p">[</span><span class="mi">23971448</span><span class="p">,</span> <span class="mi">16683953</span><span class="p">,</span> <span class="mi">20908041</span><span class="p">]</span>
+
+<span class="n">df</span> <span class="o">=</span> <span class="n">pd</span><span class="o">.</span><span class="n">DataFrame</span><span class="p">(</span><span class="n">data</span><span class="p">,</span> <span class="n">columns</span><span class="o">=</span><span class="p">[</span><span class="s1">&#39;unemp&#39;</span><span class="p">])</span>
+
+<span class="n">scaler</span> <span class="o">=</span> <span class="n">StandardScaler</span><span class="p">()</span>
+
+<span class="n">df</span><span class="p">[</span><span class="s1">&#39;zscore_normalisasi&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="n">scaler</span><span class="o">.</span><span class="n">fit_transform</span><span class="p">(</span><span class="n">df</span><span class="p">[[</span><span class="s1">&#39;unemp&#39;</span><span class="p">]])</span>
+
+<span class="nb">print</span><span class="p">(</span><span class="n">df</span><span class="p">)</span>
+</pre></div>
+</div>
+<p>Output:</p>
+<div class="highlight-text notranslate"><div class="highlight"><pre><span></span>      unemp  zscore_normalisasi
+0  23971448            1.154851
+1  16683953           -1.284348
+2  20908041            0.129497
+</pre></div>
+</div>
+</section>
+<section id="id4">
+<h4>3. Decimal scaling normalization<a class="headerlink" href="#id4" title="Link to this heading">#</a></h4>
+<p>Berbeda dengan 2 metode diatas, decimal scaling tidak secara langsung tersedia pada library scikit-learn, maka dari itu kita akan membuat fungsi alternatif nya secara mandiri.</p>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="kn">import</span><span class="w"> </span><span class="nn">numpy</span><span class="w"> </span><span class="k">as</span><span class="w"> </span><span class="nn">np</span>
+
+<span class="n">data</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">array</span><span class="p">([</span><span class="mi">23971448</span><span class="p">,</span> <span class="mi">16683953</span><span class="p">,</span> <span class="mi">20908041</span><span class="p">])</span>
+
+<span class="n">max_val</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">max</span><span class="p">(</span><span class="n">np</span><span class="o">.</span><span class="n">abs</span><span class="p">(</span><span class="n">data</span><span class="p">))</span>
+<span class="n">j</span> <span class="o">=</span> <span class="nb">len</span><span class="p">(</span><span class="nb">str</span><span class="p">(</span><span class="nb">int</span><span class="p">(</span><span class="n">max_val</span><span class="p">)))</span>
+<span class="n">normalized</span> <span class="o">=</span> <span class="n">data</span> <span class="o">/</span> <span class="p">(</span><span class="mi">10</span> <span class="o">**</span> <span class="n">j</span><span class="p">)</span>
+
+<span class="nb">print</span><span class="p">(</span><span class="s2">&quot;Data asli:&quot;</span><span class="p">,</span> <span class="n">data</span><span class="p">)</span>
+<span class="nb">print</span><span class="p">(</span><span class="s2">&quot;Hasil normalisasi:&quot;</span><span class="p">,</span> <span class="n">normalized</span><span class="p">)</span>
+</pre></div>
+</div>
+<p>Output:</p>
+<div class="highlight-text notranslate"><div class="highlight"><pre><span></span>Data asli: [23971448 16683953 20908041]
+Hasil normalisasi: [0.23971448 0.16683953 0.20908041]
+</pre></div>
+</div>
+</section>
 </section>
 </section>
 </section>
@@ -1499,6 +2304,44 @@ $<span class="math notranslate nohighlight">\(\huge d(i, j) = \frac{r + s}{q + r
 <li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#langkah-5-kalkulasi-jarak-total">Langkah 5: Kalkulasi Jarak Total</a></li>
 <li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#rumus-total-jarak-heterogen"><strong>Rumus Total Jarak Heterogen</strong></a></li>
 <li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#implementasi-orange-data-mining-adult-income">Implementasi Orange Data Mining (Adult Income)</a></li>
+</ul>
+</li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#missing-values-inputation-dengan-metode-wknn">5. Missing values inputation dengan metode WKNN</a><ul class="nav section-nav flex-column">
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#dataset-yang-digunakan">5.1 Dataset yang Digunakan</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#perhitungan-wknn-secara-manual">5.2 Perhitungan WKNN secara Manual</a><ul class="nav section-nav flex-column">
+<li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#menentukan-missing-values">1. Menentukan Missing Values</a></li>
+<li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#melakukan-normalisasi-data">2. Melakukan Normalisasi Data</a></li>
+<li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#menghitung-nilai-similarity">3. Menghitung Nilai Similarity</a></li>
+<li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#menghitung-penyebut">4. Menghitung Penyebut</a></li>
+<li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#menghitung-pembilang">5. Menghitung Pembilang</a></li>
+<li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#menghitung-hasil-nilai-imputasi">6. Menghitung Hasil Nilai Imputasi</a></li>
+</ul>
+</li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#perhitungan-wknn-mengalokasikan-python">5.3 Perhitungan WKNN Mengalokasikan Python</a><ul class="nav section-nav flex-column">
+<li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#setting-library-dan-akses-file">1. Setting Library dan Akses File</a></li>
+<li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#menentukan-titik-missing-values-target-variable">2. Menentukan Titik Missing Values (Target Variable)</a></li>
+<li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#normalisasi-data">3. Normalisasi Data</a></li>
+<li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#menghitung-similarity-menggunakan-euclidean-distance">4. Menghitung Similarity Menggunakan Euclidean Distance</a></li>
+<li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#menghitung-pembilang-pembobot-dan-penyebut-prediksi">5. Menghitung Pembilang Pembobot dan Penyebut Prediksi</a></li>
+<li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#menghitung-nilai-imputasi-terspekulasi-akhir">6. Menghitung Nilai Imputasi Terspekulasi Akhir</a></li>
+</ul>
+</li>
+</ul>
+</li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#id1">6. Normalisasi data</a><ul class="nav section-nav flex-column">
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#materi-normalisasi-data">6.1 Materi normalisasi data</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#macam-macam-normalisasi-data">6.2 Macam-macam normalisasi data</a><ul class="nav section-nav flex-column">
+<li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#min-max-normalization">1. Min-Max Normalization</a></li>
+<li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#z-score-normalization">2. Z-score normalization</a></li>
+<li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#decimal-scaling-normalization">3. Decimal scaling normalization</a></li>
+</ul>
+</li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#normalisasi-data-menggunakan-python-dengan-library-scikit-learn">6.3 Normalisasi data menggunakan python dengan library Scikit-learn</a><ul class="nav section-nav flex-column">
+<li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#id2">1. Min-max normalization</a></li>
+<li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#id3">2. Z-score normalization</a></li>
+<li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#id4">3. Decimal scaling normalization</a></li>
+</ul>
+</li>
 </ul>
 </li>
 </ul>
