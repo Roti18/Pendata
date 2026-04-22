@@ -17,9 +17,9 @@ Alur proses yang digunakan:
 
 `CSV Reader -> Missing Value -> One to Many -> Partitioning -> Normalizer (default) -> Apply Model -> PCA (opsional) -> KNN -> Scorer`
 
-Jika ingin mencoba atau demo workflow-nya, file ada di [knime/uts_pendat.knwf](../knime/uts_pendat.knwf).
+Jika ingin mencoba atau demo workflow-nya, file ada di [uts_pendat.knwf](../knime/uts_pendat.knwf).
 
-Data yang diload ke KNIME ada di [dataset/dataset_kesuburan_tanah_missing.xlsx - Dataset.csv](../dataset/dataset_kesuburan_tanah_missing.xlsx%20-%20Dataset.csv).
+Data yang diload ke KNIME ada di [dataset_kesuburan_tanah_missing.csv](../dataset/dataset_kesuburan_tanah_missing.xlsx%20-%20Dataset.csv).
 
 Urutan ini sengaja dipilih karena setiap tahap saling bergantung:
 
