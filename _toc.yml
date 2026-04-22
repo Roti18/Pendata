@@ -7,3 +7,5 @@ chapters:
   title: "Business Understanding"
 - file: md/02_data-understanding
   title: "Data Understanding"
+- file: md/03_uts
+  title: "UTS Analisis Data Kesuburan Tanah Menggunakan KNN"
