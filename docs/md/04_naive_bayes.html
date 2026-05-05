@@ -374,12 +374,12 @@
 </ul>
 </li>
 <li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#perhitungan-manual-naive-bayes-step-by-step">4. Perhitungan Manual Naive Bayes (Step-by-step)</a><ul class="nav section-nav flex-column">
-<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#langkah-1-hitung-prior">Langkah 1 — Hitung Prior</a></li>
-<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#langkah-2-statistik-fitur-age-per-kelas-gaussian">Langkah 2 — Statistik Fitur Age per Kelas (Gaussian)</a></li>
-<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#langkah-3-likelihood-paymenttier-per-kelas-kategorik">Langkah 3 — Likelihood PaymentTier per Kelas (Kategorik)</a></li>
-<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#langkah-4-likelihood-everbenched-per-kelas-kategorik">Langkah 4 — Likelihood EverBenched per Kelas (Kategorik)</a></li>
-<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#langkah-5-prediksi-data-karyawan-baru">Langkah 5 — Prediksi Data Karyawan Baru</a></li>
-<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#langkah-6-keputusan-kelas-akhir">Langkah 6 — Keputusan Kelas Akhir</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#langkah-1-hitung-prior">Langkah 1 - Hitung Prior</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#langkah-2-statistik-fitur-age-per-kelas-gaussian">Langkah 2 - Statistik Fitur Age per Kelas (Gaussian)</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#langkah-3-likelihood-paymenttier-per-kelas-kategorik">Langkah 3 - Likelihood PaymentTier per Kelas (Kategorik)</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#langkah-4-likelihood-everbenched-per-kelas-kategorik">Langkah 4 - Likelihood EverBenched per Kelas (Kategorik)</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#langkah-5-prediksi-data-karyawan-baru">Langkah 5 - Prediksi Data Karyawan Baru</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#langkah-6-keputusan-kelas-akhir">Langkah 6 - Keputusan Kelas Akhir</a></li>
 </ul>
 </li>
 <li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#implementasi-di-knime">5. Implementasi di KNIME</a><ul class="nav section-nav flex-column">
@@ -430,7 +430,7 @@ P(C \mid x_1,\dots,x_n) = \frac{P(C)\,\prod_{i=1}^n P(x_i \mid C)}{P(x_1,\dots,x
 \]</div>
 <p>Komponen utama:</p>
 <ul class="simple">
-<li><p><strong>Prior <span class="math notranslate nohighlight">\(P(C)\)</span></strong>: probabilitas awal kelas <span class="math notranslate nohighlight">\(C\)</span> sebelum melihat data baru — dihitung dari frekuensi kelas dalam data latih.</p></li>
+<li><p><strong>Prior <span class="math notranslate nohighlight">\(P(C)\)</span></strong>: probabilitas awal kelas <span class="math notranslate nohighlight">\(C\)</span> sebelum melihat data baru - dihitung dari frekuensi kelas dalam data latih.</p></li>
 <li><p><strong>Likelihood <span class="math notranslate nohighlight">\(P(x_i \mid C)\)</span></strong>: probabilitas mengamati nilai fitur <span class="math notranslate nohighlight">\(x_i\)</span> ketika kelas adalah <span class="math notranslate nohighlight">\(C\)</span>. Untuk fitur kategorik dihitung dari frekuensi; untuk fitur numerik diasumsikan distribusi Gaussian.</p></li>
 <li><p><strong>Posterior <span class="math notranslate nohighlight">\(P(C \mid x)\)</span></strong>: probabilitas kelas yang diinginkan setelah melihat bukti/data.</p></li>
 </ul>
@@ -574,8 +574,8 @@ P(x_1,x_2,\dots,x_n \mid C) = \prod_{i=1}^n P(x_i \mid C)
 </div>
 <p>Distribusi kelas dari 6 baris di atas:</p>
 <ul class="simple">
-<li><p><code class="docutils literal notranslate"><span class="pre">LeaveOrNot=0</span></code> (Tetap): baris 1, 3, 6 → <strong>3 karyawan</strong></p></li>
-<li><p><code class="docutils literal notranslate"><span class="pre">LeaveOrNot=1</span></code> (Resign): baris 2, 4, 5 → <strong>3 karyawan</strong></p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">LeaveOrNot=0</span></code> (Tetap): baris 1, 3, 6 =&gt; <strong>3 karyawan</strong></p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">LeaveOrNot=1</span></code> (Resign): baris 2, 4, 5 =&gt; <strong>3 karyawan</strong></p></li>
 </ul>
 </section>
 </section>
@@ -583,12 +583,12 @@ P(x_1,x_2,\dots,x_n \mid C) = \prod_{i=1}^n P(x_i \mid C)
 <h2>4. Perhitungan Manual Naive Bayes (Step-by-step)<a class="headerlink" href="#perhitungan-manual-naive-bayes-step-by-step" title="Link to this heading">#</a></h2>
 <p>Perhitungan manual menggunakan 3 fitur:</p>
 <ul class="simple">
-<li><p><strong>Age</strong> → numerik, menggunakan distribusi Gaussian</p></li>
-<li><p><strong>PaymentTier</strong> → kategorik, menggunakan frekuensi</p></li>
-<li><p><strong>EverBenched</strong> → kategorik, menggunakan frekuensi</p></li>
+<li><p><strong>Age</strong> =&gt; numerik, menggunakan distribusi Gaussian</p></li>
+<li><p><strong>PaymentTier</strong> =&gt; kategorik, menggunakan frekuensi</p></li>
+<li><p><strong>EverBenched</strong> =&gt; kategorik, menggunakan frekuensi</p></li>
 </ul>
 <section id="langkah-1-hitung-prior">
-<h3>Langkah 1 — Hitung Prior<a class="headerlink" href="#langkah-1-hitung-prior" title="Link to this heading">#</a></h3>
+<h3>Langkah 1 - Hitung Prior<a class="headerlink" href="#langkah-1-hitung-prior" title="Link to this heading">#</a></h3>
 <p>Total data = 6. Kelas 0 (Tetap) = 3. Kelas 1 (Resign) = 3.</p>
 <div class="math notranslate nohighlight">
 \[
@@ -600,7 +600,7 @@ P(\text{LeaveOrNot}=1) = \frac{3}{6} = 0.5
 \]</div>
 </section>
 <section id="langkah-2-statistik-fitur-age-per-kelas-gaussian">
-<h3>Langkah 2 — Statistik Fitur Age per Kelas (Gaussian)<a class="headerlink" href="#langkah-2-statistik-fitur-age-per-kelas-gaussian" title="Link to this heading">#</a></h3>
+<h3>Langkah 2 - Statistik Fitur Age per Kelas (Gaussian)<a class="headerlink" href="#langkah-2-statistik-fitur-age-per-kelas-gaussian" title="Link to this heading">#</a></h3>
 <p>Data <strong>Age</strong> per kelas:</p>
 <ul class="simple">
 <li><p><strong>Kelas 0 (Tetap):</strong> 34, 38, 22</p></li>
@@ -634,7 +634,7 @@ P(\text{LeaveOrNot}=1) = \frac{3}{6} = 0.5
 \]</div>
 </section>
 <section id="langkah-3-likelihood-paymenttier-per-kelas-kategorik">
-<h3>Langkah 3 — Likelihood PaymentTier per Kelas (Kategorik)<a class="headerlink" href="#langkah-3-likelihood-paymenttier-per-kelas-kategorik" title="Link to this heading">#</a></h3>
+<h3>Langkah 3 - Likelihood PaymentTier per Kelas (Kategorik)<a class="headerlink" href="#langkah-3-likelihood-paymenttier-per-kelas-kategorik" title="Link to this heading">#</a></h3>
 <p>Data <strong>PaymentTier</strong> per kelas:</p>
 <ul class="simple">
 <li><p><strong>Kelas 0 (Tetap):</strong> [3, 3, 3]</p></li>
@@ -677,7 +677,7 @@ P(\text{LeaveOrNot}=1) = \frac{3}{6} = 0.5
 </div></blockquote>
 </section>
 <section id="langkah-4-likelihood-everbenched-per-kelas-kategorik">
-<h3>Langkah 4 — Likelihood EverBenched per Kelas (Kategorik)<a class="headerlink" href="#langkah-4-likelihood-everbenched-per-kelas-kategorik" title="Link to this heading">#</a></h3>
+<h3>Langkah 4 - Likelihood EverBenched per Kelas (Kategorik)<a class="headerlink" href="#langkah-4-likelihood-everbenched-per-kelas-kategorik" title="Link to this heading">#</a></h3>
 <p>Data <strong>EverBenched</strong> per kelas:</p>
 <ul class="simple">
 <li><p><strong>Kelas 0 (Tetap):</strong> [No, No, No]</p></li>
@@ -717,8 +717,8 @@ P(\text{LeaveOrNot}=1) = \frac{3}{6} = 0.5
 </div>
 </section>
 <section id="langkah-5-prediksi-data-karyawan-baru">
-<h3>Langkah 5 — Prediksi Data Karyawan Baru<a class="headerlink" href="#langkah-5-prediksi-data-karyawan-baru" title="Link to this heading">#</a></h3>
-<p>Misalkan kita ingin memprediksi seorang karyawan baru dengan data:</p>
+<h3>Langkah 5 - Prediksi Data Karyawan Baru<a class="headerlink" href="#langkah-5-prediksi-data-karyawan-baru" title="Link to this heading">#</a></h3>
+<p>Misalkan terdapat seorang karyawan baru dengan data sebagai berikut:</p>
 <div class="pst-scrollable-table-container"><table class="table">
 <thead>
 <tr class="row-odd"><th class="head"><p>Fitur</p></th>
@@ -738,62 +738,31 @@ P(\text{LeaveOrNot}=1) = \frac{3}{6} = 0.5
 </tbody>
 </table>
 </div>
-<p><strong>Hitung Likelihood Age = 30 menggunakan rumus Gaussian:</strong></p>
+<p><strong>Hitung Score tiap kelas:</strong></p>
 <div class="math notranslate nohighlight">
-\[
-f(x \mid \mu,\sigma) = \frac{1}{\sqrt{2\pi}\,\sigma} \exp\!\left(-\frac{(x-\mu)^2}{2\sigma^2}\right)
-\]</div>
-<p>Untuk <strong>Kelas 0</strong> (<span class="math notranslate nohighlight">\(\mu=31.33,\ \sigma=6.80\)</span>):</p>
+\[\text{Score}(\text{Kelas}) = P(\text{Kelas}) \times P(\text{Age} \mid \text{Kelas}) \times P(\text{PayTier} \mid \text{Kelas}) \times P(\text{Benched} \mid \text{Kelas})\]</div>
+<p><strong>Kelas 0 (Tetap Bekerja):</strong></p>
 <div class="math notranslate nohighlight">
-\[
-f(30 \mid 0) = \frac{1}{\sqrt{2\pi}\times 6.80}\,\exp\!\left(-\frac{(30-31.33)^2}{2 \times 46.20}\right)
-= 0.0588 \times \exp(-0.01916)
-\approx 0.0588 \times 0.9810 \approx 0.05768
-\]</div>
-<p>Untuk <strong>Kelas 1</strong> (<span class="math notranslate nohighlight">\(\mu=26.33,\ \sigma=1.70\)</span>):</p>
+\[= 0.5 \times 0.05768 \times 1.0 \times 1.0 = \mathbf{0.02884}\]</div>
+<p><strong>Kelas 1 (Resign):</strong></p>
 <div class="math notranslate nohighlight">
-\[
-f(30 \mid 1) = \frac{1}{\sqrt{2\pi}\times 1.70}\,\exp\!\left(-\frac{(30-26.33)^2}{2 \times 2.89}\right)
-= 0.2352 \times \exp(-2.330)
-\approx 0.2352 \times 0.09730 \approx 0.02289
-\]</div>
-<p><strong>Hitung Posterior Tidak Ternormalisasi:</strong></p>
+\[= 0.5 \times 0.02289 \times 0.667 \times 0.667 = \mathbf{0.005093}\]</div>
+<blockquote>
+<div><p>Nilai <span class="math notranslate nohighlight">\(P(\text{Age} \mid \text{Kelas})\)</span> diperoleh dari perhitungan Gaussian pada Langkah 2.</p>
+</div></blockquote>
+<p><strong>Normalisasi untuk mendapatkan probabilitas:</strong></p>
 <div class="math notranslate nohighlight">
-\[
-\text{Score}(\text{Kelas}=0) = P(0) \times f(\text{Age}=30 \mid 0) \times P(\text{PayTier}=3 \mid 0) \times P(\text{Benched}=\text{No} \mid 0)
-\]</div>
+\[P(\text{Kelas}=0 \mid \text{data}) = \frac{0.02884}{0.02884 + 0.005093} \approx \mathbf{84.99\%}\]</div>
 <div class="math notranslate nohighlight">
-\[
-= 0.5 \times 0.05768 \times 1.0 \times 1.0 = 0.02884
-\]</div>
-<div class="math notranslate nohighlight">
-\[
-\text{Score}(\text{Kelas}=1) = P(1) \times f(\text{Age}=30 \mid 1) \times P(\text{PayTier}=3 \mid 1) \times P(\text{Benched}=\text{No} \mid 1)
-\]</div>
-<div class="math notranslate nohighlight">
-\[
-= 0.5 \times 0.02289 \times 0.667 \times 0.667 = 0.005093
-\]</div>
-<p><strong>Normalisasi:</strong></p>
-<div class="math notranslate nohighlight">
-\[
-Z = 0.02884 + 0.005093 = 0.033933
-\]</div>
-<div class="math notranslate nohighlight">
-\[
-P(\text{Kelas}=0 \mid \text{data}) = \frac{0.02884}{0.033933} \approx \mathbf{84.99\%}
-\]</div>
-<div class="math notranslate nohighlight">
-\[
-P(\text{Kelas}=1 \mid \text{data}) = \frac{0.005093}{0.033933} \approx \mathbf{15.01\%}
-\]</div>
+\[P(\text{Kelas}=1 \mid \text{data}) = \frac{0.005093}{0.02884 + 0.005093} \approx \mathbf{15.01\%}\]</div>
 </section>
 <section id="langkah-6-keputusan-kelas-akhir">
-<h3>Langkah 6 — Keputusan Kelas Akhir<a class="headerlink" href="#langkah-6-keputusan-kelas-akhir" title="Link to this heading">#</a></h3>
+<h3>Langkah 6 - Keputusan Kelas Akhir<a class="headerlink" href="#langkah-6-keputusan-kelas-akhir" title="Link to this heading">#</a></h3>
+<p>Karena <span class="math notranslate nohighlight">\(P(\text{Kelas}=0) &gt; P(\text{Kelas}=1)\)</span>, maka:</p>
 <blockquote>
-<div><p><strong>Hasil Prediksi: <code class="docutils literal notranslate"><span class="pre">LeaveOrNot</span> <span class="pre">=</span> <span class="pre">0</span></code> → Karyawan diprediksi TETAP BEKERJA (probabilitas 84.99%)</strong></p>
+<div><p><strong>Hasil Prediksi: <code class="docutils literal notranslate"><span class="pre">LeaveOrNot</span> <span class="pre">=</span> <span class="pre">0</span></code> → Karyawan diprediksi TETAP BEKERJA (84.99%)</strong></p>
 </div></blockquote>
-<p>Faktor pendorong utama: <code class="docutils literal notranslate"><span class="pre">PaymentTier=3</span></code> (seluruh karyawan tetap di sampel ber-PaymentTier 3) dan <code class="docutils literal notranslate"><span class="pre">EverBenched=No</span></code> (seluruh karyawan tetap tidak pernah di-bench), sehingga likelihood kelas 0 jauh lebih tinggi.</p>
+<p>Hal ini didorong oleh dua faktor utama: seluruh karyawan yang tetap bekerja pada data sampel memiliki <code class="docutils literal notranslate"><span class="pre">PaymentTier=3</span></code> dan <code class="docutils literal notranslate"><span class="pre">EverBenched=No</span></code>, sehingga likelihood kelas 0 jauh lebih tinggi dibanding kelas 1.</p>
 </section>
 </section>
 <section id="implementasi-di-knime">
@@ -889,7 +858,7 @@ P(\text{Kelas}=1 \mid \text{data}) = \frac{0.005093}{0.033933} \approx \mathbf{1
 </tbody>
 </table>
 </div>
-<p>Karyawan dengan <code class="docutils literal notranslate"><span class="pre">Age=30</span></code>, <code class="docutils literal notranslate"><span class="pre">PaymentTier=3</span></code>, dan <code class="docutils literal notranslate"><span class="pre">EverBenched=No</span></code> diprediksi <strong>TETAP BEKERJA</strong>. Hasil ini konsisten dengan pola pada data latih sampel — semua karyawan tetap memiliki PaymentTier=3 dan tidak pernah di-bench.</p>
+<p>Karyawan dengan <code class="docutils literal notranslate"><span class="pre">Age=30</span></code>, <code class="docutils literal notranslate"><span class="pre">PaymentTier=3</span></code>, dan <code class="docutils literal notranslate"><span class="pre">EverBenched=No</span></code> diprediksi <strong>TETAP BEKERJA</strong>. Hasil ini konsisten dengan pola pada data latih sampel - semua karyawan tetap memiliki PaymentTier=3 dan tidak pernah di-bench.</p>
 <p><strong>Kelebihan Naive Bayes:</strong></p>
 <ul class="simple">
 <li><p>Sederhana dan cepat untuk training, cocok untuk dataset besar.</p></li>
@@ -900,7 +869,7 @@ P(\text{Kelas}=1 \mid \text{data}) = \frac{0.005093}{0.033933} \approx \mathbf{1
 <p><strong>Kekurangan Naive Bayes:</strong></p>
 <ul class="simple">
 <li><p>Asumsi independensi antar fitur sering tidak realistis (misal: <code class="docutils literal notranslate"><span class="pre">Education</span></code> dan <code class="docutils literal notranslate"><span class="pre">PaymentTier</span></code> kemungkinan berkorelasi).</p></li>
-<li><p>Sensitif terhadap <em>zero probability</em> — memerlukan Laplace Smoothing.</p></li>
+<li><p>Sensitif terhadap <em>zero probability</em> - memerlukan Laplace Smoothing.</p></li>
 <li><p>Untuk fitur numerik, asumsi distribusi Gaussian mungkin tidak tepat jika data tidak terdistribusi normal.</p></li>
 </ul>
 </section>
@@ -971,12 +940,12 @@ P(\text{Kelas}=1 \mid \text{data}) = \frac{0.005093}{0.033933} \approx \mathbf{1
 </ul>
 </li>
 <li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#perhitungan-manual-naive-bayes-step-by-step">4. Perhitungan Manual Naive Bayes (Step-by-step)</a><ul class="nav section-nav flex-column">
-<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#langkah-1-hitung-prior">Langkah 1 — Hitung Prior</a></li>
-<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#langkah-2-statistik-fitur-age-per-kelas-gaussian">Langkah 2 — Statistik Fitur Age per Kelas (Gaussian)</a></li>
-<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#langkah-3-likelihood-paymenttier-per-kelas-kategorik">Langkah 3 — Likelihood PaymentTier per Kelas (Kategorik)</a></li>
-<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#langkah-4-likelihood-everbenched-per-kelas-kategorik">Langkah 4 — Likelihood EverBenched per Kelas (Kategorik)</a></li>
-<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#langkah-5-prediksi-data-karyawan-baru">Langkah 5 — Prediksi Data Karyawan Baru</a></li>
-<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#langkah-6-keputusan-kelas-akhir">Langkah 6 — Keputusan Kelas Akhir</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#langkah-1-hitung-prior">Langkah 1 - Hitung Prior</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#langkah-2-statistik-fitur-age-per-kelas-gaussian">Langkah 2 - Statistik Fitur Age per Kelas (Gaussian)</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#langkah-3-likelihood-paymenttier-per-kelas-kategorik">Langkah 3 - Likelihood PaymentTier per Kelas (Kategorik)</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#langkah-4-likelihood-everbenched-per-kelas-kategorik">Langkah 4 - Likelihood EverBenched per Kelas (Kategorik)</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#langkah-5-prediksi-data-karyawan-baru">Langkah 5 - Prediksi Data Karyawan Baru</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#langkah-6-keputusan-kelas-akhir">Langkah 6 - Keputusan Kelas Akhir</a></li>
 </ul>
 </li>
 <li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#implementasi-di-knime">5. Implementasi di KNIME</a><ul class="nav section-nav flex-column">

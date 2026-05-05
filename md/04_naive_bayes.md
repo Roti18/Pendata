@@ -23,7 +23,7 @@ $$
 
 Komponen utama:
 
-- **Prior $P(C)$**: probabilitas awal kelas $C$ sebelum melihat data baru — dihitung dari frekuensi kelas dalam data latih.
+- **Prior $P(C)$**: probabilitas awal kelas $C$ sebelum melihat data baru - dihitung dari frekuensi kelas dalam data latih.
 - **Likelihood $P(x_i \mid C)$**: probabilitas mengamati nilai fitur $x_i$ ketika kelas adalah $C$. Untuk fitur kategorik dihitung dari frekuensi; untuk fitur numerik diasumsikan distribusi Gaussian.
 - **Posterior $P(C \mid x)$**: probabilitas kelas yang diinginkan setelah melihat bukti/data.
 
@@ -68,18 +68,18 @@ Berikut 6 baris pertama data sesungguhnya dari `Employee.csv` yang digunakan dal
 
 Distribusi kelas dari 6 baris di atas:
 
-- `LeaveOrNot=0` (Tetap): baris 1, 3, 6 → **3 karyawan**
-- `LeaveOrNot=1` (Resign): baris 2, 4, 5 → **3 karyawan**
+- `LeaveOrNot=0` (Tetap): baris 1, 3, 6 => **3 karyawan**
+- `LeaveOrNot=1` (Resign): baris 2, 4, 5 => **3 karyawan**
 
 ## 4. Perhitungan Manual Naive Bayes (Step-by-step)
 
 Perhitungan manual menggunakan 3 fitur:
 
-- **Age** → numerik, menggunakan distribusi Gaussian
-- **PaymentTier** → kategorik, menggunakan frekuensi
-- **EverBenched** → kategorik, menggunakan frekuensi
+- **Age** => numerik, menggunakan distribusi Gaussian
+- **PaymentTier** => kategorik, menggunakan frekuensi
+- **EverBenched** => kategorik, menggunakan frekuensi
 
-### Langkah 1 — Hitung Prior
+### Langkah 1 - Hitung Prior
 
 Total data = 6. Kelas 0 (Tetap) = 3. Kelas 1 (Resign) = 3.
 
@@ -91,7 +91,7 @@ $$
 P(\text{LeaveOrNot}=1) = \frac{3}{6} = 0.5
 $$
 
-### Langkah 2 — Statistik Fitur Age per Kelas (Gaussian)
+### Langkah 2 - Statistik Fitur Age per Kelas (Gaussian)
 
 Data **Age** per kelas:
 
@@ -126,7 +126,7 @@ $$
 \sigma_{\text{Age}|1} \approx 1.70
 $$
 
-### Langkah 3 — Likelihood PaymentTier per Kelas (Kategorik)
+### Langkah 3 - Likelihood PaymentTier per Kelas (Kategorik)
 
 Data **PaymentTier** per kelas:
 
@@ -142,7 +142,7 @@ Data **PaymentTier** per kelas:
 
 > **Catatan:** Ketika frekuensi = 0 (_zero probability_), digunakan Laplace Smoothing agar tidak menghasilkan posterior = 0. Di sini digunakan nilai kecil $\epsilon = 0.001$ untuk $P(\text{PayTier}=1 \mid \text{Kelas}=0)$.
 
-### Langkah 4 — Likelihood EverBenched per Kelas (Kategorik)
+### Langkah 4 - Likelihood EverBenched per Kelas (Kategorik)
 
 Data **EverBenched** per kelas:
 
@@ -156,9 +156,9 @@ Data **EverBenched** per kelas:
 | Yes         | 0 (Tetap)  | 0/3       | **~0.001** _(Laplace Smoothing)_ |
 | Yes         | 1 (Resign) | 1/3       | **0.333**                        |
 
-### Langkah 5 — Prediksi Data Karyawan Baru
+### Langkah 5 - Prediksi Data Karyawan Baru
 
-Misalkan kita ingin memprediksi seorang karyawan baru dengan data:
+Misalkan terdapat seorang karyawan baru dengan data sebagai berikut:
 
 | Fitur       | Nilai    |
 | ----------- | -------- |
@@ -166,65 +166,33 @@ Misalkan kita ingin memprediksi seorang karyawan baru dengan data:
 | PaymentTier | 3        |
 | EverBenched | No       |
 
-**Hitung Likelihood Age = 30 menggunakan rumus Gaussian:**
+**Hitung Score tiap kelas:**
 
-$$
-f(x \mid \mu,\sigma) = \frac{1}{\sqrt{2\pi}\,\sigma} \exp\!\left(-\frac{(x-\mu)^2}{2\sigma^2}\right)
-$$
+$$\text{Score}(\text{Kelas}) = P(\text{Kelas}) \times P(\text{Age} \mid \text{Kelas}) \times P(\text{PayTier} \mid \text{Kelas}) \times P(\text{Benched} \mid \text{Kelas})$$
 
-Untuk **Kelas 0** ($\mu=31.33,\ \sigma=6.80$):
+**Kelas 0 (Tetap Bekerja):**
 
-$$
-f(30 \mid 0) = \frac{1}{\sqrt{2\pi}\times 6.80}\,\exp\!\left(-\frac{(30-31.33)^2}{2 \times 46.20}\right)
-= 0.0588 \times \exp(-0.01916)
-\approx 0.0588 \times 0.9810 \approx 0.05768
-$$
+$$= 0.5 \times 0.05768 \times 1.0 \times 1.0 = \mathbf{0.02884}$$
 
-Untuk **Kelas 1** ($\mu=26.33,\ \sigma=1.70$):
+**Kelas 1 (Resign):**
 
-$$
-f(30 \mid 1) = \frac{1}{\sqrt{2\pi}\times 1.70}\,\exp\!\left(-\frac{(30-26.33)^2}{2 \times 2.89}\right)
-= 0.2352 \times \exp(-2.330)
-\approx 0.2352 \times 0.09730 \approx 0.02289
-$$
+$$= 0.5 \times 0.02289 \times 0.667 \times 0.667 = \mathbf{0.005093}$$
 
-**Hitung Posterior Tidak Ternormalisasi:**
+> Nilai $P(\text{Age} \mid \text{Kelas})$ diperoleh dari perhitungan Gaussian pada Langkah 2.
 
-$$
-\text{Score}(\text{Kelas}=0) = P(0) \times f(\text{Age}=30 \mid 0) \times P(\text{PayTier}=3 \mid 0) \times P(\text{Benched}=\text{No} \mid 0)
-$$
+**Normalisasi untuk mendapatkan probabilitas:**
 
-$$
-= 0.5 \times 0.05768 \times 1.0 \times 1.0 = 0.02884
-$$
+$$P(\text{Kelas}=0 \mid \text{data}) = \frac{0.02884}{0.02884 + 0.005093} \approx \mathbf{84.99\%}$$
 
-$$
-\text{Score}(\text{Kelas}=1) = P(1) \times f(\text{Age}=30 \mid 1) \times P(\text{PayTier}=3 \mid 1) \times P(\text{Benched}=\text{No} \mid 1)
-$$
+$$P(\text{Kelas}=1 \mid \text{data}) = \frac{0.005093}{0.02884 + 0.005093} \approx \mathbf{15.01\%}$$
 
-$$
-= 0.5 \times 0.02289 \times 0.667 \times 0.667 = 0.005093
-$$
+### Langkah 6 - Keputusan Kelas Akhir
 
-**Normalisasi:**
+Karena $P(\text{Kelas}=0) > P(\text{Kelas}=1)$, maka:
 
-$$
-Z = 0.02884 + 0.005093 = 0.033933
-$$
+> **Hasil Prediksi: `LeaveOrNot = 0` → Karyawan diprediksi TETAP BEKERJA (84.99%)**
 
-$$
-P(\text{Kelas}=0 \mid \text{data}) = \frac{0.02884}{0.033933} \approx \mathbf{84.99\%}
-$$
-
-$$
-P(\text{Kelas}=1 \mid \text{data}) = \frac{0.005093}{0.033933} \approx \mathbf{15.01\%}
-$$
-
-### Langkah 6 — Keputusan Kelas Akhir
-
-> **Hasil Prediksi: `LeaveOrNot = 0` → Karyawan diprediksi TETAP BEKERJA (probabilitas 84.99%)**
-
-Faktor pendorong utama: `PaymentTier=3` (seluruh karyawan tetap di sampel ber-PaymentTier 3) dan `EverBenched=No` (seluruh karyawan tetap tidak pernah di-bench), sehingga likelihood kelas 0 jauh lebih tinggi.
+Hal ini didorong oleh dua faktor utama: seluruh karyawan yang tetap bekerja pada data sampel memiliki `PaymentTier=3` dan `EverBenched=No`, sehingga likelihood kelas 0 jauh lebih tinggi dibanding kelas 1.
 
 ## 5. Implementasi di KNIME
 
@@ -313,7 +281,7 @@ Dari hasil evaluasi pada dataset penuh (4.653 baris), akurasi keseluruhan berada
 | 0 = Tetap Bekerja | 0.02884                      | **84.99%** ← Dipilih |
 | 1 = Resign        | 0.005093                     | 15.01%               |
 
-Karyawan dengan `Age=30`, `PaymentTier=3`, dan `EverBenched=No` diprediksi **TETAP BEKERJA**. Hasil ini konsisten dengan pola pada data latih sampel — semua karyawan tetap memiliki PaymentTier=3 dan tidak pernah di-bench.
+Karyawan dengan `Age=30`, `PaymentTier=3`, dan `EverBenched=No` diprediksi **TETAP BEKERJA**. Hasil ini konsisten dengan pola pada data latih sampel - semua karyawan tetap memiliki PaymentTier=3 dan tidak pernah di-bench.
 
 **Kelebihan Naive Bayes:**
 
@@ -325,5 +293,5 @@ Karyawan dengan `Age=30`, `PaymentTier=3`, dan `EverBenched=No` diprediksi **TET
 **Kekurangan Naive Bayes:**
 
 - Asumsi independensi antar fitur sering tidak realistis (misal: `Education` dan `PaymentTier` kemungkinan berkorelasi).
-- Sensitif terhadap _zero probability_ — memerlukan Laplace Smoothing.
+- Sensitif terhadap _zero probability_ - memerlukan Laplace Smoothing.
 - Untuk fitur numerik, asumsi distribusi Gaussian mungkin tidak tepat jika data tidak terdistribusi normal.
