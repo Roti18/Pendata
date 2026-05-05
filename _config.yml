@@ -1,7 +1,7 @@
 # Book settings
 # Learn more at https://jupyterbook.org/customize/config.html
 
-title: My sample book
+title: Penambangan Data
 author: "Moch. Zamroni Fahreza"
 copyright: "2026"
 logo: logo.png
@@ -22,7 +22,7 @@ bibtex_bibfiles:
 
 # Information about where the book exists on the web
 repository:
-  url: https://github.com/Roti18/Pendata
+  url: https://github.com/roti18/Pendata
   branch: main
 
 # Add GitHub buttons to your book
@@ -32,4 +32,5 @@ html:
   use_repository_button: true
 
 # Pattern to exclude from the build
-exclude_patterns: ["_build", "docs", "venv", "scripts", "run.bat", "run.sh", "README.md"]
+exclude_patterns:
+  ["_build", "docs", "venv", "scripts", "run.bat", "run.sh", "README.md"]

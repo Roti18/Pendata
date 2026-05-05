@@ -4,23 +4,34 @@ echo ==========================================
 echo    Installing Jupyter Book 1.0.3 (VENV)
 echo ==========================================
 
-:: Check if Python is installed
-python --version >nul 2>&1
-if %errorlevel% neq 0 (
+:: Resolve a usable Python interpreter outside the current venv
+set "PY_CMD="
+where py >nul 2>&1
+if %errorlevel% equ 0 (
+    set "PY_CMD=py -3"
+) else (
+    where python >nul 2>&1
+    if %errorlevel% equ 0 (
+        set "PY_CMD=python"
+    )
+)
+
+if not defined PY_CMD (
     echo [ERROR] Python not found. Please install Python first.
     pause
     exit /b 1
 )
 
+if exist venv (
+    rmdir /S /Q venv
+)
+
 echo [1/6] Creating Virtual Environment (venv)...
-python -m venv venv
+call %PY_CMD% -m venv venv
 
-echo [2/6] Activating Virtual Environment...
-call venv\Scripts\activate
-
-echo [3/6] Installing Requirements...
-python -m pip install --upgrade pip
-pip install -r scripts\requirements.txt
+echo [2/6] Installing Requirements...
+call venv\Scripts\python.exe -m pip install --upgrade pip
+call venv\Scripts\python.exe -m pip install -r scripts\requirements.txt
 
 if not exist Pendat (
     if not exist _config.yml (
@@ -29,7 +40,7 @@ if not exist Pendat (
 )
 
 echo Building Jupyter Book...
-jupyter-book build Pendat/
+call venv\Scripts\python.exe -m jupyter_book build Pendat/
 
 echo [5/6] Moving contents to Root...
 if exist Pendat (

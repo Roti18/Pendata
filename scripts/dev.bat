@@ -2,10 +2,7 @@
 echo Starting Development Environment...
 echo [TIP] If Windows Firewall asks, please select 'Allow Access' for Python.
 
-:: Activate venv
-if exist venv\Scripts\activate.bat (
-    call venv\Scripts\activate.bat
-) else (
+if not exist venv\Scripts\python.exe (
     echo [ERROR] Virtual environment ^(venv^) not found. Please run run.bat install first.
     pause
     exit /b 1
@@ -13,5 +10,12 @@ if exist venv\Scripts\activate.bat (
 
 :: Set MODE and run server
 set MODE=DEVELOPMENT
-python scripts\dev_server.py
+call venv\Scripts\python.exe --version >nul 2>&1
+if errorlevel 1 (
+    echo [ERROR] Virtual environment is broken. Please run run.bat install to rebuild venv.
+    pause
+    exit /b 1
+)
+
+call venv\Scripts\python.exe scripts\dev_server.py
 pause
