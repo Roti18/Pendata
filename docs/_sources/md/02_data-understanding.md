@@ -1,0 +1,1020 @@
+# Data Understanding
+
+## 1. Pendahuluan
+
+Dalam proses data mining, Data Understanding merupakan tahap yang sangat krusial karena menjadi fondasi sebelum dilakukan pembersihan data (Data Preparation) dan pemodelan (Modeling). Tahap ini bertujuan untuk memahami karakteristik data secara menyeluruh, baik dari sisi struktur, tipe data, kualitas data, maupun pola distribusinya. Tanpa pemahaman data yang baik, model yang dibangun berisiko menghasilkan kesimpulan yang bias atau tidak valid.
+
+## 2. Tujuan Data Understanding
+
+Tujuan utama dari tahap ini adalah:
+
+- Memastikan dataset dapat dibaca dengan benar.
+- Memahami struktur dan tipe data.
+- Mengidentifikasi potensi masalah seperti missing value dan duplikasi.
+- Menganalisis distribusi dan pola awal melalui statistik deskriptif.
+- Melakukan visualisasi untuk memahami hubungan antar fitur.
+- Menghitung dan mengukur kedekatan data (Distance Matrix) dengan perhitungan rumus matematika yang mendalam beserta implementasi manualnya.
+
+---
+
+## 3. Studi Kasus 1: Iris Flower Dataset
+
+### Sumber dan Pengumpulan Data
+
+Dataset yang digunakan dalam penelitian ini adalah Iris Flower Dataset. Dataset ini berisi 150 observasi bunga Iris yang terdiri dari tiga spesies (Iris-setosa, Iris-versicolor, Iris-virginica). Masing-masing spesies memiliki 50 data sehingga dataset bersifat seimbang (balanced dataset).
+Tipe data fitur-fitur pada Iris adalah murni Numerik (`sepal_length`, `sepal_width`, `petal_length`, `petal_width`).
+
+### Persiapan Google Colab
+
+Berikut adalah kode lengkap untuk melakukan eksplorasi data Iris secara menyeluruh di Google Colab:
+
+```ipython
+!pip install pandas seaborn matplotlib numpy
+
+import pandas as pd
+import seaborn as sns
+import matplotlib.pyplot as plt
+import numpy as np
+from google.colab import files
+
+print("Silakan pilih file CSV kamu:")
+uploaded = files.upload()
+file_path = list(uploaded.keys())[0]
+df = pd.read_csv(file_path)
+
+print("\n=== STRUKTUR DATA ===")
+display(df.head())
+
+print("\n=== STATISTIK DESKRIPTIF ===")
+display(df.describe())
+
+print("\n=== ANALISIS KUALITAS DATA ===")
+print(f"Data Duplikat: {df.duplicated().sum()}")
+print("Missing Values:")
+print(df.isnull().sum())
+
+plt.figure(figsize=(10, 6))
+sns.scatterplot(data=df, x=df.columns[0], y=df.columns[1], hue=df.columns[-1])
+plt.title('Scatter Plot Hubungan Variabel')
+plt.show()
+
+df.hist(figsize=(10, 8))
+plt.show()
+
+correlation_matrix = df.corr(numeric_only=True)
+print(correlation_matrix)
+```
+
+**1. Struktur Data (`df.head()`)**
+
+Dataset Iris terdiri dari 150 observasi dengan 5 atribut berikut:
+
+**`sepal_length` (Numerik)**: Mengukur panjang struktur daun kelopak terluar yang membungkus kuncup bunga (sepal) dalam satuan centimeter (cm).
+
+> ![Visualisasi Sepal Length](../img/data-understanding/sepal-length_colab.png)
+
+**`sepal_width` (Numerik)**: Mengukur lebar bagian kelopak ekuatorial. Bersama panjangannya, proporsi kelopak ini berfungsi menempatkan serangga penyerbuk.
+
+> ![Visualisasi Sepal Width](../img/data-understanding/sepal-width_colab.png)
+
+**`petal_length` (Numerik)**: Mengukur panjang daun mahkota (petal) berwarna di tengah bunga dalam satuan centimeter (cm).
+
+> ![Visualisasi Petal Length](../img/data-understanding/petal-length_colab.png)
+
+**`petal_width` (Numerik)**: Mengukur lebar bentangan mahkota petal. Gabungan petal memunculkan corak identitas spesies botani paling utama.
+
+> ![Visualisasi Petal Width](../img/data-understanding/petal-width_colab.png)
+
+**`species` (Kategorikal)**: Target klasifikasi berupa kategori jenis bunga Iris (Iris-setosa, Iris-versicolor, Iris-virginica).
+
+> ![Visualisasi Species](../img/data-understanding/species_colab.png)
+
+Output `df.head()`:
+
+| index | sepal_length | sepal_width | petal_length | petal_width | species     |
+| ----- | ------------ | ----------- | ------------ | ----------- | ----------- |
+| 0     | 5.1          | 3.5         | 1.4          | 0.2         | Iris-setosa |
+| 1     | 4.9          | 3.0         | 1.4          | 0.2         | Iris-setosa |
+| 2     | 4.7          | 3.2         | 1.3          | 0.2         | Iris-setosa |
+| 3     | 4.6          | 3.1         | 1.5          | 0.2         | Iris-setosa |
+| 4     | 5.0          | 3.6         | 1.4          | 0.2         | Iris-setosa |
+
+**2. Statistik Deskriptif (`df.describe()`)**
+
+Output `df.describe()`:
+
+|       | sepal_length | sepal_width | petal_length | petal_width |
+| ----- | ------------ | ----------- | ------------ | ----------- |
+| count | 150.0        | 150.0       | 150.0        | 150.0       |
+| mean  | 5.843333     | 3.054000    | 3.758667     | 1.198667    |
+| std   | 0.828066     | 0.433594    | 1.764420     | 0.763161    |
+| min   | 4.300000     | 2.000000    | 1.000000     | 0.100000    |
+| 25%   | 5.100000     | 2.800000    | 1.600000     | 0.300000    |
+| 50%   | 5.800000     | 3.000000    | 4.350000     | 1.300000    |
+| 75%   | 6.400000     | 3.300000    | 5.100000     | 1.800000    |
+| max   | 7.900000     | 4.400000    | 6.900000     | 2.500000    |
+
+Tidak ada nilai negatif atau anomali ekstrem. Dataset dalam kondisi normal secara statistik.
+
+**3. Analisis Kualitas Data (`isnull().sum()` & `duplicated().sum()`)**
+
+Output pengecekan kualitas:
+
+```
+=== ANALISIS KUALITAS DATA ===
+Data Duplikat: 3
+
+Atribut          Jumlah Missing Value
+sepal_length     0
+sepal_width      0
+petal_length     0
+petal_width      0
+species          0
+```
+
+Seluruh kolom memiliki **0 missing value**. Terdapat **3 baris duplikat** yang perlu ditangani pada tahap Data Preparation.
+
+**4. Matriks Korelasi Pearson (`df.corr()`)**
+
+Output matriks korelasi:
+
+|              | sepal_length | sepal_width | petal_length | petal_width |
+| ------------ | ------------ | ----------- | ------------ | ----------- |
+| sepal_length | 1.000000     | -0.109369   | 0.871754     | 0.817954    |
+| sepal_width  | -0.109369    | 1.000000    | -0.420516    | -0.356544   |
+| petal_length | 0.871754     | -0.420516   | 1.000000     | 0.962757    |
+| petal_width  | 0.817954     | -0.356544   | 0.962757     | 1.000000    |
+
+`petal_length` ↔ `petal_width` memiliki korelasi **0.9628** (sangat kuat positif).
+
+**5. Scatter Plot (`sns.scatterplot`)**
+Plot menampilkan sebaran titik data `petal_length` vs `petal_width` diwarnai per species. Iris-setosa terpisah jelas dari dua spesies lainnya.
+
+> ![Scatter Plot Iris](../img/data-understanding/scatterplot-colab.png)
+
+---
+
+### Implementasi Orange Data Mining Pada Dataset Iris
+
+Orange Data Mining adalah piranti _visual programming_ berbasis Graphical User Interface (Drag-and-Drop) untuk membuktikan komputasi jarak antar data Iris secara visual tanpa perlu menulis kode.
+
+### Penarikan Data dari PostgreSQL / MySQL ke Orange
+
+Dataset Iris tidak hanya dapat diimpor melalui file CSV, tetapi juga bisa diintegrasikan langsung dari sistem manajemen basis data.
+
+**1. Tambahkan Widget SQL Table**
+
+- Buka Orange, tambahkan widget **SQL Table** ke kanvas
+- Klik dua kali untuk membuka konfigurasi
+
+**2. Konfigurasi Koneksi PostgreSQL**
+
+- Host: `localhost`
+- Port: `5432`
+- Database: `iris_flower`
+- User: `postgres`
+- Password: (sesuai konfigurasi Laragon)
+- Klik **Connect** => pilih tabel `iris-flower`
+
+**3. Konfigurasi Koneksi MySQL**
+
+- Host: `localhost`
+- Port: `3306`
+- Database: `iris_db`
+- User: `root`
+- Password: (kosong jika default XAMPP)
+- Klik **Connect** => pilih tabel `iris-flower`
+
+**4. Menghubungkan ke Widget Analisis**
+Setelah SQL Table berhasil terkoneksi, hubungkan ke:
+
+- **Column Statistics** - melihat mean, median, mode tiap kolom
+- **Distributions** - distribusi frekuensi fitur
+- **Scatter Plot** - visualisasi sebaran antar fitur
+
+Workflow Orange menjadi:
+
+```
+SQL Table => Column Statistics
+SQL Table => Distributions
+SQL Table => Scatter Plot
+```
+
+> ![Konfigurasi Parameter Import Data SQL](../img/data-understanding/postgresql.png)
+
+> 1. Alur Logika Panel Kabel Sistem Database Import Widget Logis Orange: ![Diagram Jalur Jaringan Modul](../img/data-understanding/flow-orange.png)
+> 2. Pemuatan Input Pembaca File Database RDBMS Connection: ![Konfigurasi Parameter Import Data](../img/data-understanding/import-data.png)
+> 3. Statistik Evaluasi Kolom Cek Data: ![Pusat Visualisasi Dashboard Data Audit Kolom](../img/data-understanding/column-statistic.png)
+> 4. Panel Distribusi Frekuensi Data Histografis: ![Distribusi Penampakan Histogram Bimodal](../img/data-understanding/distribution.png)
+> 5. Klasterisasi Penyebaran Titik Interaksi Scatter Plot Iris: ![Diagram Titik Scatter Plot Ruang Jarak Iris](../img/data-understanding/scatter-plot.png)
+
+---
+
+## 4. Studi Kasus 2: Data Adult Income
+
+### Apa itu Adult Income Dataset?
+
+**Adult Income Dataset** (juga dikenal sebagai _Census Income Dataset_) adalah dataset publik yang bersumber dari data sensus populasi Amerika Serikat tahun 1994 yang dikumpulkan oleh Badan Sensus AS (_U.S. Census Bureau_). Dataset ini pertama kali dipublikasikan oleh **Ronny Kohavi dan Barry Becker** dan tersedia di UCI Machine Learning Repository. Dataset dapat diakses di [Adult Income Dataset - Kaggle](https://www.kaggle.com/datasets/wenruliu/adult-income-dataset).
+
+Dataset ini berisi **48.842 rekaman** data individu dewasa dengan **15 atribut** yang mencakup informasi demografis, pendidikan, pekerjaan, dan status sosial-ekonomi. Tujuan utama dataset ini adalah untuk **memprediksi apakah pendapatan tahunan seseorang melebihi 50.000 USD** berdasarkan atribut-atribut tersebut.
+
+**Karakteristik utama dataset:**
+
+- **Total Fitur**: 15 kolom (campuran numerik dan kategorikal)
+- **Tipe Data**: Heterogen - memuat kolom numerik, ordinal, nominal, dan biner
+- **Target Prediksi**: Kolom `income` dengan dua kelas: `<=50K` atau `>50K`
+- **Kegunaan**: Klasifikasi biner untuk studi demografi sosial-ekonomi
+
+Dataset ini sangat relevan untuk mempelajari teknik **Data Understanding pada data campuran** karena kombinasi tipe datanya yang kompleks memerlukan pendekatan pengukuran jarak yang berbeda dari dataset numerik murni seperti Iris.
+
+Kita menggunakan `dataset/dataset.csv` yang memuat **kolom campur (mixed data types)**. Mari kita ambil **2 baris pertama (Row 0 dan Row 1)** dari dataset untuk mendemonstrasikan perhitungan jarak secara manual.
+
+### Persiapan dan Pemuatan Dataset (Google Colab Python)
+
+Sama halnya dengan Iris, langkah awal untuk dataset campuran adalah memuat file ke dalam format dataframe dan melakukan eksplorasi awal.
+
+```python
+%matplotlib inline
+import pandas as pd
+import matplotlib.pyplot as plt
+import seaborn as sns
+import numpy as np
+
+# Membaca Dataset Campuran
+df_adult = pd.read_csv("dataset/dataset.csv", sep=";")
+display(df_adult.head())
+```
+
+**1. Struktur Awal Data (Head)**
+Lima baris pertama menunjukkan campuran kolom numerik (age, fnlwgt, hours-per-week) dan kategorikal (workclass, education, income).
+
+| index | age | workclass | fnlwgt | education    | educational-num | marital-status     | occupation        | relationship | race  | gender | capital-gain | capital-loss | hours-per-week | native-country | income |
+| ----- | --- | --------- | ------ | ------------ | --------------- | ------------------ | ----------------- | ------------ | ----- | ------ | ------------ | ------------ | -------------- | -------------- | ------ |
+| 0     | 25  | Private   | 226802 | 11th         | 7               | Never-married      | Machine-op-inspct | Own-child    | Black | Male   | 0            | 0            | 40             | United-States  | <=50K  |
+| 1     | 38  | Private   | 89814  | HS-grad      | 9               | Married-civ-spouse | Farming-fishing   | Husband      | White | Male   | 0            | 0            | 50             | United-States  | <=50K  |
+| 2     | 28  | Local-gov | 336951 | Assoc-acdm   | 12              | Married-civ-spouse | Protective-serv   | Husband      | White | Male   | 0            | 0            | 40             | United-States  | >50K   |
+| 3     | 44  | Private   | 160323 | Some-college | 10              | Married-civ-spouse | Machine-op-inspct | Husband      | Black | Male   | 7688         | 0            | 40             | United-States  | >50K   |
+| 4     | 18  | ?         | 103497 | Some-college | 10              | Never-married      | ?                 | Own-child    | White | Female | 0            | 0            | 30             | United-States  | <=50K  |
+
+**2. Statistik Deskriptif**
+
+```python
+display(df_adult.describe())
+```
+
+|       | age    | fnlwgt     | educational-num | capital-gain | capital-loss | hours-per-week |
+| ----- | ------ | ---------- | --------------- | ------------ | ------------ | -------------- |
+| count | 500.0  | 500.0      | 500.0           | 500.0        | 500.0        | 500.0          |
+| mean  | 37.338 | 188303.492 | 10.008          | 1470.008     | 70.916       | 40.272         |
+| std   | 13.653 | 101198.741 | 2.543           | 9298.308     | 354.581      | 11.981         |
+| min   | 17.0   | 20308.0    | 2.0             | 0.0          | 0.0          | 5.0            |
+| 25%   | 26.0   | 110718.25  | 9.0             | 0.0          | 0.0          | 38.75          |
+| 50%   | 35.0   | 177832.0   | 10.0            | 0.0          | 0.0          | 40.0           |
+| 75%   | 46.0   | 238286.5   | 12.0            | 0.0          | 0.0          | 45.0           |
+| max   | 80.0   | 599057.0   | 16.0            | 99999.0      | 2415.0       | 99.0           |
+
+**3. Analisis Kualitas Data**
+
+```python
+print(f"Data Duplikat: {df_adult.duplicated().sum()}")
+print("Missing Values:")
+print(df_adult.isnull().sum())
+```
+
+```
+Data Duplikat: 0
+
+Missing Values:
+age                0
+workclass          0
+fnlwgt             0
+education          0
+educational-num    0
+marital-status     0
+occupation         0
+relationship       0
+race               0
+gender             0
+capital-gain       0
+capital-loss       0
+hours-per-week     0
+native-country     0
+income             0
+dtype: int64
+```
+
+Dataset mengandung nilai `?` pada kolom `workclass` dan `occupation` sebagai penanda missing value kategorikal (bukan null).
+
+### Penjelasan Tipe Data Tiap Fitur
+
+Untuk bisa menganalisis profil Adult Income ini, kita wajib membongkar arti masing-masing kolom pengamatan tanpa ada satupun yang terlewat:
+
+1. **`age` (Numerik)**: Usia individu saat survei dilakukan (contoh: 25, 38).
+2. **`workclass` (Kategorikal)**: Sektor pekerjaan individu. Nilainya tidak berjenjang (contoh: Private, Local-gov, Self-emp-inc).
+3. **`fnlwgt` (Numerik)**: _Final Weight_ - bobot statistik dari Badan Sensus yang menunjukkan perkiraan jumlah orang dengan profil serupa di populasi nyata.
+4. **`education` (Kategorikal)**: Tingkat pendidikan terakhir yang diselesaikan (contoh: 11th, HS-grad, Some-college, Bachelors). Berjenjang dan punya urutan.
+5. **`educational-num` (Numerik)**: Versi angka dari kolom `education` (contoh: HS-grad = 9, Some-college = 10, Bachelors = 13).
+6. **`marital-status` (Kategorikal)**: Status pernikahan individu (contoh: Never-married, Married-civ-spouse, Divorced).
+7. **`occupation` (Kategorikal)**: Jenis pekerjaan yang dijalani (contoh: Machine-op-inspct, Farming-fishing, Protective-serv).
+8. **`relationship` (Kategorikal)**: Peran individu dalam keluarga (contoh: Own-child, Husband, Wife, Unmarried).
+9. **`race` (Kategorikal)**: Latar belakang ras individu (contoh: White, Black, Asian-Pac-Islander, Other).
+10. **`gender` (Biner)**: Jenis kelamin individu - hanya dua nilai: Male atau Female.
+11. **`capital-gain` (Numerik)**: Keuntungan finansial dari investasi atau aset. Sering bernilai 0 karena kebanyakan individu tidak punya pendapatan investasi.
+12. **`capital-loss` (Numerik)**: Kerugian finansial dari penurunan nilai aset atau investasi.
+13. **`hours-per-week` (Numerik)**: Jumlah jam kerja per minggu.
+14. **`native-country` (Kategorikal)**: Negara asal individu (contoh: United-States, Mexico, Philippines).
+15. **`income` (Biner)**: **Target prediksi** - kategori penghasilan tahunan: **`<=50K`** (tidak lebih dari 50 Ribu USD) atau **`>50K`** (lebih dari 50 Ribu USD).
+
+Berdasarkan data di atas, kita ambil cuplikan ringkas untuk perhitungan. Titik fokus perhitungan:
+
+- **Baris 1 (Line 9 dalam dataset/dataset.csv)**
+  - `Age` = 63 (Numerik)
+  - `Hours-per-week` = 32 (Numerik)
+  - `Workclass` = Self-emp-not-inc (Kategorikal)
+  - `Education` = Prof-school (Kategori Ordinal, Edu-num = 15)
+  - `Gender` = Male (Biner)
+  - `Income` = >50K (Biner)
+- **Baris 2 (Line 10 dalam dataset/dataset.csv)**
+  - `Age` = 24 (Numerik)
+  - `Hours-per-week` = 40 (Numerik)
+  - `Workclass` = Private (Kategorikal)
+  - `Education` = Some-college (Kategori Ordinal, Edu-num = 10)
+  - `Gender` = Female (Biner)
+  - `Income` = <=50K (Biner)
+
+### Konversi Tipe Data Sebelum Perhitungan
+
+Sebelum menghitung jarak, semua tipe data harus dikonversi ke bentuk numerik terlebih dahulu:
+
+| Fitur | Tipe | Baris 1 (Raw) | Baris 2 (Raw) | Konversi | Baris 1 | Baris 2 |
+| ----------------- | ----------- | ----------- | ----------- | -------------------------- | ------ | ------ |
+| `age` | Numerik | 63 | 24 | Langsung pakai | **63** | **24** |
+| `hours-per-week` | Numerik | 32 | 40 | Langsung pakai | **32** | **40** |
+| `workclass` | Kategorikal | Self-emp | Private | Label Encoding | **0** | **1** |
+| `educational-num` | Ordinal | 15 | 10 | Langsung pakai angkanya | **15** | **10** |
+| `gender` | Biner | Male | Female | Male=1, Female=0 | **1** | **0** |
+| `income` | Biner | >50K | <=50K | >50K=1, <=50K=0 | **1** | **0** |
+
+**Vektor setelah konversi:**
+
+-   **Vektor A (Baris 1):** `[63, 32, 0, 15, 1, 1]`
+-   **Vektor B (Baris 2):** `[24, 40, 1, 10, 0, 0]`
+
+## Perhitungan Manual Jarak Campuran (Adult Income)
+
+Dataset campuran diproses dengan metode mengonversi struktur **Ordinal menjadi Numerik**, menghitung jarak tersebut bersama atribut numerik murni melalui Euclidean, menghitung Kategorikal dengan rumus standard probabilitas `(P - M)/P`, dan diakhiri dengan menjumlahkan keduanya secara ekuivalen.
+
+Berikut adalah data sampel untuk pengujian (**Baris 1** dan **Baris 2**):
+
+| Fitur | Baris 1 | Baris 2 | Tipe Asli | Metode Jarak |
+| --- | --- | --- | --- | --- |
+| `educational-num` | 15 | 10 | Ordinal | Konversi Skala [0,1] => Euclidean |
+| `age` | 63 | 24 | Numerik | Nilai Raw => Euclidean |
+| `hours-per-week` | 32 | 40 | Numerik | Nilai Raw => Euclidean |
+| `gender` | Male | Female | Biner | Konversi (1, 0) => Euclidean |
+| `income` | >50K | <=50K | Biner | Konversi (1, 0) => Euclidean |
+| `workclass` | Self-emp | Private | Kategorikal | Simple Matching |
+| `marital-status` | Married | Never-mar | Kategorikal | Simple Matching |
+| `occupation` | Specialty | Other-serv | Kategorikal | Simple Matching |
+| `relationship` | Husband | Unmarried | Kategorikal | Simple Matching |
+| `race` | White | White | Kategorikal | Simple Matching |
+| `native-country` | US | US | Kategorikal | Simple Matching |
+
+### Langkah 1: Konversi Ordinal & Biner ke Numerik
+
+Sebelum masuk ke rumus *sqrt* (Euclidean), data non-numerik yang punya tingkatan atau biner harus diubah:
+
+**A. Skala Ordinal (`educational-num`)**
+
+### **Rumus Konversi Ordinal**
+
+
+$$
+\huge z = \frac{x - min_{f}}{max_{f} - min_{f}}
+$$
+
+- **Baris 1 (x=15)**: $\frac{15 - 2}{16 - 2} = \mathbf{0.9286}$
+- **Baris 2 (x=10)**: $\frac{10 - 2}{16 - 2} = \mathbf{0.5714}$
+
+**B. Skala Biner (`gender` & `income`)**
+
+Untuk variabel biner, kita harus menentukan sifat kedekatannya apakah **Simetris** atau **Asimetris**:
+- **`gender` (Simetris)**: Karena kedua kategori (Male/Female) dianggap memiliki bobot yang setara untuk diukur jaraknya.
+- **`income` (Asimetris)**: Karena biasanya kita lebih fokus pada kondisi "kritis" atau "spesifik" (seperti pendapatan >50K).
+
+Berikut adalah rumus yang digunakan untuk menghitung jarak biner:
+
+**Jarak Biner Simetris (Symmetric Binary)**
+
+$$
+\huge d(i, j) = \frac{r + s}{q + r + s + t}
+$$
+
+
+**Jarak Biner Tidak Simetris (Asymmetric Binary)**
+
+$$
+\huge d(i, j) = \frac{r + s}{q + r + s}
+$$
+
+
+**Identifikasi Parameter:**
+- **q**: Jumlah atribut di mana kedua baris bernilai 1.
+- **r**: Jumlah atribut di mana Baris $i=1$ dan Baris $j=0$.
+- **s**: Jumlah atribut di mana Baris $i=0$ dan Baris $j=1$.
+- **t**: Jumlah atribut di mana kedua baris bernilai 0.
+
+**Mapping Data:**
+- **Gender**: Baris 1 (Male) = **1**, Baris 2 (Female) = **0**
+- **Income**: Baris 1 (>50K) = **1**, Baris 2 (<=50K) = **0**
+
+### Langkah 2: Jarak Numerik & Ordinal (Euclidean)
+
+Atribut numerik murni dan ordinal (yang sudah dikonversi) dihitung selisihnya, dikuadratkan, lalu diakar (*sqrt*):
+
+| Fitur | Nilai Baris 1 | Nilai Baris 2 | Selisih ($A - B$) | Kuadrat $(\dots)^2$ |
+| --- | --- | --- | --- | --- |
+| **Age (Num)** | 63 | 24 | $39$ | $\mathbf{1521}$ |
+| **Hours (Num)** | 32 | 40 | $-8$ | $\mathbf{64}$ |
+| **Edu-num (Ord)** | 0.9286 | 0.5714 | $0.3572$ | $\mathbf{0.1276}$ |
+
+-   **Sigma Kuadrat ($\Sigma$)**: $1521 + 64 + 0.1276 = \mathbf{1585.1276}$
+-   **Jarak Euclidean ($D_{num\_ord}$)**: $\sqrt{1585.1276} = \mathbf{39.8137}$
+
+### Langkah 3: Jarak Biner (Symmetric & Asymmetric)
+
+Kita membedah kemunculan nilai pada variabel `gender` dan `income`. Karena terdapat atribut biner asimetris (`income`), maka secara umum sekumpulan variabel biner ini dapat diproses menggunakan pendekatan asimetris, namun kita akan hitung keduanya untuk melihat perbandingannya:
+
+| Fitur Biner | Baris 1 | Baris 2 | Pasangan (i, j) | Kategori |
+| --- | --- | --- | --- | --- |
+| `gender` | 1 | 0 | (1, 0) | **r** |
+| `income` | 1 | 0 | (1, 0) | **r** |
+
+**Identifikasi Parameter Akhir:**
+- **q (1,1)**: 0
+- **r (1,0)**: 2
+- **s (0,1)**: 0
+- **t (0,0)**: 0
+
+**Kalkulasi Jarak:**
+- **Jarak Biner Simetris ($D_{bin\_sym}$)**: $\frac{2 + 0}{0 + 2 + 0 + 0} = \mathbf{1.0}$
+- **Jarak Biner Asimetris ($D_{bin\_asym}$)**: $\frac{2+0}{0+2+0} = \mathbf{1.0}$
+
+*(Dalam studi kasus Row 1 vs Row 2 ini, kedua hasil bernilai 1.0 karena tidak adanya kecocokan nilai 0-0 ataupun 1-1 pada kolom biner).*
+
+### Langkah 4: Jarak Kategorikal (Simple Matching)
+
+Secara kolom demi kolom, kita mengeksplor status persamaannya:
+
+| Fitur Kategorikal | Baris 1 | Baris 2 | Perbandingan | Status Kecocokan |
+| --- | --- | --- | --- | --- |
+| `workclass` | Self-emp | Private | Self-emp != Private | **Beda** |
+| `marital-status` | Married | Never-mar | Married != Never-mar | **Beda** |
+| `occupation` | Specialty | Other-serv | Specialty != Other-serv | **Beda** |
+| `relationship` | Husband | Unmarried | Husband != Unmarried | **Beda** |
+| `race` | White | White | White == White | **Sama** |
+| `native-country` | US | US | US == US | **Sama** |
+
+### **Rumus Jarak Kategorikal (Simple Matching)**
+
+
+$$
+\huge D_{cat} = \frac{p - m}{p}
+$$
+
+
+Identifikasi untuk rumus di atas:
+- **Banyak Kolom Kategorikal (P)**: 6 atribut
+- **Data yang Sama (M)**: 2 (race, native-country)
+- **Jarak Kategorikal ($D_{cat}$)**: $\frac{6 - 2}{6} = \frac{4}{6} = \mathbf{0.6667}$
+
+### Langkah 5: Kalkulasi Jarak Total
+
+Setelah variabel dipisah menjadi numerik, ordinal, biner, dan murni heterogen kategorikal, nilai integrasinya digabung kedalam satu total penjumlahan utuh:
+
+### **Rumus Total Jarak Heterogen**
+
+
+$$
+\huge D_{total} = D_{num\_ord} + D_{bin} + D_{cat}
+$$
+
+**$$D_{total} = 39.8137 + 1.0 + 0.6667 = \mathbf{41.4804}$$**
+
+---
+
+### Implementasi Orange Data Mining (Adult Income)
+
+Workflow Orange untuk membuktikan perhitungan jarak pada dataset campuran:
+
+```
+File => Preprocess => Distances => Distance Matrix
+```
+
+**Langkah:**
+
+1.  **File** → load `dataset/dataset.csv`, separator `;`
+2.  **Preprocess** → tambahkan dua transformasi:
+    -   **Impute Missing Values** → Menggunakan model statistik untuk mengisi nilai `?` berdasarkan tetangga terdekat.
+    -   **Continuize Discrete Variables** → Mengubah kategori menjadi numerik.
+    -   **Normalize Features** → Menyamakan skala fitur ke rentang [0, 1].
+3.  **Distances** → Hitung jarak antar baris (Euclidean/Manhattan).
+4.  **Distance Matrix** → Tampilkan tabel jarak antar data.
+
+> 1. Alur Logika Panel Kabel Sistem Database Import Widget Logis Orange: ![Diagram Jalur Jaringan Modul](../img/data-understanding/flow-orange.png)
+> 2. Pemuatan Input Pembaca File Database RDBMS Connection: ![Konfigurasi Parameter Import Data](../img/data-understanding/import-data.png)
+> 3. Statistik Evaluasi Kolom Cek Data: ![Pusat Visualisasi Dashboard Data Audit Kolom](../img/data-understanding/column-statistic.png)
+> 4. Panel Distribusi Frekuensi Data Histografis: ![Distribusi Penampakan Histogram Bimodal](../img/data-understanding/distribution.png)
+> 5. Klasterisasi Penyebaran Titik Interaksi Scatter Plot Adult Income: ![Diagram Titik Scatter Plot Ruang Jarak Adult Income](../img/data-understanding/scatter-plot.png)
+
+---
+
+## 5. Missing values inputation dengan metode WKNN
+
+Missing values adalah suatu kondisi dimana dataset yang dimiliki memiliki nilai atribut yang tidak tersedia atau kosong. Hal itu akan memengaruhi kualitas suatu data, sehingga ada metode yang dapat digunakan untuk mengisi atau lebih tepatnya memperkirakan untuk mengisi missing values tersebut. Salah satu metode yang dapat digunakan adalah Weighted K-Nearest Neighbour (WKNN).
+
+Metode WKNN merupakan pengembangan dari metode K-Nearest Neighbour (KNN) yang digunakan untuk melakukan imputasi nilai yang hilang berdasarkan kemiripan antar data. Pada metode ini nilai yang hilang diperkirakan dengan tetangga terdekat (nearest neighbours) yang memiliki kemiripan tertinggi. Perbedaan utama antara KNN dengan WKNN terletak pada pemberian bobot untuk setiap tetangga, dalam WKNN data yang jaraknya dekat akan diberikan bobot lebih besar dibandingkan jarak yang jauh.
+
+Langkah-langkah melakukan metode WKNN:
+1. Mengidentifikasi missing values pada data
+2. Melakukan normalisasi data
+3. Menghitung similarity antar data
+4. Menentukan beberapa tetangga terdekat (K tetangga)
+5. Menghitung nilai imputasi
+
+**Rumus normalisasi data (min-max method)**
+
+$$
+X_{norm} = \frac{X - X_{min}}{X_{max} - X_{min}}
+$$
+
+
+Keterangan:
+- $X$ : nilai data asli
+- $X_{min}$ : nilai minimum pada atribut
+- $X_{max}$ : nilai maksimum pada atribut
+- $X_{norm}$ : nilai hasil normalisasi
+
+**Rumus Similarity pada WKNN**
+
+$$
+S_i = \frac{1}{d(X_t, X_i)}
+$$
+
+
+Keterangan:
+- $S_i$ : nilai similarity antara data target dan data ke-i
+- $X_t$ : nilai atribut pada data target yang memiliki missing value
+- $X_i$ : nilai atribut pada data tetangga
+
+**Rumus perhitungan nilai imputasi**
+
+$$
+Y_t = \frac{\sum_{i=1}^{k} S_i \times Y_i}{\sum_{i=1}^{k} S_i}
+$$
+
+
+Keterangan:
+- $Y_t$ : nilai imputasi pada atribut dari data ke-t
+- $K$ : himpunan indeks dari k tetangga terdekat
+- $S_i$ : nilai similarity antara data target dan data tetangga
+- $Y_i$ : nilai atribut dari data tetangga ke-i
+
+Perlu diingat dalam metode ini, penentuan tetangga terdekat tidak ada metode pasti atau jumlah pasti yang digunakan, semuanya tergantung kebutuhan dataset tersebut.
+
+### 5.1 Dataset yang Digunakan
+Dataset yang digunakan berisi data makroekonomi mengenai PDRB (Produk Domestik Regional Bruto) per Kapita dan Tingkat Pengangguran di berbagai provinsi di Indonesia sejak tahun 1986 hingga 2018. Dataset ini memuat beragam indikator ekonomi yang dapat digunakan untuk melihat tren, gap, serta menguji metode imputed pada nilai yang kosong. 
+
+Kumpulan data ini memuat fitur seperti PDRB, Tingkat Pengangguran, log natural PDRB (ln_gdp), serta gap dan nilai tren pada setiap tahunnya. Kita menggunakan sampel dari `dataset/Provincial GDP per capita and Unemployment in Indonesia 1986-2018.csv` yang juga sudah dibersihkan format angkanya melalui `fix_no_scientific.xlsx`.
+
+**Penjelasan beberapa fitur dan class:**
+
+| Column | Deskripsi |
+|---|---|
+| prov | Nama Provinsi di Indonesia |
+| year | Tahun pengambilan data |
+| gap_ln_gpd | Nilai kesenjangan (gap) dari log natural PDRB |
+| gap_unemp | Nilai kesenjangan (gap) dari tingkat pengangguran |
+| gdp | Produk Domestik Regional Bruto (PDRB) |
+| unemp | Tingkat Pengangguran |
+| ln_gdp | Log Natural dari nilai PDRB |
+| trend_unemp | Nilai tren tingkat pengangguran |
+| trend_ln_gpd | Nilai tren dari log natural PDRB |
+| c_unemp | Parameter tambahan angka pengangguran (sering kosong/tidak lengkap) |
+| g_gdp | Growth of GDP (Target perhitungan yang akan kita isi nilai *missing*-nya) |
+
+### 5.2 Perhitungan WKNN secara Manual
+
+#### 1. Menentukan Missing Values
+Pada dataset ini kita akan mengambil **5 data teratas** sebagai contoh (Provinsi Aceh, tahun 1986-1990). Pada baris pertama (index 0 / Row 0), ditemukan bahwa kolom target yaitu `g_gdp` **(Growth of GDP)** memiliki nilai kosong (missing value / NaN). Kita akan menggunakan metode WKNN untuk menaksir atau mengisi nilai kosong pada baris tersebut. 
+
+#### 2. Melakukan Normalisasi Data
+Selanjutnya, kita akan melakukan normalisasi pada 5 data teratas ini untuk 7 fitur numerik dasar (`gap_ln_gpd`, `gap_unemp`, `gdp`, `unemp`, `ln_gdp`, `trend_unemp`, `trend_ln_gpd`) dengan metode min-max normalization. Baris pertama (Row 0) memiliki nilai kosong pada `g_gdp`, namun fitur-fitur pendukungnya lengkap. 
+
+**Data Asli 5 Baris Teratas:**
+
+| prov   |   year |   gap_ln_gpd |   gap_unemp |      gdp |    unemp |   ln_gdp |   trend_unemp |   trend_ln_gpd | g_gdp    |
+|:-------|-------:|-------------:|------------:|---------:|---------:|---------:|--------------:|---------------:|:---------|
+| ACEH   |   1986 |    -0.064435 |    0.84854  | 29460043 | 23971448 | 10290791 |      15486045 |       10355226 | ?        |
+| ACEH   |   1987 |    -0.043851 |   -0.182799 | 31132713 | 16683953 | 10346014 |      18511945 |       10389865 | 55224228 |
+| ACEH   |   1988 |    -0.018569 |   -0.071466 | 33033934 | 20908041 | 10405291 |      21622698 |        1042386 | 5927619  |
+| ACEH   |   1989 |    -0.000234 |    0.722377 | 34748563 | 32108653 | 10455894 |       2488488 |       10456127 | 50602856 |
+| ACEH   |   1990 |    -0.004329 |   -0.552065 | 35634551 | 22837267 | 10481071 |      28357916 |       10485399 | 25177517 |
+
+Untuk melakukan normalisasi, tentukan nilai min dan max setiap kolom numerik tersebut:
+
+|     |   gap_ln_gpd |   gap_unemp |      gdp |    unemp |   ln_gdp |   trend_unemp |   trend_ln_gpd |
+|:----|-------------:|------------:|---------:|---------:|---------:|--------------:|---------------:|
+| min |    -0.064435 |   -0.552065 | 29460043 | 16683953 | 10290791 |       2488488 |        1042386 |
+| max |    -0.000234 |    0.84854  | 35634551 | 32108653 | 10481071 |      28357916 |       10485399 |
+
+*Contoh perhitungan normalisasi min-max (untuk Index 0 kolom `unemp`):*
+
+$$
+X_{norm} = \frac{23971448 - 16683953}{32108653 - 16683953} = \frac{7287495}{15424700} = 0.472456
+$$
+
+
+Hasil normalisasi keseluruhan data:
+
+| prov   |   year |   gap_ln_gpd |   gap_unemp |      gdp |    unemp |   ln_gdp |   trend_unemp |   trend_ln_gpd | g_gdp    |
+|:-------|-------:|-------------:|------------:|---------:|---------:|---------:|--------------:|---------------:|:---------|
+| ACEH   |   1986 |     0        |    1        | 0        | 0.472456 | 0        |      0.502429 |       0.986215 | ?        |
+| ACEH   |   1987 |     0.320618 |    0.263647 | 0.270899 | 0        | 0.29022  |      0.619397 |       0.989883 | 55224228 |
+| ACEH   |   1988 |     0.714409 |    0.343137 | 0.578814 | 0.273852 | 0.601745 |      0.739646 |       0        | 5927619  |
+| ACEH   |   1989 |     1        |    0.909923 | 0.856509 | 1        | 0.867684 |      0        |       0.9969   | 50602856 |
+| ACEH   |   1990 |     0.936215 |    0        | 1        | 0.398926 | 1        |      1        |       1        | 25177517 |
+
+#### 3. Menghitung Nilai Similarity
+Yang dihitung adalah euclidean distance baris data yang memiliki missing value (baris ke-0 / Index 0) terhadap baris-baris lainnya. Lalu diubah menjadi kemiripan ($S_i = \frac{1}{dist}$).
+
+| Pasangan   | S_i      |
+|:-----------|:---------|
+| Index 0    | ?        |
+| Index 1    | 1.035502 |
+| Index 2    | 0.552508 |
+| Index 3    | 0.553513 |
+| Index 4    | 0.537299 |
+
+#### 4. Menghitung Penyebut
+Kita menyatukan semua bobot kedekatan ($S_i$) tetangganya:
+
+$$
+\text{Penyebut} = 1.035502 + 0.552508 + 0.553513 + 0.537299 = \mathbf{2.678822}
+$$
+
+
+Maka sigma dari $S_i$ adalah **2.678822**.
+
+#### 5. Menghitung Pembilang
+Pembilang didapat dari mendistribusikan masing-masing kedekatan dengan nilai `g_gdp` yang telah tersedia:
+
+|   Y_i (g_gdp) |      S_i |   S_i * Y_i |
+|--------------:|---------:|------------:|
+|      55224228 | 1.035502 | 57184784.85 |
+|       5927619 | 0.552508 |  3275056.81 |
+|      50602856 | 0.553513 | 28009323.74 |
+|      25177517 | 0.537299 | 13527860.40 |
+
+
+$$
+\text{Pembilang} = 57184784.85 + 3275056.81 + 28009323.74 + 13527860.40 = \mathbf{101997025.80}
+$$
+
+
+#### 6. Menghitung Hasil Nilai Imputasi
+Prediksi baris kosong $Y_{pred}$ dilakukan dengan merasiokan total atas vs bawah.
+
+
+$$
+Y_{pred} = \frac{\text{Pembilang}}{\text{Penyebut}} = \frac{101997025.80}{2.678822} = \mathbf{38075327.81}
+$$
+
+
+Maka baris ke-0 yang tadinya kosong, nilai PDRB-nya diprediksi tumbuh sebesar **38075327.81**.
+
+### 5.3 Perhitungan WKNN Mengalokasikan Python
+Berikut implementasi lengkap dari pemuatan Excel dataset terkait, pengeksekusian formula WKNN di Python murni menggunakan Library pendukung Pandas, Numpy, lalu diprediksi dengan kemiripan Euclidean Distance:
+
+#### 1. Setting Library dan Akses File
+```python
+import pandas as pd
+import numpy as np
+from sklearn.preprocessing import MinMaxScaler
+from sklearn.metrics import pairwise_distances
+
+file_path = "dataset/Provincial GDP per capita and Unemployment in Indonesia 1986-2018.csv"
+df = pd.read_csv(file_path, sep=';') 
+
+# HANYA bongkar titik (ribuan) pada kolom tertentu saja agar tidak merusak desimal di kolom lain
+kolom_uang_jutaan = ['gdp', 'unemp', 'ln_gdp', 'trend_unemp', 'trend_ln_gpd', 'c_unemp', 'g_gdp']
+for col in kolom_uang_jutaan:
+    if col in df.columns and df[col].dtype == object:
+        df[col] = df[col].str.replace('.', '', regex=False).astype(float)
+
+# Format angka saat melakukan display
+pd.options.display.float_format = '{:,.2f}'.format
+
+# Kita ambil 5 baris teratas saja untuk komparasi perhitungan manual
+df_5 = df.head(5).copy()
+display(df_5)
+```
+- `import pandas` : Digunakan untuk manipulasi tabel dataset.
+- `import numpy` : Digunakan untuk perhitungan logis matematika.
+- `MinMaxScaler` : Menormalisasi nilai interval data pada ruang numerik 0-1.
+
+#### 2. Menentukan Titik Missing Values (Target Variable)
+```python
+# Cek lokasi kolom mana pada baris index ke-0 yang missing
+row_missing = 0
+missing_column = 'g_gdp'
+
+print("Missing value ditemukan pada baris ke:", row_missing)
+```
+
+#### 3. Normalisasi Data
+Lakukan normalisasi data pada fitur prediktor (tanpa menyentuh missing value).
+
+```python
+features = ['gap_ln_gpd', 'gap_unemp', 'gdp', 'unemp', 'ln_gdp', 'trend_unemp', 'trend_ln_gpd']
+
+# Fit and Transform menggunakan MinMaxScaler murni (0-1)
+cols_to_normalize = features
+scaler = MinMaxScaler()
+df_5[cols_to_normalize] = scaler.fit_transform(df_5[cols_to_normalize])
+
+print("Data setelah normalisasi min max:")
+display(df_5[cols_to_normalize])
+```
+
+#### 4. Menghitung Similarity Menggunakan Euclidean Distance
+```python
+similarities = []
+target_row = df_5.loc[row_missing, features].values.reshape(1,-1)
+
+for i in range(len(df_5)):
+    if i == row_missing:
+        similarities.append(None)
+        continue
+
+    compare_row = df_5.loc[i, features].values.reshape(1,-1)
+    
+    # Hitung Jarak Euclidean
+    dist = pairwise_distances(target_row, compare_row, metric='euclidean')[0][0]
+
+    # Mengubah jarak jadi mirip
+    Si = 1 / dist
+    similarities.append(Si)
+
+print("Similarity antar indeks tetangga terdekat:")
+print(similarities)
+```
+
+#### 5. Menghitung Pembilang Pembobot dan Penyebut Prediksi
+```python
+# Penyebut
+denominator = sum([s for s in similarities if s is not None])
+
+# Pembilang
+numerator = 0
+for i in range(len(df_5)):
+    if similarities[i] is None:
+        continue
+    # Ambil original prediktor
+    Yjh = df.loc[i, missing_column]
+    numerator += similarities[i] * Yjh
+
+print(f"Penyebut (Denominator): {denominator:.6f}")
+print(f"Pembilang (Numerator): {numerator:.6f}")
+```
+
+#### 6. Menghitung Nilai Imputasi Terspekulasi Akhir
+```python
+imputed_value = numerator / denominator
+
+print(f"Nilai Imputasi (Imputed Value): {imputed_value:.6f}")
+```
+Output:
+```text
+Nilai Imputasi: 37373790.633946
+```
+Nilai ini sah terkomputasi menggantikan variabel target yang memiliki kondisi *Missing Data*.
+
+
+## 6. Normalisasi data
+
+### 6.1 Materi normalisasi data
+Normalisasi data merupakan proses transformasi nilai pada atribut yang sudah ada dengan cara mengubah skalanya ke dalam rentang tertentu agar distribusi nilainya menjadi lebih sesuai untuk proses analisis. Tahapan ini termasuk dalam prepocessing data.
+
+Tujuan dari normalisasi adalah menyamakan skala antar variabel sehingga tidak ada atribut yang terlalu mendominasi karena memiliki nilai yang jauh lebih besar dibandingkan atribut lainnya. Dengan melakukan normalisasi, setiap fitur dalam dataset dapat memberikan kontribusi yang lebih seimbang dalam proses perhitungan dan membantu meningkatkan kemampuan model dalam menghasilkan prediksi yang lebih akurat.
+
+### 6.2 Macam-macam normalisasi data
+
+#### 1. Min-Max Normalization
+Min-Max Normalization adalah metode normalisasi yang digunakan untuk mengubah nilai data ke dalam rentang tertentu, biasanya 0 sampai 1. Metode ini bekerja dengan cara mengurangi setiap nilai data dengan nilai minimum pada dataset, kemudian membaginya dengan selisih antara nilai maksimum dan minimum.
+
+**Rumus Min-Max Normalization:**
+
+$$
+X_{norm} = \frac{X - X_{min}}{X_{max} - X_{min}}
+$$
+
+
+Keterangan:
+- $X$ : nilai data asli
+- $X_{min}$ : nilai minimum pada atribut
+- $X_{max}$ : nilai maksimum pada atribut
+- $X_{norm}$ : nilai hasil normalisasi 
+
+**Contoh perhitungan min-max normalization terhadap atribut "unemp" (Tingkat Pengangguran Provinsi Aceh)**
+
+Data sebelum di normalisasi:
+| unemp |
+| --- |
+| 23971448 |
+| 16683953 |
+| 20908041 |
+
+Diketahui: Min = 16683953, Max = 23971448.
+
+Contoh perhitungan normalisasi min-max (baris ke-3 yaitu nilai 20908041):
+
+$$
+X_{norm} = \frac{20908041 - 16683953}{23971448 - 16683953} = \frac{4224088}{7287495} = 0.579635
+$$
+
+
+Hasil keseluruhan data ketika sudah di normalisasi:
+| unemp |
+| --- |
+| 1.0 |
+| 0.0 |
+| 0.579635 |
+
+#### 2. Z-score normalization
+Z-Score Normalization (atau standardization) adalah metode normalisasi yang mengubah nilai data berdasarkan rata-rata (mean) dan standar deviasi dari dataset. Tujuannya adalah agar data memiliki rata-rata 0 dan standar deviasi 1, sehingga distribusi data menjadi lebih terstandarisasi.
+
+**Rumus Z-Score Normalization:**
+
+$$
+Z = \frac{X - \mu}{\sigma}
+$$
+
+
+Keterangan:
+- $X$ : nilai data asli
+- $\mu$ : rata-rata data
+- $\sigma$ : standar deviasi data
+- $Z$ : nilai hasil normalisasi
+
+**Contoh perhitungan Z-score normalization terhadap atribut "unemp" (Tingkat Pengangguran)**
+
+Data sebelum di normalisasi:
+| unemp |
+| --- |
+| 23971448 |
+| 16683953 |
+| 20908041 |
+
+Menghitung nilai mean (rata-rata):
+
+$$
+\mu = \frac{23971448 + 16683953 + 20908041}{3} = 20521147.33
+$$
+
+
+Menghitung standar deviasi populasi (\sigma):
+
+$$
+\sigma = \sqrt{\frac{(23971448 - 20521147.33)^2 + (16683953 - 20521147.33)^2 + (20908041 - 20521147.33)^2}{3}} = 2987659.16
+$$
+
+
+Contoh untuk perhitungan pada data pertama (23971448):
+
+$$
+Z = \frac{23971448 - 20521147.33}{2987659.16} = 1.154851
+$$
+
+
+Hasil normalisasi keseluruhan (berdasarkan deviasi):
+| unemp |
+| --- |
+| 1.154851 |
+| -1.284348 |
+| 0.129497 |
+
+#### 3. Decimal scaling normalization
+Decimal Scaling adalah metode normalisasi yang dilakukan dengan menggeser titik desimal pada nilai data sehingga semua nilai berada pada rentang yang lebih kecil (biasanya kurang dari 1). Proses ini dilakukan dengan cara membagi setiap nilai data dengan 10^j di mana j adalah jumlah digit dari nilai absolut terbesar dalam dataset.
+
+**Rumus decimal scaling:**
+
+$$
+X_{dec} = \frac{X}{10^j}
+$$
+
+
+Keterangan:
+- $X$ : nilai data asli
+- $j$ : jumlah digit dari nilai absolut terbesar dalam data
+- X_{dec} : nilai hasil normalisasi
+
+**Contoh perhitungan Decimal scaling normalization terhadap atribut "unemp" (Tingkat Pengangguran)**
+
+Data sebelum di normalisasi:
+| unemp |
+| --- |
+| 23971448 |
+| 16683953 |
+| 20908041 |
+
+Tentukan nilai j:
+Nilai terbesar dalam data adalah 23971448, dimana angka tersebut berjumlah 8 digit, maka j = 8.
+
+Contoh perhitungan (Data 23971448):
+
+$$
+X_{dec} = \frac{23971448}{10^8} = 0.23971448
+$$
+
+
+Sehingga hasil akhir data:
+| unemp |
+| --- |
+| 0.23971448 |
+| 0.16683953 |
+| 0.20908041 |
+
+### 6.3 Normalisasi data menggunakan python dengan library Scikit-learn
+Selain melakukan perhitungan normalisasi secara manual, normalisasi data juga dapat dilakukan menggunakan library Python yaitu scikit-learn (sklearn). Library ini menyediakan berbagai fungsi preprocessing data yang memudahkan proses normalisasi sebelum data digunakan dalam proses analisis atau machine learning.
+
+Kita pakai contoh atribut “unemp” (Tingkat Pengangguran) dari dataset provinsi.
+
+#### 1. Min-max normalization
+Pada sklearn ada library MinMaxScaler yang dapat digunakan untuk normalisasi ini.
+```python
+import pandas as pd
+import numpy as np
+from sklearn.preprocessing import MinMaxScaler
+
+data = np.array([[23971448], [16683953], [20908041]])
+
+df = pd.DataFrame(data, columns=['unemp'])
+
+scaler = MinMaxScaler()
+df['minmax_normalisasi'] = scaler.fit_transform(df[['unemp']])
+
+print(df)
+```
+Output:
+```text
+      unemp  minmax_normalisasi
+0  23971448            1.000000
+1  16683953            0.000000
+2  20908041            0.579635
+```
+
+#### 2. Z-score normalization
+Dalam scikit-learn ini disebut StandardScaler di dalam library nya.
+```python
+import pandas as pd
+import numpy as np
+from sklearn.preprocessing import StandardScaler
+
+data = [23971448, 16683953, 20908041]
+
+df = pd.DataFrame(data, columns=['unemp'])
+
+scaler = StandardScaler()
+
+df['zscore_normalisasi'] = scaler.fit_transform(df[['unemp']])
+
+print(df)
+```
+Output:
+```text
+      unemp  zscore_normalisasi
+0  23971448            1.154851
+1  16683953           -1.284348
+2  20908041            0.129497
+```
+
+#### 3. Decimal scaling normalization
+Berbeda dengan 2 metode diatas, decimal scaling tidak secara langsung tersedia pada library scikit-learn, maka dari itu kita akan membuat fungsi alternatif nya secara mandiri.
+```python
+import numpy as np
+
+data = np.array([23971448, 16683953, 20908041])
+
+max_val = np.max(np.abs(data))
+j = len(str(int(max_val)))
+normalized = data / (10 ** j)
+
+print("Data asli:", data)
+print("Hasil normalisasi:", normalized)
+```
+Output:
+```text
+Data asli: [23971448 16683953 20908041]
+Hasil normalisasi: [0.23971448 0.16683953 0.20908041]
+```

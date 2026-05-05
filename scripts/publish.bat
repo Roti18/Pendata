@@ -17,13 +17,29 @@ if exist docs rmdir /S /Q docs
 powershell -Command "$ignore = @('README.md', 'requirements.txt', '.nojekyll', 'markdown.md', 'markdown-notebooks.md', 'notebooks.ipynb'); $files = Get-ChildItem -Path . -Recurse -Depth 1 | Where-Object { ($_.Extension -eq '.md' -or $_.Extension -eq '.ipynb') -and $_.Name -notin $ignore -and $_.FullName -notmatch 'venv|_build|docs|scripts' }; $finalList = @(); foreach ($f in $files) { $relPath = (Resolve-Path -Path $f.FullName -Relative) -replace '^\.\\', '' -replace '\.(md|ipynb)$', '' -replace '\\', '/'; if ($relPath -eq 'intro') { continue }; $finalList += $f }; $numbered = $finalList | Where-Object { $_.Name -match '^\d+' } | Sort-Object Name; $nonNumbered = $finalList | Where-Object { $_.Name -notmatch '^\d+' } | Sort-Object Name; $sortedList = $numbered + $nonNumbered; $toc = 'format: jb-book' + \"`n\" + 'root: intro'; if ($sortedList.Count -gt 0) { $toc += \"`n\" + 'chapters:'; foreach ($f in $sortedList) { $relPath = (Resolve-Path -Path $f.FullName -Relative) -replace '^\.\\', '' -replace '\.(md|ipynb)$', '' -replace '\\', '/'; $content = Get-Content $f.FullName -TotalCount 20; $h1 = $content | Where-Object { $_ -match '^#\s+(.+)' } | Select-Object -First 1; if ($h1) { $title = ($h1 -replace '^#\s+', '').Trim() } else { $title = ($f.BaseName -replace '^\d+[_-]', '' -replace '[-_]', ' ').Trim() }; $toc += \"`n\" + '- file: ' + $relPath + \"`n\" + '  title: \"' + $title + '\"' } }; $toc | Out-File -FilePath _toc.yml -Encoding UTF8"
 
 echo [2/4] Building Jupyter Book...
-call .\venv\Scripts\python.exe -m jupyter_book build --all .
+if not exist .\venv\Scripts\jupyter-book.exe (
+    echo [ERROR] jupyter-book.exe not found in venv. Run run.bat install first.
+    pause
+    exit /b 1
+)
+
+call .\venv\Scripts\jupyter-book.exe build --all .
+if errorlevel 1 (
+    echo [ERROR] Jupyter Book build failed. Publish aborted.
+    pause
+    exit /b 1
+)
 
 echo [3/4] Preparing /docs folder...
 mkdir docs
 
 echo [4/4] Copying build files to /docs...
 xcopy /E /H /Y _build\html docs\
+if errorlevel 1 (
+    echo [ERROR] Copying build output failed.
+    pause
+    exit /b 1
+)
 echo. > docs\.nojekyll
 echo pendata.rynds.my.id > docs\CNAME
 if exist scripts\canvas-restricted.html copy /Y scripts\canvas-restricted.html docs\canvas.html

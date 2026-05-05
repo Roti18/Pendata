@@ -1,0 +1,782 @@
+
+<!DOCTYPE html>
+
+
+<html lang="en" data-content_root="../" >
+
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" /><meta name="viewport" content="width=device-width, initial-scale=1" />
+
+    <title>UTS Analisis Data Kesuburan Tanah Menggunakan KNN &#8212; Penambangan Data</title>
+  
+  
+  
+  <script data-cfasync="false">
+    document.documentElement.dataset.mode = localStorage.getItem("mode") || "";
+    document.documentElement.dataset.theme = localStorage.getItem("theme") || "";
+  </script>
+  <!--
+    this give us a css class that will be invisible only if js is disabled
+  -->
+  <noscript>
+    <style>
+      .pst-js-only { display: none !important; }
+
+    </style>
+  </noscript>
+  
+  <!-- Loaded before other Sphinx assets -->
+  <link href="../_static/styles/theme.css?digest=8878045cc6db502f8baf" rel="stylesheet" />
+<link href="../_static/styles/pydata-sphinx-theme.css?digest=8878045cc6db502f8baf" rel="stylesheet" />
+
+    <link rel="stylesheet" type="text/css" href="../_static/pygments.css?v=03e43079" />
+    <link rel="stylesheet" type="text/css" href="../_static/styles/sphinx-book-theme.css?v=3c74b3bc" />
+    <link rel="stylesheet" type="text/css" href="../_static/togglebutton.css?v=9c3e77be" />
+    <link rel="stylesheet" type="text/css" href="../_static/copybutton.css?v=76b2166b" />
+    <link rel="stylesheet" type="text/css" href="../_static/mystnb.11b39860a7a0cbfd473a3ad8a317855267ff0bd372690045ca344a6b62be495e.css" />
+    <link rel="stylesheet" type="text/css" href="../_static/sphinx-thebe.css?v=4fa983c6" />
+    <link rel="stylesheet" type="text/css" href="../_static/sphinx-design.min.css?v=95c83b7e" />
+  
+  <!-- So that users can add custom icons -->
+  <script src="../_static/scripts/fontawesome.js?digest=8878045cc6db502f8baf"></script>
+  <!-- Pre-loaded scripts that we'll load fully later -->
+  <link rel="preload" as="script" href="../_static/scripts/bootstrap.js?digest=8878045cc6db502f8baf" />
+<link rel="preload" as="script" href="../_static/scripts/pydata-sphinx-theme.js?digest=8878045cc6db502f8baf" />
+
+    <script src="../_static/documentation_options.js?v=9eb32ce0"></script>
+    <script src="../_static/doctools.js?v=9a2dae69"></script>
+    <script src="../_static/sphinx_highlight.js?v=dc90522c"></script>
+    <script src="../_static/clipboard.min.js?v=a7894cd8"></script>
+    <script src="../_static/copybutton.js?v=f281be69"></script>
+    <script src="../_static/scripts/sphinx-book-theme.js?v=fab101a9"></script>
+    <script>let toggleHintShow = 'Click to show';</script>
+    <script>let toggleHintHide = 'Click to hide';</script>
+    <script>let toggleOpenOnPrint = 'true';</script>
+    <script src="../_static/togglebutton.js?v=b8b12719"></script>
+    <script>var togglebuttonSelector = '.toggle, .admonition.dropdown';</script>
+    <script src="../_static/design-tabs.js?v=f930bc37"></script>
+    <script>const THEBE_JS_URL = "https://unpkg.com/thebe@0.8.2/lib/index.js"; const thebe_selector = ".thebe,.cell"; const thebe_selector_input = "pre"; const thebe_selector_output = ".output, .cell_output"</script>
+    <script async="async" src="../_static/sphinx-thebe.js?v=c100c467"></script>
+    <script>var togglebuttonSelector = '.toggle, .admonition.dropdown';</script>
+    <script>const THEBE_JS_URL = "https://unpkg.com/thebe@0.8.2/lib/index.js"; const thebe_selector = ".thebe,.cell"; const thebe_selector_input = "pre"; const thebe_selector_output = ".output, .cell_output"</script>
+    <script>window.MathJax = {"options": {"processHtmlClass": "tex2jax_process|mathjax_process|math|output_area"}}</script>
+    <script defer="defer" src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-mml-chtml.js"></script>
+    <script>DOCUMENTATION_OPTIONS.pagename = 'md/03_uts';</script>
+    <link rel="index" title="Index" href="../genindex.html" />
+    <link rel="search" title="Search" href="../search.html" />
+    <link rel="next" title="Analisa Data Menggunakan Naive Bayes" href="04_naive_bayes.html" />
+    <link rel="prev" title="Data Understanding" href="02_data-understanding.html" />
+  <meta name="viewport" content="width=device-width, initial-scale=1"/>
+  <meta name="docsearch:language" content="en"/>
+  <meta name="docsearch:version" content="" />
+  </head>
+  
+  
+  <body data-bs-spy="scroll" data-bs-target=".bd-toc-nav" data-offset="180" data-bs-root-margin="0px 0px -60%" data-default-mode="">
+
+  
+  
+  <div id="pst-skip-link" class="skip-link d-print-none"><a href="#main-content">Skip to main content</a></div>
+  
+  <div id="pst-scroll-pixel-helper"></div>
+  
+  <button type="button" class="btn rounded-pill" id="pst-back-to-top">
+    <i class="fa-solid fa-arrow-up"></i>Back to top</button>
+
+  
+  <dialog id="pst-search-dialog">
+    
+<form class="bd-search d-flex align-items-center"
+      action="../search.html"
+      method="get">
+  <i class="fa-solid fa-magnifying-glass"></i>
+  <input type="search"
+         class="form-control"
+         name="q"
+         placeholder="Search this book..."
+         aria-label="Search this book..."
+         autocomplete="off"
+         autocorrect="off"
+         autocapitalize="off"
+         spellcheck="false"/>
+  <span class="search-button__kbd-shortcut"><kbd class="kbd-shortcut__modifier">Ctrl</kbd>+<kbd>K</kbd></span>
+</form>
+  </dialog>
+
+  <div class="pst-async-banner-revealer d-none">
+  <aside id="bd-header-version-warning" class="d-none d-print-none" aria-label="Version warning"></aside>
+</div>
+
+  
+    <header class="bd-header navbar navbar-expand-lg bd-navbar d-print-none">
+    </header>
+  
+
+  <div class="bd-container">
+    <div class="bd-container__inner bd-page-width">
+      
+      
+      
+      <dialog id="pst-primary-sidebar-modal"></dialog>
+      <div id="pst-primary-sidebar" class="bd-sidebar-primary bd-sidebar">
+        
+
+  
+  <div class="sidebar-header-items sidebar-primary__section">
+    
+    
+    
+    
+  </div>
+  
+    <div class="sidebar-primary-items__start sidebar-primary__section">
+        <div class="sidebar-primary-item">
+
+  
+    
+  
+
+<a class="navbar-brand logo" href="../intro.html">
+  
+  
+  
+  
+  
+    
+    
+      
+    
+    
+    <img src="../_static/logo.png" class="logo__image only-light" alt="Penambangan Data - Home"/>
+    <img src="../_static/logo.png" class="logo__image only-dark pst-js-only" alt="Penambangan Data - Home"/>
+  
+  
+</a></div>
+        <div class="sidebar-primary-item">
+
+<button class="btn search-button-field search-button__button pst-js-only" title="Search" aria-label="Search" data-bs-placement="bottom" data-bs-toggle="tooltip">
+ <i class="fa-solid fa-magnifying-glass"></i>
+ <span class="search-button__default-text">Search</span>
+ <span class="search-button__kbd-shortcut"><kbd class="kbd-shortcut__modifier">Ctrl</kbd>+<kbd class="kbd-shortcut__modifier">K</kbd></span>
+</button></div>
+        <div class="sidebar-primary-item"><nav class="bd-links bd-docs-nav" aria-label="Main">
+    <div class="bd-toc-item navbar-nav active">
+        
+        <ul class="nav bd-sidenav bd-sidenav__home-link">
+            <li class="toctree-l1">
+                <a class="reference internal" href="../intro.html">
+                    Profile
+                </a>
+            </li>
+        </ul>
+        <ul class="current nav bd-sidenav">
+<li class="toctree-l1"><a class="reference internal" href="00_penambangan-data.html">Penambangan Data</a></li>
+<li class="toctree-l1"><a class="reference internal" href="01_busines-understanding.html">Business Understanding</a></li>
+<li class="toctree-l1"><a class="reference internal" href="02_data-understanding.html">Data Understanding</a></li>
+<li class="toctree-l1 current active"><a class="current reference internal" href="#">UTS Analisis Data Kesuburan Tanah Menggunakan KNN</a></li>
+<li class="toctree-l1"><a class="reference internal" href="04_naive_bayes.html">Analisa Data Menggunakan Naive Bayes</a></li>
+</ul>
+
+    </div>
+</nav></div>
+    </div>
+  
+  
+  <div class="sidebar-primary-items__end sidebar-primary__section">
+      <div class="sidebar-primary-item">
+<div id="ethical-ad-placement"
+      class="flat"
+      data-ea-publisher="readthedocs"
+      data-ea-type="readthedocs-sidebar"
+      data-ea-manual="true">
+</div></div>
+  </div>
+
+
+      </div>
+      
+      <main id="main-content" class="bd-main" role="main">
+        
+        
+
+<div class="sbt-scroll-pixel-helper"></div>
+
+          <div class="bd-content">
+            <div class="bd-article-container">
+              
+              <div class="bd-header-article d-print-none">
+<div class="header-article-items header-article__inner">
+  
+    <div class="header-article-items__start">
+      
+        <div class="header-article-item"><button class="sidebar-toggle primary-toggle btn btn-sm" title="Toggle primary sidebar" data-bs-placement="bottom" data-bs-toggle="tooltip">
+  <span class="fa-solid fa-bars"></span>
+</button></div>
+      
+    </div>
+  
+  
+    <div class="header-article-items__end">
+      
+        <div class="header-article-item">
+
+<div class="article-header-buttons">
+
+
+
+
+
+<div class="dropdown dropdown-source-buttons">
+  <button class="btn dropdown-toggle" type="button" data-bs-toggle="dropdown" aria-expanded="false" aria-label="Source repositories">
+    <i class="fab fa-github"></i>
+  </button>
+  <ul class="dropdown-menu">
+      
+      
+      
+      <li><a href="https://github.com/roti18/Pendata" target="_blank"
+   class="btn btn-sm btn-source-repository-button dropdown-item"
+   title="Source repository"
+   data-bs-placement="left" data-bs-toggle="tooltip"
+>
+  
+
+<span class="btn__icon-container">
+  <i class="fab fa-github"></i>
+  </span>
+<span class="btn__text-container">Repository</span>
+</a>
+</li>
+      
+      
+      
+      
+      <li><a href="https://github.com/roti18/Pendata/issues/new?title=Issue%20on%20page%20%2Fmd/03_uts.html&body=Your%20issue%20content%20here." target="_blank"
+   class="btn btn-sm btn-source-issues-button dropdown-item"
+   title="Open an issue"
+   data-bs-placement="left" data-bs-toggle="tooltip"
+>
+  
+
+<span class="btn__icon-container">
+  <i class="fas fa-lightbulb"></i>
+  </span>
+<span class="btn__text-container">Open issue</span>
+</a>
+</li>
+      
+  </ul>
+</div>
+
+
+
+
+
+
+<div class="dropdown dropdown-download-buttons">
+  <button class="btn dropdown-toggle" type="button" data-bs-toggle="dropdown" aria-expanded="false" aria-label="Download this page">
+    <i class="fas fa-download"></i>
+  </button>
+  <ul class="dropdown-menu">
+      
+      
+      
+      <li><a href="../_sources/md/03_uts.md" target="_blank"
+   class="btn btn-sm btn-download-source-button dropdown-item"
+   title="Download source file"
+   data-bs-placement="left" data-bs-toggle="tooltip"
+>
+  
+
+<span class="btn__icon-container">
+  <i class="fas fa-file"></i>
+  </span>
+<span class="btn__text-container">.md</span>
+</a>
+</li>
+      
+      
+      
+      
+      <li>
+<button onclick="window.print()"
+  class="btn btn-sm btn-download-pdf-button dropdown-item"
+  title="Print to PDF"
+  data-bs-placement="left" data-bs-toggle="tooltip"
+>
+  
+
+<span class="btn__icon-container">
+  <i class="fas fa-file-pdf"></i>
+  </span>
+<span class="btn__text-container">.pdf</span>
+</button>
+</li>
+      
+  </ul>
+</div>
+
+
+
+
+<button onclick="toggleFullScreen()"
+  class="btn btn-sm btn-fullscreen-button pst-navbar-icon"
+  title="Fullscreen mode"
+  data-bs-placement="bottom" data-bs-toggle="tooltip"
+>
+  
+
+<span class="btn__icon-container">
+  <i class="fas fa-expand"></i>
+  </span>
+
+</button>
+
+
+
+<button class="btn btn-sm nav-link pst-navbar-icon theme-switch-button pst-js-only" aria-label="Color mode" data-bs-title="Color mode"  data-bs-placement="bottom" data-bs-toggle="tooltip">
+  <i class="theme-switch fa-solid fa-sun                fa-lg" data-mode="light" title="Light"></i>
+  <i class="theme-switch fa-solid fa-moon               fa-lg" data-mode="dark"  title="Dark"></i>
+  <i class="theme-switch fa-solid fa-circle-half-stroke fa-lg" data-mode="auto"  title="System Settings"></i>
+</button>
+
+
+<button class="btn btn-sm pst-navbar-icon search-button search-button__button pst-js-only" title="Search" aria-label="Search" data-bs-placement="bottom" data-bs-toggle="tooltip">
+    <i class="fa-solid fa-magnifying-glass fa-lg"></i>
+</button>
+<button class="sidebar-toggle secondary-toggle btn btn-sm pst-navbar-icon" title="Toggle secondary sidebar" data-bs-placement="bottom" data-bs-toggle="tooltip">
+    <span class="fa-solid fa-list"></span>
+</button>
+</div></div>
+      
+    </div>
+  
+</div>
+</div>
+              
+              
+
+<div id="jb-print-docs-body" class="onlyprint">
+    <h1>UTS Analisis Data Kesuburan Tanah Menggunakan KNN</h1>
+    <!-- Table of contents -->
+    <div id="print-main-content">
+        <div id="jb-print-toc">
+            
+            <div>
+                <h2> Contents </h2>
+            </div>
+            <nav aria-label="Page">
+                <ul class="visible nav section-nav flex-column">
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#deskripsi-singkat">Deskripsi Singkat</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#alur-workflow-knime">Alur Workflow KNIME</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#csv-reader">1. CSV Reader</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#missing-value">2. Missing Value</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#one-to-many-encoding">3. One to Many (Encoding)</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#partitioning">4. Partitioning</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#normalizer-default">5. Normalizer (Default)</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#apply-model-normalizer">6. Apply Model (Normalizer)</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#pca-opsional">7. PCA (Opsional)</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#k-nearest-neighbor-knn">8. K-Nearest Neighbor (KNN)</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#scorer">9. Scorer</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#kesimpulan">Kesimpulan</a></li>
+</ul>
+            </nav>
+        </div>
+    </div>
+</div>
+
+              
+                
+<div id="searchbox"></div>
+                <article class="bd-article">
+                  
+  <section class="tex2jax_ignore mathjax_ignore" id="uts-analisis-data-kesuburan-tanah-menggunakan-knn">
+<h1>UTS Analisis Data Kesuburan Tanah Menggunakan KNN<a class="headerlink" href="#uts-analisis-data-kesuburan-tanah-menggunakan-knn" title="Link to this heading">#</a></h1>
+<section id="deskripsi-singkat">
+<h2>Deskripsi Singkat<a class="headerlink" href="#deskripsi-singkat" title="Link to this heading">#</a></h2>
+<p>Dataset kesuburan tanah berisi 2000 data dengan 10 fitur dan 1 label target.</p>
+<ul class="simple">
+<li><p><strong>Subur</strong> (50%)</p></li>
+<li><p><strong>Tidak Subur</strong> (50%)</p></li>
+</ul>
+<p>Distribusi kelas bersifat seimbang (<em>balanced</em>), sehingga model tidak cenderung bias terhadap salah satu kelas. Data ini digunakan untuk membangun model klasifikasi KNN dengan bantuan PCA pada tahap reduksi dimensi.</p>
+</section>
+<hr class="docutils" />
+<section id="alur-workflow-knime">
+<h2>Alur Workflow KNIME<a class="headerlink" href="#alur-workflow-knime" title="Link to this heading">#</a></h2>
+<p>Alur proses yang digunakan:</p>
+<p><code class="docutils literal notranslate"><span class="pre">CSV</span> <span class="pre">Reader</span> <span class="pre">-&gt;</span> <span class="pre">Missing</span> <span class="pre">Value</span> <span class="pre">-&gt;</span> <span class="pre">One</span> <span class="pre">to</span> <span class="pre">Many</span> <span class="pre">-&gt;</span> <span class="pre">Partitioning</span> <span class="pre">-&gt;</span> <span class="pre">Normalizer</span> <span class="pre">(default)</span> <span class="pre">-&gt;</span> <span class="pre">Apply</span> <span class="pre">Model</span> <span class="pre">-&gt;</span> <span class="pre">PCA</span> <span class="pre">(opsional)</span> <span class="pre">-&gt;</span> <span class="pre">KNN</span> <span class="pre">-&gt;</span> <span class="pre">Scorer</span></code></p>
+<p>Jika ingin mencoba atau demo workflow-nya, file ada di <a class="reference download internal" download="" href="../_downloads/e411a5198cce08e9bc388e9c7f75b1fe/uts_pendat.knwf"><span class="xref download myst">uts_pendat.knwf</span></a>.</p>
+<p>Data yang diload ke KNIME ada di <a class="reference download internal" download="" href="../_downloads/5da2cfd19440ed2dbae681bf5659bfec/dataset_kesuburan_tanah_missing.xlsx%20-%20Dataset.csv"><span class="xref download myst">dataset_kesuburan_tanah_missing.csv</span></a>.</p>
+<p>Urutan ini sengaja dipilih karena setiap tahap saling bergantung:</p>
+<ul class="simple">
+<li><p>Data harus bersih terlebih dahulu sebelum dilakukan transformasi fitur.</p></li>
+<li><p>Pembagian train-test dilakukan sebelum normalisasi dan PCA untuk mencegah <em>data leakage</em>.</p></li>
+<li><p>Model klasifikasi hanya menerima input numerik dan skala fitur yang konsisten.</p></li>
+</ul>
+<blockquote>
+<div><p><img alt="Full workflow KNIME" src="../_images/fullWF.png" /></p>
+</div></blockquote>
+</section>
+<hr class="docutils" />
+<section id="csv-reader">
+<h2>1. CSV Reader<a class="headerlink" href="#csv-reader" title="Link to this heading">#</a></h2>
+<p>Node ini digunakan untuk membaca dataset dari file CSV.</p>
+<p><strong>Fungsi:</strong></p>
+<ul class="simple">
+<li><p>Mengimpor data ke KNIME.</p></li>
+<li><p>Menentukan tipe data awal.</p></li>
+</ul>
+<p><strong>Hal yang perlu dicek pada tahap ini:</strong></p>
+<ul class="simple">
+<li><p>Delimiter file (<code class="docutils literal notranslate"><span class="pre">,</span></code> atau <code class="docutils literal notranslate"><span class="pre">;</span></code>) harus sesuai.</p></li>
+<li><p>Header kolom harus terbaca sebagai nama atribut, bukan baris data.</p></li>
+<li><p>Tipe data penting (numerik/kategorikal) tidak boleh tertukar.</p></li>
+</ul>
+<p>Kesalahan konfigurasi pada tahap awal dapat berdampak ke seluruh alur analisis, misalnya angka terbaca sebagai teks sehingga tidak dapat dinormalisasi.</p>
+<blockquote>
+<div><p><img alt="CSV Reader" src="../_images/csvReader.png" /></p>
+</div></blockquote>
+</section>
+<hr class="docutils" />
+<section id="missing-value">
+<h2>2. Missing Value<a class="headerlink" href="#missing-value" title="Link to this heading">#</a></h2>
+<p>Node ini digunakan untuk menangani data kosong.</p>
+<p><strong>Pengaturan:</strong></p>
+<ul class="simple">
+<li><p>Numerik -&gt; <strong>Mean</strong></p></li>
+<li><p>Kategorikal -&gt; <strong>Most Frequent</strong></p></li>
+</ul>
+<p><strong>Alasan:</strong></p>
+<ul class="simple">
+<li><p>KNN tidak dapat memproses nilai kosong.</p></li>
+<li><p>Menghindari error saat proses training.</p></li>
+</ul>
+<p>Pendekatan imputasi dipilih karena menghapus baris dapat mengurangi jumlah data pelatihan. Dengan imputasi:</p>
+<ul class="simple">
+<li><p>Informasi mayoritas data tetap dipertahankan.</p></li>
+<li><p>Distribusi data relatif stabil.</p></li>
+</ul>
+<p>Pada praktiknya, imputasi untuk kolom target tidak dilakukan. Jika label target kosong, baris tersebut sebaiknya dikeluarkan dari data pelatihan karena dapat mengganggu proses belajar model.</p>
+<blockquote>
+<div><p><img alt="Missing Value" src="../_images/missingValue.png" /></p>
+</div></blockquote>
+</section>
+<hr class="docutils" />
+<section id="one-to-many-encoding">
+<h2>3. One to Many (Encoding)<a class="headerlink" href="#one-to-many-encoding" title="Link to this heading">#</a></h2>
+<p>Node ini digunakan untuk mengubah data kategorikal menjadi numerik.</p>
+<p><strong>Contoh encoding:</strong></p>
+<ul class="simple">
+<li><p>Lempung -&gt; <code class="docutils literal notranslate"><span class="pre">[1,</span> <span class="pre">0,</span> <span class="pre">0]</span></code></p></li>
+<li><p>Pasir -&gt; <code class="docutils literal notranslate"><span class="pre">[0,</span> <span class="pre">1,</span> <span class="pre">0]</span></code></p></li>
+</ul>
+<p>Kategori tekstur tanah yang ikut di-encode pada data ini adalah:</p>
+<ul class="simple">
+<li><p>Debu</p></li>
+<li><p>Lempung Berpasir</p></li>
+<li><p>Lempung Berliat</p></li>
+<li><p>Liat</p></li>
+<li><p>Pasir</p></li>
+<li><p>Lempung</p></li>
+</ul>
+<p>Kategori tersebut muncul berulang di dataset, jadi semua nilai uniknya tetap perlu masuk ke proses encoding.</p>
+<p><strong>Catatan:</strong></p>
+<ul class="simple">
+<li><p>Hanya fitur <strong>Tekstur Tanah</strong> yang diubah.</p></li>
+<li><p>Label target tidak boleh diubah.</p></li>
+</ul>
+<p>Encoding ini penting karena KNN bekerja pada ruang vektor numerik. Jika fitur kategorikal tidak diubah ke angka, jarak antar data tidak bisa dihitung secara matematis.</p>
+<p>One to Many lebih aman dibanding menggunakan node <strong>Rule engine</strong> di knime dimana node tersebut memberi kode angka langsung (misalnya Pasir=1, Lempung=2) karena angka langsung bisa memberi kesan urutan palsu antar kategori.</p>
+<blockquote>
+<div><p><img alt="One to Many" src="../_images/OtoM.png" /></p>
+</div></blockquote>
+</section>
+<hr class="docutils" />
+<section id="partitioning">
+<h2>4. Partitioning<a class="headerlink" href="#partitioning" title="Link to this heading">#</a></h2>
+<p>Node ini digunakan untuk membagi data menjadi:</p>
+<ul class="simple">
+<li><p><strong>80%</strong> data training</p></li>
+<li><p><strong>20%</strong> data testing</p></li>
+</ul>
+<p>Hasil pembagian ini muncul sebagai dua partisi, yaitu <code class="docutils literal notranslate"><span class="pre">partition1</span></code> untuk data training 80% dan <code class="docutils literal notranslate"><span class="pre">partition2</span></code> untuk data testing 20%.</p>
+<p><strong>Alasan:</strong></p>
+<ul class="simple">
+<li><p>Data training digunakan untuk melatih model.</p></li>
+<li><p>Data testing digunakan untuk evaluasi model.</p></li>
+</ul>
+<p>Pembagian menggunakan <strong>stratified sampling</strong> agar proporsi kelas tetap 50:50.</p>
+<p>Dengan total 2000 data, komposisi pembagian menjadi:</p>
+<ul class="simple">
+<li><p>Training: 1600 data</p></li>
+<li><p>Testing: 400 data</p></li>
+</ul>
+<p>Karena data seimbang, stratifikasi menjaga agar distribusi kedua kelas pada train dan test tetap proporsional. Ini penting supaya hasil evaluasi tidak bias terhadap salah satu kelas.</p>
+<blockquote>
+<div><p><img alt="Partition 1" src="../_images/partition1.png" /></p>
+</div></blockquote>
+<blockquote>
+<div><p><img alt="Partition 2" src="../_images/partition2.png" /></p>
+</div></blockquote>
+</section>
+<hr class="docutils" />
+<section id="normalizer-default">
+<h2>5. Normalizer (Default)<a class="headerlink" href="#normalizer-default" title="Link to this heading">#</a></h2>
+<p>Node ini digunakan untuk menyamakan skala data pada rentang 0-1 dengan pengaturan default.</p>
+<p><strong>Alasan:</strong></p>
+<ul class="simple">
+<li><p>KNN menggunakan perhitungan jarak (Euclidean).</p></li>
+<li><p>Tanpa normalisasi, fitur berskala besar akan mendominasi.</p></li>
+</ul>
+<p><strong>Proses:</strong></p>
+<ul class="simple">
+<li><p>Data training -&gt; menghitung nilai minimum dan maksimum.</p></li>
+<li><p>Data testing -&gt; mengikuti parameter normalisasi dari data training.</p></li>
+</ul>
+<p>Normalisasi <em>min-max</em> umumnya mengikuti rumus:</p>
+<div class="math notranslate nohighlight">
+\[
+x' = \frac{x - x_{min}}{x_{max} - x_{min}}
+\]</div>
+<p>Rumus ini memastikan setiap fitur berada pada rentang yang sebanding. Tanpa langkah ini, fitur dengan rentang besar dapat mendominasi jarak Euclidean dan membuat kontribusi fitur lain menjadi sangat kecil.</p>
+<blockquote>
+<div><p><img alt="Normalizer" src="../_images/normalize.png" /></p>
+</div></blockquote>
+</section>
+<hr class="docutils" />
+<section id="apply-model-normalizer">
+<h2>6. Apply Model (Normalizer)<a class="headerlink" href="#apply-model-normalizer" title="Link to this heading">#</a></h2>
+<p>Node ini menerapkan model normalisasi default dari data training ke data testing.</p>
+<p><strong>Alasan:</strong></p>
+<ul class="simple">
+<li><p>Menghindari <em>data leakage</em>.</p></li>
+<li><p>Menjaga konsistensi skala antara data training dan testing.</p></li>
+</ul>
+<p>Jika data testing dinormalisasi secara terpisah (menggunakan min-max milik test), maka informasi dari data uji ikut membentuk transformasi. Kondisi ini menyebabkan evaluasi terlalu optimis dan tidak mencerminkan performa riil model saat diterapkan pada data baru.</p>
+<blockquote>
+<div><p><img alt="Apply Model Normalizer" src="../_images/normalizeApply.png" /></p>
+</div></blockquote>
+</section>
+<hr class="docutils" />
+<section id="pca-opsional">
+<h2>7. PCA (Opsional)<a class="headerlink" href="#pca-opsional" title="Link to this heading">#</a></h2>
+<p>PCA digunakan untuk mengurangi jumlah dimensi fitur tanpa menghilangkan informasi yang terlalu penting. Intinya, PCA akan mengubah fitur-fitur asli menjadi kumpulan komponen baru yang saling bebas dan diurutkan dari kontribusi variasi terbesar. Karena itu, PCA sering dipakai saat data punya banyak fitur atau antarfiturnya saling berkorelasi.</p>
+<p>Pada dataset ini, PCA saya gunakan bukan untuk membuat model sekecil mungkin, tetapi untuk mencari titik tengah antara penyederhanaan data dan kualitas hasil. Kalau dimensi dibuat terlalu kecil, informasi yang dibutuhkan model untuk membedakan kelas jadi ikut berkurang. Itu sebabnya saya tidak memakai 3 dimensi. Dari percobaan yang saya lakukan, 3 dimensi masih menghasilkan akurasi yang jauh lebih rendah, sekitar 62%, jadi hasilnya belum layak dipakai sebagai konfigurasi utama.</p>
+<p>Proses <strong>PCA compute</strong> adalah tahap ketika model PCA dibangun dari data training. Di sini sistem menghitung arah komponen utama, lalu menentukan seberapa besar informasi yang bisa dipertahankan oleh tiap komponen. Tahap ini penting karena semua parameter PCA harus dipelajari dari data training, bukan dari data testing, supaya evaluasi tetap adil dan tidak terjadi kebocoran informasi.</p>
+<blockquote>
+<div><p><img alt="PCA computation" src="../_images/pcaCompute.png" /></p>
+</div></blockquote>
+<p>Setelah itu masuk ke <strong>PCA apply</strong>, yaitu tahap ketika model PCA yang sudah dihitung tadi diterapkan ke data testing. Fungsinya supaya data uji ikut masuk ke ruang dimensi yang sama seperti data latih, sehingga model KNN bisa membandingkan keduanya dalam representasi yang konsisten. Pada bagian ini saya memakai <strong>8 dimensi</strong> karena hasil evaluasinya masih di atas 90%, sekitar <strong>91%</strong>. Artinya, sebagian besar informasi penting masih tersimpan, tetapi data sudah cukup disederhanakan untuk membantu proses klasifikasi.</p>
+<blockquote>
+<div><p><img alt="PCA 8 dimensions" src="../_images/pca.png" /></p>
+</div></blockquote>
+<blockquote>
+<div><p><img alt="PCA apply" src="../_images/pcaApply.png" /></p>
+</div></blockquote>
+<p>Jadi, alasan utama memilih 8 dimensi adalah karena konfigurasi ini masih menjaga akurasi tetap tinggi, sementara 3 dimensi justru terlalu agresif dan membuat performa turun cukup jauh. Dalam kasus ini, 8 dimensi adalah pilihan yang paling masuk akal karena masih mampu mempertahankan informasi penting sambil tetap memberi manfaat reduksi dimensi.</p>
+</section>
+<hr class="docutils" />
+<section id="k-nearest-neighbor-knn">
+<h2>8. K-Nearest Neighbor (KNN)<a class="headerlink" href="#k-nearest-neighbor-knn" title="Link to this heading">#</a></h2>
+<p>Node ini digunakan untuk klasifikasi data.</p>
+<p><strong>Parameter utama:</strong></p>
+<ul class="simple">
+<li><p><code class="docutils literal notranslate"><span class="pre">k</span> <span class="pre">=</span> <span class="pre">3</span></code></p></li>
+<li><p>Distance = <strong>Euclidean</strong></p></li>
+</ul>
+<p><strong>Cara kerja singkat:</strong></p>
+<ul class="simple">
+<li><p>Mencari tetangga terdekat dari data uji.</p></li>
+<li><p>Menentukan kelas berdasarkan voting mayoritas.</p></li>
+</ul>
+<p>Perhitungan jarak Euclidean antara dua titik data <span class="math notranslate nohighlight">\(A(a_1, a_2, ..., a_n)\)</span> dan <span class="math notranslate nohighlight">\(B(b_1, b_2, ..., b_n)\)</span>:</p>
+<div class="math notranslate nohighlight">
+\[
+d(A,B) = \sqrt{\sum_{i=1}^{n}(a_i - b_i)^2}
+\]</div>
+<p>Pemilihan <code class="docutils literal notranslate"><span class="pre">k</span> <span class="pre">=</span> <span class="pre">3</span></code> digunakan agar model tetap cukup peka terhadap pola tetangga terdekat tanpa terlalu mudah terpengaruh noise.</p>
+<p>Dengan nilai ini, model masih bisa menangkap struktur lokal dari data, tetapi tidak terlalu bergantung pada banyak tetangga yang mungkin berasal dari kelas berbeda.</p>
+<p>Nilai k ideal biasanya ditentukan melalui validasi (misalnya <em>cross-validation</em>), namun pada percobaan ini <code class="docutils literal notranslate"><span class="pre">k</span> <span class="pre">=</span> <span class="pre">3</span></code> sudah menghasilkan performa optimal.</p>
+<blockquote>
+<div><p><img alt="KNN" src="../_images/knn.png" /></p>
+</div></blockquote>
+</section>
+<hr class="docutils" />
+<section id="scorer">
+<h2>9. Scorer<a class="headerlink" href="#scorer" title="Link to this heading">#</a></h2>
+<p>Node ini digunakan untuk mengevaluasi performa model.</p>
+<p><strong>Output evaluasi:</strong></p>
+<ul class="simple">
+<li><p>Accuracy</p></li>
+<li><p>Precision</p></li>
+<li><p>Recall</p></li>
+<li><p>F1-score</p></li>
+<li><p>Confusion Matrix</p></li>
+</ul>
+<p>Definisi singkat metrik:</p>
+<ul class="simple">
+<li><p>Accuracy: proporsi prediksi benar dari seluruh data uji.</p></li>
+<li><p>Precision: ketepatan prediksi pada kelas positif.</p></li>
+<li><p>Recall: kemampuan menangkap seluruh data positif aktual.</p></li>
+<li><p>F1-score: harmonisasi precision dan recall.</p></li>
+</ul>
+<p>Penggunaan banyak metrik penting agar evaluasi tidak hanya bergantung pada satu angka.</p>
+<blockquote>
+<div><p><img alt="Scorer" src="../_images/scorer.png" /></p>
+</div></blockquote>
+<p>Setelah model dijalankan, hasil evaluasi menunjukkan performa yang sangat baik. Confusion matrix pada Scorer memperlihatkan bahwa prediksi model sudah sesuai dengan label asli, sehingga akurasi akhir tetap tinggi dan proses klasifikasi berjalan stabil.</p>
+<blockquote>
+<div><p><img alt="Hasil evaluasi model" src="../_images/accuracy.png" /></p>
+</div></blockquote>
+<blockquote>
+<div><p><img alt="Hasil evaluasi model" src="../_images/result.png" /></p>
+</div></blockquote>
+</section>
+<hr class="docutils" />
+<section id="kesimpulan">
+<h2>Kesimpulan<a class="headerlink" href="#kesimpulan" title="Link to this heading">#</a></h2>
+<ul class="simple">
+<li><p>Model KNN menghasilkan akurasi 100%.</p></li>
+<li><p>Tahap <em>preprocessing</em> berpengaruh besar terhadap hasil akhir.</p></li>
+<li><p>Dataset memiliki pola yang sangat jelas antar kelas.</p></li>
+<li><p>PCA 8 dimensi dipilih karena masih menjaga akurasi tetap tinggi sambil tetap mereduksi dimensi.</p></li>
+</ul>
+<p>Secara metodologis, eksperimen ini menegaskan bahwa urutan proses yang benar (pembersihan data -&gt; split -&gt; normalisasi berbasis training -&gt; pemodelan -&gt; evaluasi) sama pentingnya dengan pemilihan algoritma.</p>
+</section>
+</section>
+
+    <script type="text/x-thebe-config">
+    {
+        requestKernel: true,
+        binderOptions: {
+            repo: "binder-examples/jupyter-stacks-datascience",
+            ref: "master",
+        },
+        codeMirrorConfig: {
+            theme: "abcdef",
+            mode: "python"
+        },
+        kernelOptions: {
+            name: "python3",
+            path: "./md"
+        },
+        predefinedOutput: true
+    }
+    </script>
+    <script>kernelName = 'python3'</script>
+
+                </article>
+              
+
+              
+              
+              
+              
+                <footer class="prev-next-footer d-print-none">
+                  
+<div class="prev-next-area">
+    <a class="left-prev"
+       href="02_data-understanding.html"
+       title="previous page">
+      <i class="fa-solid fa-angle-left"></i>
+      <div class="prev-next-info">
+        <p class="prev-next-subtitle">previous</p>
+        <p class="prev-next-title">Data Understanding</p>
+      </div>
+    </a>
+    <a class="right-next"
+       href="04_naive_bayes.html"
+       title="next page">
+      <div class="prev-next-info">
+        <p class="prev-next-subtitle">next</p>
+        <p class="prev-next-title">Analisa Data Menggunakan Naive Bayes</p>
+      </div>
+      <i class="fa-solid fa-angle-right"></i>
+    </a>
+</div>
+                </footer>
+              
+            </div>
+            
+            
+              
+                <dialog id="pst-secondary-sidebar-modal"></dialog>
+                <div id="pst-secondary-sidebar" class="bd-sidebar-secondary bd-toc"><div class="sidebar-secondary-items sidebar-secondary__inner">
+
+
+  <div class="sidebar-secondary-item"><div
+    id="pst-page-navigation-heading-2"
+    class="page-toc tocsection onthispage">
+    <i class="fa-solid fa-list"></i> Contents
+  </div>
+  <nav id="pst-page-toc-nav" class="page-toc" aria-labelledby="pst-page-navigation-heading-2">
+    <ul class="visible nav section-nav flex-column">
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#deskripsi-singkat">Deskripsi Singkat</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#alur-workflow-knime">Alur Workflow KNIME</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#csv-reader">1. CSV Reader</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#missing-value">2. Missing Value</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#one-to-many-encoding">3. One to Many (Encoding)</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#partitioning">4. Partitioning</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#normalizer-default">5. Normalizer (Default)</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#apply-model-normalizer">6. Apply Model (Normalizer)</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#pca-opsional">7. PCA (Opsional)</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#k-nearest-neighbor-knn">8. K-Nearest Neighbor (KNN)</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#scorer">9. Scorer</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#kesimpulan">Kesimpulan</a></li>
+</ul>
+  </nav></div>
+
+</div></div>
+              
+            
+          </div>
+          <footer class="bd-footer-content">
+            
+<div class="bd-footer-content__inner container">
+  
+  <div class="footer-item">
+    
+<p class="component-author">
+By Moch. Zamroni Fahreza
+</p>
+
+  </div>
+  
+  <div class="footer-item">
+    
+
+  <p class="copyright">
+    
+      © Copyright 2026.
+      <br/>
+    
+  </p>
+
+  </div>
+  
+  <div class="footer-item">
+    
+  </div>
+  
+  <div class="footer-item">
+    
+  </div>
+  
+</div>
+          </footer>
+        
+
+      </main>
+    </div>
+  </div>
+  
+  <!-- Scripts loaded after <body> so the DOM is not blocked -->
+  <script defer src="../_static/scripts/bootstrap.js?digest=8878045cc6db502f8baf"></script>
+<script defer src="../_static/scripts/pydata-sphinx-theme.js?digest=8878045cc6db502f8baf"></script>
+
+  <footer class="bd-footer">
+  </footer>
+  </body>
+</html>
