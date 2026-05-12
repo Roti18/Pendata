@@ -1,4 +1,4 @@
-﻿format: jb-book
+format: jb-book
 root: intro
 chapters:
 - file: md/00_penambangan-data
@@ -11,3 +11,5 @@ chapters:
   title: "UTS Analisis Data Kesuburan Tanah Menggunakan KNN"
 - file: md/04_naive_bayes
   title: "Analisa Data Menggunakan Naive Bayes"
+- file: md/05_dicission-tree
+  title: "Analisa Data Menggunakan Decision Tree"
