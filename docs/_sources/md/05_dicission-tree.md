@@ -2,7 +2,13 @@
 
 ## 1. Pendahuluan
 
-Latar belakang analisis data ini adalah untuk menerapkan metode klasifikasi Decision Tree pada dataset karyawan nyata yang bersumber dari Kaggle [Employee Dataset](https://www.kaggle.com/datasets/tawfikelmetwally/employee-dataset). Dataset ini memuat informasi demografis dan historis karyawan beserta label apakah karyawan tersebut akhirnya resign (`LeaveOrNot`). Decision Tree dipilih karena menghasilkan model yang mudah diinterpretasikan, dapat menangani data kategorik maupun numerik, serta tidak memerlukan asumsi distribusi data tertentu.
+Latar belakang analisis data ini adalah untuk menerapkan metode klasifikasi Decision Tree pada dataset karyawan nyata yang bersumber dari Kaggle ([Employee Dataset](https://www.kaggle.com/datasets/tawfikelmetwally/employee-dataset)). Dataset ini memuat informasi demografis dan historis karyawan beserta label apakah karyawan tersebut akhirnya resign (`LeaveOrNot`). Decision Tree dipilih karena menghasilkan model yang mudah diinterpretasikan, dapat menangani data kategorik maupun numerik, serta tidak memerlukan asumsi distribusi data tertentu.
+
+Tujuan analisis:
+
+- Menjelaskan konsep dasar Decision Tree secara mendalam, termasuk cara kerja tree induction, stopping condition, serta ukuran pemilihan fitur menggunakan Entropy, Information Gain, dan Gain Ratio.
+- Menyediakan contoh implementasi menggunakan node Decision Tree Learner di KNIME Analytics Platform.
+- Membahas konfigurasi node, hasil evaluasi model, serta kelebihan dan kekurangan metode.
 
 ## 2. Konsep Dasar Decision Tree
 
@@ -89,125 +95,7 @@ Decision Tree yang tumbuh hingga semua leaf node pure akan sangat spesifik terha
 
 KNIME menyediakan metode **MDL (Minimum Description Length)** sebagai strategi pruning. MDL berlandaskan prinsip Occam's Razor: dari dua model yang sama-sama menjelaskan data dengan baik, pilih yang paling sederhana. Secara teknis, MDL mengukur total "biaya deskripsi" dari model (kompleksitas tree) ditambah biaya deskripsi dari kesalahan yang dibuat model tersebut. Branch dipangkas apabila menghapusnya menghasilkan total biaya deskripsi yang lebih rendah, artinya kesederhanaan yang diperoleh lebih bernilai daripada sedikit akurasi yang hilang.
 
-## 3. Perhitungan Manual Entropy, Information Gain, dan Gain Ratio
-
-Untuk memahami bagaimana Decision Tree memilih atribut terbaik pada setiap node, berikut ini dilakukan perhitungan manual menggunakan 6 baris pertama dari dataset Employee. Fitur yang digunakan adalah **EverBenched** (kategorik) dan **PaymentTier** (kategorik), dengan target **LeaveOrNot**.
-
-### 3.1 Data Sampel
-
-| No  | EverBenched | PaymentTier | LeaveOrNot |
-| --- | ----------- | ----------- | ---------- |
-| 1   | No          | 3           | 0          |
-| 2   | No          | 1           | 1          |
-| 3   | No          | 3           | 0          |
-| 4   | No          | 3           | 1          |
-| 5   | Yes         | 3           | 1          |
-| 6   | No          | 3           | 0          |
-
-Distribusi kelas pada keseluruhan 6 sampel: kelas 0 (tetap) sebanyak 3 sampel, kelas 1 (resign) sebanyak 3 sampel.
-
-### 3.2 Langkah 1 - Hitung Entropy Root Node
-
-Root node berisi seluruh 6 sampel dengan distribusi kelas 0 = 3 dan kelas 1 = 3, sehingga $p_0 = \frac{3}{6} = 0.5$ dan $p_1 = \frac{3}{6} = 0.5$.
-
-$$
-\text{Entropy}(S) = -0.5 \log_2 0.5 - 0.5 \log_2 0.5 = -0.5 \times (-1) - 0.5 \times (-1) = \mathbf{1.0}
-$$
-
-Entropy root = 1.0, artinya distribusi kelas sempurna 50:50 dan node ini sama sekali tidak informatif. Inilah kondisi awal sebelum splitting.
-
-### 3.3 Langkah 2 - Hitung Information Gain untuk EverBenched
-
-Atribut `EverBenched` memiliki dua nilai: **No** dan **Yes**.
-
-**Subset EverBenched = No** (baris 1, 2, 3, 4, 6): 5 sampel, kelas 0 = 3, kelas 1 = 2.
-
-$$
-\text{Entropy}(S_\text{No}) = -\frac{3}{5} \log_2 \frac{3}{5} - \frac{2}{5} \log_2 \frac{2}{5} = -0.6 \times (-0.737) - 0.4 \times (-1.322) = 0.442 + 0.529 = \mathbf{0.971}
-$$
-
-**Subset EverBenched = Yes** (baris 5): 1 sampel, kelas 0 = 0, kelas 1 = 1.
-
-$$
-\text{Entropy}(S_\text{Yes}) = -1 \log_2 1 - 0 \log_2 0 = \mathbf{0.0}
-$$
-
-Node ini pure (hanya satu sampel, satu kelas), sehingga entropy = 0.
-
-**Information Gain EverBenched:**
-
-$$
-\text{Gain}(S, \text{EverBenched}) = 1.0 - \left(\frac{5}{6} \times 0.971 + \frac{1}{6} \times 0.0\right) = 1.0 - 0.809 = \mathbf{0.191}
-$$
-
-### 3.4 Langkah 3 - Hitung Information Gain untuk PaymentTier
-
-Atribut `PaymentTier` memiliki dua nilai yang muncul pada data ini: **1** dan **3**.
-
-**Subset PaymentTier = 1** (baris 2): 1 sampel, kelas 0 = 0, kelas 1 = 1.
-
-$$
-\text{Entropy}(S_1) = \mathbf{0.0}
-$$
-
-**Subset PaymentTier = 3** (baris 1, 3, 4, 5, 6): 5 sampel, kelas 0 = 3, kelas 1 = 2.
-
-$$
-\text{Entropy}(S_3) = -\frac{3}{5} \log_2 \frac{3}{5} - \frac{2}{5} \log_2 \frac{2}{5} = \mathbf{0.971}
-$$
-
-**Information Gain PaymentTier:**
-
-$$
-\text{Gain}(S, \text{PaymentTier}) = 1.0 - \left(\frac{1}{6} \times 0.0 + \frac{5}{6} \times 0.971\right) = 1.0 - 0.809 = \mathbf{0.191}
-$$
-
-Information Gain kedua atribut sama persis (0.191). Inilah contoh nyata mengapa Information Gain saja tidak cukup untuk memilih atribut terbaik, karena keduanya terlihat identik padahal karakteristik split-nya berbeda.
-
-### 3.5 Langkah 4 - Hitung SplitInfo dan Gain Ratio
-
-**SplitInfo EverBenched:**
-
-EverBenched membagi 6 sampel menjadi subset berukuran 5 (No) dan 1 (Yes).
-
-$$
-\text{SplitInfo}(S, \text{EverBenched}) = -\frac{5}{6} \log_2 \frac{5}{6} - \frac{1}{6} \log_2 \frac{1}{6} = -0.833 \times (-0.263) - 0.167 \times (-2.585) = 0.219 + 0.432 = \mathbf{0.650}
-$$
-
-**SplitInfo PaymentTier:**
-
-PaymentTier membagi 6 sampel menjadi subset berukuran 1 (nilai 1) dan 5 (nilai 3).
-
-$$
-\text{SplitInfo}(S, \text{PaymentTier}) = -\frac{1}{6} \log_2 \frac{1}{6} - \frac{5}{6} \log_2 \frac{5}{6} = \mathbf{0.650}
-$$
-
-SplitInfo-nya sama karena proporsi pembagian subset-nya identik (1:5).
-
-**Gain Ratio EverBenched:**
-
-$$
-\text{GainRatio}(S, \text{EverBenched}) = \frac{0.191}{0.650} = \mathbf{0.294}
-$$
-
-**Gain Ratio PaymentTier:**
-
-$$
-\text{GainRatio}(S, \text{PaymentTier}) = \frac{0.191}{0.650} = \mathbf{0.294}
-$$
-
-### 3.6 Interpretasi Hasil
-
-| Atribut     | Information Gain | SplitInfo | Gain Ratio |
-| ----------- | ---------------- | --------- | ---------- |
-| EverBenched | 0.191            | 0.650     | **0.294**  |
-| PaymentTier | 0.191            | 0.650     | **0.294**  |
-
-Pada data sampel 6 baris ini, kedua atribut menghasilkan Gain Ratio yang sama karena kebetulan pola pembagian subset-nya identik. Dalam praktik pada dataset penuh (4.653 baris), distribusi nilai antar atribut akan sangat berbeda sehingga Gain Ratio masing-masing atribut akan berbeda pula dan algoritme dapat menentukan atribut terbaik dengan jelas.
-
-Apabila Gain Ratio dua atribut sama, KNIME akan memilih berdasarkan urutan kolom atau kriteria tie-breaking internal. Yang terpenting, perhitungan ini membuktikan bahwa Gain Ratio berhasil menormalisasi bias Information Gain: meskipun kedua atribut memiliki Information Gain yang sama, penalti melalui SplitInfo memastikan bahwa atribut dengan split yang lebih "adil" dan bermakna tidak dirugikan dibanding atribut yang kebetulan memiliki banyak nilai unik.
-
-## 4. Dataset yang Digunakan
+## 3. Dataset yang Digunakan
 
 Dataset yang digunakan adalah **Employee Dataset** dari Kaggle ([link](https://www.kaggle.com/datasets/tawfikelmetwally/employee-dataset)), yang berisi 4.653 baris data karyawan dengan 9 atribut. Target klasifikasi adalah kolom `LeaveOrNot`.
 
@@ -223,7 +111,7 @@ Dataset yang digunakan adalah **Employee Dataset** dari Kaggle ([link](https://w
 | ExperienceInCurrentDomain | Numerik       | Pengalaman di domain saat ini (tahun)           |
 | **LeaveOrNot**            | Biner (0/1)   | **Target**: 1 = resign, 0 = tetap               |
 
-## 5. Implementasi di KNIME
+## 4. Implementasi di KNIME
 
 Workflow KNIME berikut menunjukkan alur analisis data dari pembacaan file CSV hingga evaluasi model Decision Tree menggunakan dataset Employee secara penuh (4.653 baris).
 
@@ -313,7 +201,7 @@ Confusion matrix yang dihasilkan menunjukkan jumlah prediksi benar (True Positiv
 
 ![Scorer workflow](/img/dicission-tree/scorrer.png)
 
-## 6. Ringkasan Alur Workflow
+## 5. Ringkasan Alur Workflow
 
 | Urutan | Node                        | Fungsi Utama                                                    |
 | ------ | --------------------------- | --------------------------------------------------------------- |
@@ -328,7 +216,7 @@ Confusion matrix yang dihasilkan menunjukkan jumlah prediksi benar (True Positiv
 
 ![Accuracy hasil evaluasi](/img/dicission-tree/accuracy.png)
 
-## 7. Kelebihan dan Kekurangan Decision Tree
+## 6. Kelebihan dan Kekurangan Decision Tree
 
 **Kelebihan:**
 
