@@ -15,3 +15,5 @@ chapters:
   title: "Analisa Data Menggunakan Decision Tree"
 - file: md/06_random-forest
   title: "Analisa Data Menggunakan Random Forest"
+- file: md/07_linear-regression
+  title: "Analisis Data Menggunakan Regresi Linier"

@@ -1,0 +1,964 @@
+
+<!DOCTYPE html>
+
+
+<html lang="en" data-content_root="../" >
+
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" /><meta name="viewport" content="width=device-width, initial-scale=1" />
+
+    <title>Analisis Data Menggunakan Regresi Linier &#8212; Penambangan Data</title>
+  
+  
+  
+  <script data-cfasync="false">
+    document.documentElement.dataset.mode = localStorage.getItem("mode") || "";
+    document.documentElement.dataset.theme = localStorage.getItem("theme") || "";
+  </script>
+  <!--
+    this give us a css class that will be invisible only if js is disabled
+  -->
+  <noscript>
+    <style>
+      .pst-js-only { display: none !important; }
+
+    </style>
+  </noscript>
+  
+  <!-- Loaded before other Sphinx assets -->
+  <link href="../_static/styles/theme.css?digest=8878045cc6db502f8baf" rel="stylesheet" />
+<link href="../_static/styles/pydata-sphinx-theme.css?digest=8878045cc6db502f8baf" rel="stylesheet" />
+
+    <link rel="stylesheet" type="text/css" href="../_static/pygments.css?v=03e43079" />
+    <link rel="stylesheet" type="text/css" href="../_static/styles/sphinx-book-theme.css?v=3c74b3bc" />
+    <link rel="stylesheet" type="text/css" href="../_static/togglebutton.css?v=9c3e77be" />
+    <link rel="stylesheet" type="text/css" href="../_static/copybutton.css?v=76b2166b" />
+    <link rel="stylesheet" type="text/css" href="../_static/mystnb.11b39860a7a0cbfd473a3ad8a317855267ff0bd372690045ca344a6b62be495e.css" />
+    <link rel="stylesheet" type="text/css" href="../_static/sphinx-thebe.css?v=4fa983c6" />
+    <link rel="stylesheet" type="text/css" href="../_static/sphinx-design.min.css?v=95c83b7e" />
+  
+  <!-- So that users can add custom icons -->
+  <script src="../_static/scripts/fontawesome.js?digest=8878045cc6db502f8baf"></script>
+  <!-- Pre-loaded scripts that we'll load fully later -->
+  <link rel="preload" as="script" href="../_static/scripts/bootstrap.js?digest=8878045cc6db502f8baf" />
+<link rel="preload" as="script" href="../_static/scripts/pydata-sphinx-theme.js?digest=8878045cc6db502f8baf" />
+
+    <script src="../_static/documentation_options.js?v=9eb32ce0"></script>
+    <script src="../_static/doctools.js?v=9a2dae69"></script>
+    <script src="../_static/sphinx_highlight.js?v=dc90522c"></script>
+    <script src="../_static/clipboard.min.js?v=a7894cd8"></script>
+    <script src="../_static/copybutton.js?v=f281be69"></script>
+    <script src="../_static/scripts/sphinx-book-theme.js?v=fab101a9"></script>
+    <script>let toggleHintShow = 'Click to show';</script>
+    <script>let toggleHintHide = 'Click to hide';</script>
+    <script>let toggleOpenOnPrint = 'true';</script>
+    <script src="../_static/togglebutton.js?v=b8b12719"></script>
+    <script>var togglebuttonSelector = '.toggle, .admonition.dropdown';</script>
+    <script src="../_static/design-tabs.js?v=f930bc37"></script>
+    <script>const THEBE_JS_URL = "https://unpkg.com/thebe@0.8.2/lib/index.js"; const thebe_selector = ".thebe,.cell"; const thebe_selector_input = "pre"; const thebe_selector_output = ".output, .cell_output"</script>
+    <script async="async" src="../_static/sphinx-thebe.js?v=c100c467"></script>
+    <script>var togglebuttonSelector = '.toggle, .admonition.dropdown';</script>
+    <script>const THEBE_JS_URL = "https://unpkg.com/thebe@0.8.2/lib/index.js"; const thebe_selector = ".thebe,.cell"; const thebe_selector_input = "pre"; const thebe_selector_output = ".output, .cell_output"</script>
+    <script>DOCUMENTATION_OPTIONS.pagename = 'md/07_linear-regression';</script>
+    <link rel="index" title="Index" href="../genindex.html" />
+    <link rel="search" title="Search" href="../search.html" />
+    <link rel="prev" title="Analisa Data Menggunakan Random Forest" href="06_random-forest.html" />
+  <meta name="viewport" content="width=device-width, initial-scale=1"/>
+  <meta name="docsearch:language" content="en"/>
+  <meta name="docsearch:version" content="" />
+  </head>
+  
+  
+  <body data-bs-spy="scroll" data-bs-target=".bd-toc-nav" data-offset="180" data-bs-root-margin="0px 0px -60%" data-default-mode="">
+
+  
+  
+  <div id="pst-skip-link" class="skip-link d-print-none"><a href="#main-content">Skip to main content</a></div>
+  
+  <div id="pst-scroll-pixel-helper"></div>
+  
+  <button type="button" class="btn rounded-pill" id="pst-back-to-top">
+    <i class="fa-solid fa-arrow-up"></i>Back to top</button>
+
+  
+  <dialog id="pst-search-dialog">
+    
+<form class="bd-search d-flex align-items-center"
+      action="../search.html"
+      method="get">
+  <i class="fa-solid fa-magnifying-glass"></i>
+  <input type="search"
+         class="form-control"
+         name="q"
+         placeholder="Search this book..."
+         aria-label="Search this book..."
+         autocomplete="off"
+         autocorrect="off"
+         autocapitalize="off"
+         spellcheck="false"/>
+  <span class="search-button__kbd-shortcut"><kbd class="kbd-shortcut__modifier">Ctrl</kbd>+<kbd>K</kbd></span>
+</form>
+  </dialog>
+
+  <div class="pst-async-banner-revealer d-none">
+  <aside id="bd-header-version-warning" class="d-none d-print-none" aria-label="Version warning"></aside>
+</div>
+
+  
+    <header class="bd-header navbar navbar-expand-lg bd-navbar d-print-none">
+    </header>
+  
+
+  <div class="bd-container">
+    <div class="bd-container__inner bd-page-width">
+      
+      
+      
+      <dialog id="pst-primary-sidebar-modal"></dialog>
+      <div id="pst-primary-sidebar" class="bd-sidebar-primary bd-sidebar">
+        
+
+  
+  <div class="sidebar-header-items sidebar-primary__section">
+    
+    
+    
+    
+  </div>
+  
+    <div class="sidebar-primary-items__start sidebar-primary__section">
+        <div class="sidebar-primary-item">
+
+  
+    
+  
+
+<a class="navbar-brand logo" href="../intro.html">
+  
+  
+  
+  
+  
+    
+    
+      
+    
+    
+    <img src="../_static/logo.png" class="logo__image only-light" alt="Penambangan Data - Home"/>
+    <img src="../_static/logo.png" class="logo__image only-dark pst-js-only" alt="Penambangan Data - Home"/>
+  
+  
+</a></div>
+        <div class="sidebar-primary-item">
+
+<button class="btn search-button-field search-button__button pst-js-only" title="Search" aria-label="Search" data-bs-placement="bottom" data-bs-toggle="tooltip">
+ <i class="fa-solid fa-magnifying-glass"></i>
+ <span class="search-button__default-text">Search</span>
+ <span class="search-button__kbd-shortcut"><kbd class="kbd-shortcut__modifier">Ctrl</kbd>+<kbd class="kbd-shortcut__modifier">K</kbd></span>
+</button></div>
+        <div class="sidebar-primary-item"><nav class="bd-links bd-docs-nav" aria-label="Main">
+    <div class="bd-toc-item navbar-nav active">
+        
+        <ul class="nav bd-sidenav bd-sidenav__home-link">
+            <li class="toctree-l1">
+                <a class="reference internal" href="../intro.html">
+                    Profile
+                </a>
+            </li>
+        </ul>
+        <ul class="current nav bd-sidenav">
+<li class="toctree-l1"><a class="reference internal" href="00_penambangan-data.html">Penambangan Data</a></li>
+<li class="toctree-l1"><a class="reference internal" href="01_busines-understanding.html">Business Understanding</a></li>
+<li class="toctree-l1"><a class="reference internal" href="02_data-understanding.html">Data Understanding</a></li>
+<li class="toctree-l1"><a class="reference internal" href="03_uts.html">UTS Analisis Data Kesuburan Tanah Menggunakan KNN</a></li>
+<li class="toctree-l1"><a class="reference internal" href="04_naive_bayes.html">Analisa Data Menggunakan Naive Bayes</a></li>
+<li class="toctree-l1"><a class="reference internal" href="05_dicission-tree.html">Analisa Data Menggunakan Decision Tree</a></li>
+<li class="toctree-l1"><a class="reference internal" href="06_random-forest.html">Analisa Data Menggunakan Random Forest</a></li>
+<li class="toctree-l1 current active"><a class="current reference internal" href="#">Analisis Data Menggunakan Regresi Linier</a></li>
+</ul>
+
+    </div>
+</nav></div>
+    </div>
+  
+  
+  <div class="sidebar-primary-items__end sidebar-primary__section">
+      <div class="sidebar-primary-item">
+<div id="ethical-ad-placement"
+      class="flat"
+      data-ea-publisher="readthedocs"
+      data-ea-type="readthedocs-sidebar"
+      data-ea-manual="true">
+</div></div>
+  </div>
+
+
+      </div>
+      
+      <main id="main-content" class="bd-main" role="main">
+        
+        
+
+<div class="sbt-scroll-pixel-helper"></div>
+
+          <div class="bd-content">
+            <div class="bd-article-container">
+              
+              <div class="bd-header-article d-print-none">
+<div class="header-article-items header-article__inner">
+  
+    <div class="header-article-items__start">
+      
+        <div class="header-article-item"><button class="sidebar-toggle primary-toggle btn btn-sm" title="Toggle primary sidebar" data-bs-placement="bottom" data-bs-toggle="tooltip">
+  <span class="fa-solid fa-bars"></span>
+</button></div>
+      
+    </div>
+  
+  
+    <div class="header-article-items__end">
+      
+        <div class="header-article-item">
+
+<div class="article-header-buttons">
+
+
+
+
+
+<div class="dropdown dropdown-source-buttons">
+  <button class="btn dropdown-toggle" type="button" data-bs-toggle="dropdown" aria-expanded="false" aria-label="Source repositories">
+    <i class="fab fa-github"></i>
+  </button>
+  <ul class="dropdown-menu">
+      
+      
+      
+      <li><a href="https://github.com/roti18/Pendata" target="_blank"
+   class="btn btn-sm btn-source-repository-button dropdown-item"
+   title="Source repository"
+   data-bs-placement="left" data-bs-toggle="tooltip"
+>
+  
+
+<span class="btn__icon-container">
+  <i class="fab fa-github"></i>
+  </span>
+<span class="btn__text-container">Repository</span>
+</a>
+</li>
+      
+      
+      
+      
+      <li><a href="https://github.com/roti18/Pendata/issues/new?title=Issue%20on%20page%20%2Fmd/07_linear-regression.html&body=Your%20issue%20content%20here." target="_blank"
+   class="btn btn-sm btn-source-issues-button dropdown-item"
+   title="Open an issue"
+   data-bs-placement="left" data-bs-toggle="tooltip"
+>
+  
+
+<span class="btn__icon-container">
+  <i class="fas fa-lightbulb"></i>
+  </span>
+<span class="btn__text-container">Open issue</span>
+</a>
+</li>
+      
+  </ul>
+</div>
+
+
+
+
+
+
+<div class="dropdown dropdown-download-buttons">
+  <button class="btn dropdown-toggle" type="button" data-bs-toggle="dropdown" aria-expanded="false" aria-label="Download this page">
+    <i class="fas fa-download"></i>
+  </button>
+  <ul class="dropdown-menu">
+      
+      
+      
+      <li><a href="../_sources/md/07_linear-regression.md" target="_blank"
+   class="btn btn-sm btn-download-source-button dropdown-item"
+   title="Download source file"
+   data-bs-placement="left" data-bs-toggle="tooltip"
+>
+  
+
+<span class="btn__icon-container">
+  <i class="fas fa-file"></i>
+  </span>
+<span class="btn__text-container">.md</span>
+</a>
+</li>
+      
+      
+      
+      
+      <li>
+<button onclick="window.print()"
+  class="btn btn-sm btn-download-pdf-button dropdown-item"
+  title="Print to PDF"
+  data-bs-placement="left" data-bs-toggle="tooltip"
+>
+  
+
+<span class="btn__icon-container">
+  <i class="fas fa-file-pdf"></i>
+  </span>
+<span class="btn__text-container">.pdf</span>
+</button>
+</li>
+      
+  </ul>
+</div>
+
+
+
+
+<button onclick="toggleFullScreen()"
+  class="btn btn-sm btn-fullscreen-button pst-navbar-icon"
+  title="Fullscreen mode"
+  data-bs-placement="bottom" data-bs-toggle="tooltip"
+>
+  
+
+<span class="btn__icon-container">
+  <i class="fas fa-expand"></i>
+  </span>
+
+</button>
+
+
+
+<button class="btn btn-sm nav-link pst-navbar-icon theme-switch-button pst-js-only" aria-label="Color mode" data-bs-title="Color mode"  data-bs-placement="bottom" data-bs-toggle="tooltip">
+  <i class="theme-switch fa-solid fa-sun                fa-lg" data-mode="light" title="Light"></i>
+  <i class="theme-switch fa-solid fa-moon               fa-lg" data-mode="dark"  title="Dark"></i>
+  <i class="theme-switch fa-solid fa-circle-half-stroke fa-lg" data-mode="auto"  title="System Settings"></i>
+</button>
+
+
+<button class="btn btn-sm pst-navbar-icon search-button search-button__button pst-js-only" title="Search" aria-label="Search" data-bs-placement="bottom" data-bs-toggle="tooltip">
+    <i class="fa-solid fa-magnifying-glass fa-lg"></i>
+</button>
+<button class="sidebar-toggle secondary-toggle btn btn-sm pst-navbar-icon" title="Toggle secondary sidebar" data-bs-placement="bottom" data-bs-toggle="tooltip">
+    <span class="fa-solid fa-list"></span>
+</button>
+</div></div>
+      
+    </div>
+  
+</div>
+</div>
+              
+              
+
+<div id="jb-print-docs-body" class="onlyprint">
+    <h1>Analisis Data Menggunakan Regresi Linier</h1>
+    <!-- Table of contents -->
+    <div id="print-main-content">
+        <div id="jb-print-toc">
+            
+            <div>
+                <h2> Contents </h2>
+            </div>
+            <nav aria-label="Page">
+                <ul class="visible nav section-nav flex-column">
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#pendahuluan">1. Pendahuluan</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#konsep-dasar-regresi-linier">2. Konsep Dasar Regresi Linier</a><ul class="nav section-nav flex-column">
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#persamaan-model">2.1 Persamaan Model</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#multiple-linear-regression">2.2 Multiple Linear Regression</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#mencari-garis-terbaik-meminimalkan-sse">2.3 Mencari Garis Terbaik: Meminimalkan SSE</a></li>
+</ul>
+</li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#rumus-matriks-x-x-1-x-y">3. Rumus Matriks: β̂ = (XᵀX)⁻¹ XᵀY</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#dataset-yang-digunakan">4. Dataset yang Digunakan</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#perhitungan-manual-step-by-step">5. Perhitungan Manual Step-by-Step</a><ul class="nav section-nav flex-column">
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#step-1-susun-matriks-x-dan-vektor-y">Step 1 — Susun Matriks X dan Vektor Y</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#step-2-hitung-x-x">Step 2 — Hitung XᵀX</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#step-3-invers-x-x-1">Step 3 — Invers (XᵀX)⁻¹</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#step-4-hitung-x-y">Step 4 — Hitung XᵀY</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#step-5-hitung-x-x-1-x-y">Step 5 — Hitung β̂ = (XᵀX)⁻¹ · XᵀY</a></li>
+</ul>
+</li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#perhitungan-prediksi-per-titik">6. Perhitungan Prediksi per Titik</a><ul class="nav section-nav flex-column">
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#titik-a-x-2-y-asli-2">Titik A (x = 2, y asli = 2)</a></li>
+</ul>
+</li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#implementasi-dengan-sklearn">7. Implementasi dengan sklearn</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#ringkasan-alur-perhitungan">8. Ringkasan Alur Perhitungan</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#hasil-evaluasi-model">9. Hasil Evaluasi Model</a><ul class="nav section-nav flex-column">
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#perbandingan-metode">9.1 Perbandingan Metode</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#metrik-evaluasi">9.2 Metrik Evaluasi</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#interpretasi-hasil">9.3 Interpretasi Hasil</a></li>
+</ul>
+</li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#kelebihan-dan-kekurangan-regresi-linier">10. Kelebihan dan Kekurangan Regresi Linier</a></li>
+</ul>
+            </nav>
+        </div>
+    </div>
+</div>
+
+              
+                
+<div id="searchbox"></div>
+                <article class="bd-article">
+                  
+  <section class="tex2jax_ignore mathjax_ignore" id="analisis-data-menggunakan-regresi-linier">
+<h1>Analisis Data Menggunakan Regresi Linier<a class="headerlink" href="#analisis-data-menggunakan-regresi-linier" title="Link to this heading">#</a></h1>
+<section id="pendahuluan">
+<h2>1. Pendahuluan<a class="headerlink" href="#pendahuluan" title="Link to this heading">#</a></h2>
+<p>Laporan ini menerapkan metode Regresi Linier pada dataset titik koordinat A sampai G yang divisualisasikan melalui GeoGebra. Dataset ini digunakan sebagai contoh perhitungan manual koefisien regresi menggunakan operasi matriks, sekaligus diverifikasi menggunakan library <code class="docutils literal notranslate"><span class="pre">scikit-learn</span></code> di Python.</p>
+<p>Tujuan analisis:</p>
+<ul class="simple">
+<li><p>Menjelaskan konsep dasar Regresi Linier dan cara mencari koefisien secara analitik menggunakan rumus matriks β̂ = (XᵀX)⁻¹ XᵀY.</p></li>
+<li><p>Menyediakan walkthrough perhitungan manual step-by-step mulai dari pembentukan matriks X, transpose, perkalian, invers, hingga hasil akhir β̂.</p></li>
+<li><p>Menampilkan perhitungan prediksi satu per satu untuk setiap titik menggunakan persamaan akhir.</p></li>
+<li><p>Mengimplementasikan model menggunakan <code class="docutils literal notranslate"><span class="pre">sklearn.linear_model.LinearRegression</span></code> dan membandingkan hasilnya dengan perhitungan analitik.</p></li>
+</ul>
+</section>
+<hr class="docutils" />
+<section id="konsep-dasar-regresi-linier">
+<h2>2. Konsep Dasar Regresi Linier<a class="headerlink" href="#konsep-dasar-regresi-linier" title="Link to this heading">#</a></h2>
+<p>Regresi Linier adalah metode analisis statistik untuk memprediksi nilai suatu variabel terikat (dependen/response) berdasarkan variabel bebas (independen/predictor). Metode ini memodelkan hubungan antara dua variabel menjadi sebuah garis lurus (persamaan linear), sehingga memungkinkan kita memperkirakan tren atau hasil di masa depan.</p>
+<section id="persamaan-model">
+<h3>2.1 Persamaan Model<a class="headerlink" href="#persamaan-model" title="Link to this heading">#</a></h3>
+<p>Untuk <strong>Simple Linear Regression</strong> (satu variabel bebas):</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">y</span> <span class="o">=</span> <span class="n">b0</span> <span class="o">+</span> <span class="n">b1·x</span> <span class="o">+</span> <span class="n">e</span>
+</pre></div>
+</div>
+<div class="pst-scrollable-table-container"><table class="table">
+<thead>
+<tr class="row-odd"><th class="head"><p>Simbol</p></th>
+<th class="head"><p>Nama</p></th>
+<th class="head"><p>Keterangan</p></th>
+</tr>
+</thead>
+<tbody>
+<tr class="row-even"><td><p>y</p></td>
+<td><p>Response variable</p></td>
+<td><p>Variabel yang ingin diprediksi</p></td>
+</tr>
+<tr class="row-odd"><td><p>x</p></td>
+<td><p>Input variable</p></td>
+<td><p>Variabel prediktor</p></td>
+</tr>
+<tr class="row-even"><td><p>b0</p></td>
+<td><p>Intercept</p></td>
+<td><p>Titik potong garis dengan sumbu y</p></td>
+</tr>
+<tr class="row-odd"><td><p>b1</p></td>
+<td><p>Koefisien regresi</p></td>
+<td><p>Kemiringan garis (∆y / ∆x)</p></td>
+</tr>
+<tr class="row-even"><td><p>e</p></td>
+<td><p>Residual/Error</p></td>
+<td><p>Selisih antara nilai prediksi dan nilai asli</p></td>
+</tr>
+</tbody>
+</table>
+</div>
+</section>
+<section id="multiple-linear-regression">
+<h3>2.2 Multiple Linear Regression<a class="headerlink" href="#multiple-linear-regression" title="Link to this heading">#</a></h3>
+<p>Jika variabel bebas lebih dari satu:</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">y</span> <span class="o">=</span> <span class="n">b0</span> <span class="o">+</span> <span class="n">b1·x1</span> <span class="o">+</span> <span class="n">b2·x2</span> <span class="o">+</span> <span class="o">...</span> <span class="o">+</span> <span class="n">bn·xn</span> <span class="o">+</span> <span class="n">e</span>
+</pre></div>
+</div>
+<p>Jika ada 2 variabel bebas, modelnya tidak lagi berupa garis melainkan <strong>bidang datar</strong>:</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">z</span> <span class="o">=</span> <span class="n">ax</span> <span class="o">+</span> <span class="n">by</span> <span class="o">+</span> <span class="n">c</span>
+</pre></div>
+</div>
+</section>
+<section id="mencari-garis-terbaik-meminimalkan-sse">
+<h3>2.3 Mencari Garis Terbaik: Meminimalkan SSE<a class="headerlink" href="#mencari-garis-terbaik-meminimalkan-sse" title="Link to this heading">#</a></h3>
+<p>Garis regresi terbaik adalah garis yang <strong>paling adil di tengah-tengah data</strong>, yaitu garis yang meminimalkan jumlah kuadrat residual (Sum of Squared Errors):</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span>SSE = Σ(yi − ŷi)²
+</pre></div>
+</div>
+<p>Solusi analitik dari minimasi ini diperoleh melalui kalkulus diferensial dan menghasilkan <strong>rumus matriks Normal Equation</strong> berikut.</p>
+</section>
+</section>
+<hr class="docutils" />
+<section id="rumus-matriks-x-x-1-x-y">
+<h2>3. Rumus Matriks: β̂ = (XᵀX)⁻¹ XᵀY<a class="headerlink" href="#rumus-matriks-x-x-1-x-y" title="Link to this heading">#</a></h2>
+<p>Untuk menghitung koefisien b0 dan b1 secara serentak, digunakan operasi matriks:</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span>β̂ = (XᵀX)⁻¹ · Xᵀ · Y
+</pre></div>
+</div>
+<div class="pst-scrollable-table-container"><table class="table">
+<thead>
+<tr class="row-odd"><th class="head"><p>Simbol</p></th>
+<th class="head"><p>Keterangan</p></th>
+</tr>
+</thead>
+<tbody>
+<tr class="row-even"><td><p>X</p></td>
+<td><p>Matriks prediktor — kolom pertama berisi 1 semua (dummy untuk b0)</p></td>
+</tr>
+<tr class="row-odd"><td><p>Y</p></td>
+<td><p>Vektor response (nilai target)</p></td>
+</tr>
+<tr class="row-even"><td><p>Xᵀ</p></td>
+<td><p>Transpose dari matriks X (baris dan kolom dibalik)</p></td>
+</tr>
+<tr class="row-odd"><td><p>(XᵀX)⁻¹</p></td>
+<td><p>Invers dari hasil perkalian XᵀX</p></td>
+</tr>
+<tr class="row-even"><td><p>β̂</p></td>
+<td><p>Vektor hasil koefisien <code class="docutils literal notranslate"><span class="pre">[b0,</span> <span class="pre">b1]</span></code></p></td>
+</tr>
+</tbody>
+</table>
+</div>
+</section>
+<hr class="docutils" />
+<section id="dataset-yang-digunakan">
+<h2>4. Dataset yang Digunakan<a class="headerlink" href="#dataset-yang-digunakan" title="Link to this heading">#</a></h2>
+<p>Dataset yang digunakan adalah 7 titik koordinat dari GeoGebra, dengan nilai koordinat x sebagai variabel independen (prediktor) dan nilai koordinat y sebagai variabel dependen (response/target).</p>
+<div class="pst-scrollable-table-container"><table class="table">
+<thead>
+<tr class="row-odd"><th class="head"><p>Titik</p></th>
+<th class="head"><p>Variabel Bebas (x)</p></th>
+<th class="head"><p>Variabel Terikat (y)</p></th>
+</tr>
+</thead>
+<tbody>
+<tr class="row-even"><td><p>A</p></td>
+<td><p>2</p></td>
+<td><p>2</p></td>
+</tr>
+<tr class="row-odd"><td><p>B</p></td>
+<td><p>4</p></td>
+<td><p>3</p></td>
+</tr>
+<tr class="row-even"><td><p>C</p></td>
+<td><p>3</p></td>
+<td><p>5</p></td>
+</tr>
+<tr class="row-odd"><td><p>D</p></td>
+<td><p>3</p></td>
+<td><p>4</p></td>
+</tr>
+<tr class="row-even"><td><p>E</p></td>
+<td><p>3</p></td>
+<td><p>3</p></td>
+</tr>
+<tr class="row-odd"><td><p>F</p></td>
+<td><p>4</p></td>
+<td><p>5</p></td>
+</tr>
+<tr class="row-even"><td><p>G</p></td>
+<td><p>5</p></td>
+<td><p>6</p></td>
+</tr>
+</tbody>
+</table>
+</div>
+<p>Dari visualisasi GeoGebra, terlihat data memiliki tren naik dari kiri bawah ke kanan atas, yang mengindikasikan korelasi positif antara x dan y.</p>
+</section>
+<hr class="docutils" />
+<section id="perhitungan-manual-step-by-step">
+<h2>5. Perhitungan Manual Step-by-Step<a class="headerlink" href="#perhitungan-manual-step-by-step" title="Link to this heading">#</a></h2>
+<section id="step-1-susun-matriks-x-dan-vektor-y">
+<h3>Step 1 — Susun Matriks X dan Vektor Y<a class="headerlink" href="#step-1-susun-matriks-x-dan-vektor-y" title="Link to this heading">#</a></h3>
+<p>Kolom pertama matriks X diisi angka <strong>1</strong> semua sebagai kolom dummy (placeholder untuk koefisien b0). Kolom kedua diisi nilai prediktor x:</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span>        <span class="p">[</span> <span class="mi">1</span><span class="p">,</span>  <span class="mi">2</span> <span class="p">]</span>           <span class="p">[</span> <span class="mi">2</span> <span class="p">]</span>
+        <span class="p">[</span> <span class="mi">1</span><span class="p">,</span>  <span class="mi">4</span> <span class="p">]</span>           <span class="p">[</span> <span class="mi">3</span> <span class="p">]</span>
+        <span class="p">[</span> <span class="mi">1</span><span class="p">,</span>  <span class="mi">3</span> <span class="p">]</span>           <span class="p">[</span> <span class="mi">5</span> <span class="p">]</span>
+<span class="n">X</span>  <span class="o">=</span>    <span class="p">[</span> <span class="mi">1</span><span class="p">,</span>  <span class="mi">3</span> <span class="p">]</span>     <span class="n">Y</span>  <span class="o">=</span>  <span class="p">[</span> <span class="mi">4</span> <span class="p">]</span>
+        <span class="p">[</span> <span class="mi">1</span><span class="p">,</span>  <span class="mi">3</span> <span class="p">]</span>           <span class="p">[</span> <span class="mi">3</span> <span class="p">]</span>
+        <span class="p">[</span> <span class="mi">1</span><span class="p">,</span>  <span class="mi">4</span> <span class="p">]</span>           <span class="p">[</span> <span class="mi">5</span> <span class="p">]</span>
+        <span class="p">[</span> <span class="mi">1</span><span class="p">,</span>  <span class="mi">5</span> <span class="p">]</span>           <span class="p">[</span> <span class="mi">6</span> <span class="p">]</span>
+</pre></div>
+</div>
+<p>Matriks X berukuran <strong>7 × 2</strong> dan vektor Y berukuran <strong>7 × 1</strong>.</p>
+</section>
+<hr class="docutils" />
+<section id="step-2-hitung-x-x">
+<h3>Step 2 — Hitung XᵀX<a class="headerlink" href="#step-2-hitung-x-x" title="Link to this heading">#</a></h3>
+<p>Transpose berarti <strong>membalik baris menjadi kolom</strong>. Hasil Xᵀ berukuran <strong>2 × 7</strong>:</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span>         <span class="p">[</span> <span class="mi">1</span>   <span class="mi">1</span>   <span class="mi">1</span>   <span class="mi">1</span>   <span class="mi">1</span>   <span class="mi">1</span>   <span class="mi">1</span> <span class="p">]</span>
+<span class="n">Xᵀ</span>  <span class="o">=</span>    <span class="p">[</span> <span class="mi">2</span>   <span class="mi">4</span>   <span class="mi">3</span>   <span class="mi">3</span>   <span class="mi">3</span>   <span class="mi">4</span>   <span class="mi">5</span> <span class="p">]</span>
+</pre></div>
+</div>
+<p>Kalikan Xᵀ dengan X untuk menghasilkan matriks <strong>2 × 2</strong>:</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span>XᵀX[0,0] = 1+1+1+1+1+1+1                    = 7
+XᵀX[0,1] = 2+4+3+3+3+4+5                    = 24
+XᵀX[1,0] = 24                                (simetris)
+XᵀX[1,1] = 2²+4²+3²+3²+3²+4²+5²
+          = 4+16+9+9+9+16+25                 = 88
+
+         [  7    24 ]
+XᵀX  =   [ 24    88 ]
+</pre></div>
+</div>
+</section>
+<hr class="docutils" />
+<section id="step-3-invers-x-x-1">
+<h3>Step 3 — Invers (XᵀX)⁻¹<a class="headerlink" href="#step-3-invers-x-x-1" title="Link to this heading">#</a></h3>
+<p>Hanya <strong>matriks persegi</strong> yang dapat di-invers. XᵀX berukuran 2×2 sehingga dapat di-invers.</p>
+<p>Rumus invers matriks 2×2:</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span>    [ a  b ]⁻¹          1       [  d  -b ]
+    [ c  d ]    =  ───────────  [ -c   a ]
+                   (ad − bc)
+</pre></div>
+</div>
+<p>Hitung <strong>determinan</strong>:</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span>det = (7 × 88) − (24 × 24)
+    = 616 − 576
+    = 40
+</pre></div>
+</div>
+<p>Hitung <strong>(XᵀX)⁻¹</strong>:</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span>(XᵀX)⁻¹ = (1/40) × [  88   -24 ]
+                     [ -24     7 ]
+
+         = [  2.2    -0.6  ]
+           [ -0.6    0.175 ]
+</pre></div>
+</div>
+</section>
+<hr class="docutils" />
+<section id="step-4-hitung-x-y">
+<h3>Step 4 — Hitung XᵀY<a class="headerlink" href="#step-4-hitung-x-y" title="Link to this heading">#</a></h3>
+<p>Kalikan Xᵀ (2×7) dengan Y (7×1) untuk menghasilkan vektor <strong>2 × 1</strong>:</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span>XᵀY[0] = 1×2 + 1×3 + 1×5 + 1×4 + 1×3 + 1×5 + 1×6  = 28
+XᵀY[1] = 2×2 + 4×3 + 3×5 + 3×4 + 3×3 + 4×5 + 5×6
+        = 4 + 12 + 15 + 12 + 9 + 20 + 30             = 102
+
+         [ 28  ]
+XᵀY  =   [ 102 ]
+</pre></div>
+</div>
+</section>
+<hr class="docutils" />
+<section id="step-5-hitung-x-x-1-x-y">
+<h3>Step 5 — Hitung β̂ = (XᵀX)⁻¹ · XᵀY<a class="headerlink" href="#step-5-hitung-x-x-1-x-y" title="Link to this heading">#</a></h3>
+<p>Kalikan invers (2×2) dengan XᵀY (2×1):</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span>b0 = (2.2  × 28) + (-0.6   × 102)  =  61.6 − 61.2  =  0.4
+b1 = (-0.6 × 28) + ( 0.175 × 102)  = -16.8 + 17.85 =  1.05
+
+         [ b0 ]   [ 0.4  ]
+β̂   =    [ b1 ] = [ 1.05 ]
+</pre></div>
+</div>
+<p><strong>Persamaan Regresi Linier:</strong></p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span>y = 1.05·x + 0.4
+</pre></div>
+</div>
+</section>
+</section>
+<hr class="docutils" />
+<section id="perhitungan-prediksi-per-titik">
+<h2>6. Perhitungan Prediksi per Titik<a class="headerlink" href="#perhitungan-prediksi-per-titik" title="Link to this heading">#</a></h2>
+<p>Setelah diperoleh b0 = 0.4 dan b1 = 1.05, persamaan <code class="docutils literal notranslate"><span class="pre">y</span> <span class="pre">=</span> <span class="pre">1.05x</span> <span class="pre">+</span> <span class="pre">0.4</span></code> digunakan untuk menghitung nilai prediksi (ŷ) satu per satu untuk setiap titik:</p>
+<section id="titik-a-x-2-y-asli-2">
+<h3>Titik A (x = 2, y asli = 2)<a class="headerlink" href="#titik-a-x-2-y-asli-2" title="Link to this heading">#</a></h3>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span>ŷ = 1.05x + 0.4
+  = 1.05 × 2 + 0.4
+  = 2.1 + 0.4
+  = 2.5
+
+Residual = y − ŷ = 2 − 2.5 = −0.5
+</pre></div>
+</div>
+</section>
+</section>
+<hr class="docutils" />
+<section id="implementasi-dengan-sklearn">
+<h2>7. Implementasi dengan sklearn<a class="headerlink" href="#implementasi-dengan-sklearn" title="Link to this heading">#</a></h2>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="kn">import</span><span class="w"> </span><span class="nn">numpy</span><span class="w"> </span><span class="k">as</span><span class="w"> </span><span class="nn">np</span>
+<span class="kn">from</span><span class="w"> </span><span class="nn">sklearn.linear_model</span><span class="w"> </span><span class="kn">import</span> <span class="n">LinearRegression</span>
+
+<span class="n">X</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">array</span><span class="p">([</span><span class="mi">2</span><span class="p">,</span> <span class="mi">4</span><span class="p">,</span> <span class="mi">3</span><span class="p">,</span> <span class="mi">3</span><span class="p">,</span> <span class="mi">3</span><span class="p">,</span> <span class="mi">4</span><span class="p">,</span> <span class="mi">5</span><span class="p">])</span><span class="o">.</span><span class="n">reshape</span><span class="p">(</span><span class="o">-</span><span class="mi">1</span><span class="p">,</span> <span class="mi">1</span><span class="p">)</span>
+<span class="n">Y</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">array</span><span class="p">([</span><span class="mi">2</span><span class="p">,</span> <span class="mi">3</span><span class="p">,</span> <span class="mi">5</span><span class="p">,</span> <span class="mi">4</span><span class="p">,</span> <span class="mi">3</span><span class="p">,</span> <span class="mi">5</span><span class="p">,</span> <span class="mi">6</span><span class="p">])</span>
+
+<span class="n">model</span> <span class="o">=</span> <span class="n">LinearRegression</span><span class="p">()</span>
+<span class="n">model</span><span class="o">.</span><span class="n">fit</span><span class="p">(</span><span class="n">X</span><span class="p">,</span> <span class="n">Y</span><span class="p">)</span>
+
+<span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;b0 = </span><span class="si">{</span><span class="n">model</span><span class="o">.</span><span class="n">intercept_</span><span class="si">:</span><span class="s2">.4f</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">)</span>   <span class="c1"># → 0.4000</span>
+<span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;b1 = </span><span class="si">{</span><span class="n">model</span><span class="o">.</span><span class="n">coef_</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span><span class="si">:</span><span class="s2">.4f</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">)</span>    <span class="c1"># → 1.0500</span>
+</pre></div>
+</div>
+<p>Lihat file <code class="docutils literal notranslate"><span class="pre">.ipynb</span></code> untuk implementasi lengkap beserta visualisasi.</p>
+</section>
+<hr class="docutils" />
+<section id="ringkasan-alur-perhitungan">
+<h2>8. Ringkasan Alur Perhitungan<a class="headerlink" href="#ringkasan-alur-perhitungan" title="Link to this heading">#</a></h2>
+<div class="pst-scrollable-table-container"><table class="table">
+<thead>
+<tr class="row-odd"><th class="head"><p>Langkah</p></th>
+<th class="head"><p>Operasi</p></th>
+<th class="head"><p>Dimensi</p></th>
+<th class="head"><p>Hasil</p></th>
+</tr>
+</thead>
+<tbody>
+<tr class="row-even"><td><p>1</p></td>
+<td><p>Susun X &amp; Y</p></td>
+<td><p>X: 7×2, Y: 7×1</p></td>
+<td><p>Matriks input siap dihitung</p></td>
+</tr>
+<tr class="row-odd"><td><p>2</p></td>
+<td><p>XᵀX</p></td>
+<td><p>(2×7)×(7×2) = 2×2</p></td>
+<td><p>[[7, 24], [24, 88]]</p></td>
+</tr>
+<tr class="row-even"><td><p>3</p></td>
+<td><p>(XᵀX)⁻¹</p></td>
+<td><p>det = 40</p></td>
+<td><p>[[2.2, −0.6], [−0.6, 0.175]]</p></td>
+</tr>
+<tr class="row-odd"><td><p>4</p></td>
+<td><p>XᵀY</p></td>
+<td><p>(2×7)×(7×1) = 2×1</p></td>
+<td><p>[28, 102]</p></td>
+</tr>
+<tr class="row-even"><td><p>5</p></td>
+<td><p>β̂ = (XᵀX)⁻¹ · XᵀY</p></td>
+<td><p>(2×2)×(2×1) = 2×1</p></td>
+<td><p><strong>b0 = 0.4, b1 = 1.05</strong></p></td>
+</tr>
+<tr class="row-odd"><td><p>6</p></td>
+<td><p>Prediksi ŷ = b1x+b0</p></td>
+<td><p>per titik A–G</p></td>
+<td><p>ŷ ∈ {2.5, 4.6, 3.55, 3.55, 3.55, 4.6, 5.65}</p></td>
+</tr>
+</tbody>
+</table>
+</div>
+</section>
+<hr class="docutils" />
+<section id="hasil-evaluasi-model">
+<h2>9. Hasil Evaluasi Model<a class="headerlink" href="#hasil-evaluasi-model" title="Link to this heading">#</a></h2>
+<section id="perbandingan-metode">
+<h3>9.1 Perbandingan Metode<a class="headerlink" href="#perbandingan-metode" title="Link to this heading">#</a></h3>
+<div class="pst-scrollable-table-container"><table class="table">
+<thead>
+<tr class="row-odd"><th class="head"><p>Metode</p></th>
+<th class="head"><p>b0 (Intercept)</p></th>
+<th class="head"><p>b1 (Koefisien)</p></th>
+<th class="head"><p>Status</p></th>
+</tr>
+</thead>
+<tbody>
+<tr class="row-even"><td><p>Manual Matriks</p></td>
+<td><p>0.4000</p></td>
+<td><p>1.0500</p></td>
+<td><p>—</p></td>
+</tr>
+<tr class="row-odd"><td><p>sklearn</p></td>
+<td><p>0.4000</p></td>
+<td><p>1.0500</p></td>
+<td><p>✓ SAMA</p></td>
+</tr>
+</tbody>
+</table>
+</div>
+</section>
+<section id="metrik-evaluasi">
+<h3>9.2 Metrik Evaluasi<a class="headerlink" href="#metrik-evaluasi" title="Link to this heading">#</a></h3>
+<div class="pst-scrollable-table-container"><table class="table">
+<thead>
+<tr class="row-odd"><th class="head"><p>Metrik</p></th>
+<th class="head"><p>Nilai</p></th>
+<th class="head"><p>Keterangan</p></th>
+</tr>
+</thead>
+<tbody>
+<tr class="row-even"><td><p>SSE</p></td>
+<td><p>5.70</p></td>
+<td><p>Jumlah kuadrat semua residual</p></td>
+</tr>
+<tr class="row-odd"><td><p>MSE</p></td>
+<td><p>0.8143</p></td>
+<td><p>Rata-rata kuadrat residual (SSE / n)</p></td>
+</tr>
+<tr class="row-even"><td><p>R²</p></td>
+<td><p>0.5250</p></td>
+<td><p>Model menjelaskan 52.5% variasi data</p></td>
+</tr>
+</tbody>
+</table>
+</div>
+</section>
+<section id="interpretasi-hasil">
+<h3>9.3 Interpretasi Hasil<a class="headerlink" href="#interpretasi-hasil" title="Link to this heading">#</a></h3>
+<ul class="simple">
+<li><p><strong>b0 = 0.4</strong> → ketika x = 0, nilai y diprediksi sebesar 0.4 (intercept).</p></li>
+<li><p><strong>b1 = 1.05</strong> → setiap kenaikan 1 satuan x, nilai y meningkat rata-rata sebesar 1.05.</p></li>
+<li><p><strong>R² = 0.525</strong> → model menjelaskan 52.5% variasi data. Nilai ini moderat karena beberapa titik (C, D, E) memiliki nilai x sama (x=3) namun y berbeda-beda (3, 4, 5), sehingga variasinya tidak bisa ditangkap oleh garis lurus sederhana.</p></li>
+<li><p>Residual terbesar pada titik B (−1.6): model memprediksi 4.6 padahal nilai aslinya 3.</p></li>
+</ul>
+</section>
+</section>
+<hr class="docutils" />
+<section id="kelebihan-dan-kekurangan-regresi-linier">
+<h2>10. Kelebihan dan Kekurangan Regresi Linier<a class="headerlink" href="#kelebihan-dan-kekurangan-regresi-linier" title="Link to this heading">#</a></h2>
+<p><strong>Kelebihan:</strong></p>
+<ul class="simple">
+<li><p>Mudah dipahami dan diinterpretasikan: persamaan garis lurus langsung menunjukkan arah dan besar pengaruh x terhadap y.</p></li>
+<li><p>Komputasi sangat cepat, bahkan pada dataset besar, karena hanya melibatkan operasi matriks dasar.</p></li>
+<li><p>Tidak memerlukan banyak hyperparameter — cukup cari b0 dan b1.</p></li>
+<li><p>Menjadi fondasi bagi banyak metode machine learning lainnya seperti Logistic Regression, Ridge, dan Lasso.</p></li>
+<li><p>Memiliki solusi analitik yang eksak melalui Normal Equation (tidak perlu iterasi seperti Gradient Descent untuk dataset kecil).</p></li>
+</ul>
+<p><strong>Kekurangan:</strong></p>
+<ul class="simple">
+<li><p>Hanya cocok untuk data yang memiliki hubungan <strong>linear</strong> — jika pola data melengkung, model akan memberikan prediksi yang buruk.</p></li>
+<li><p>Sensitif terhadap <strong>outlier</strong>: satu nilai yang sangat menyimpang dapat menggeser posisi garis regresi secara signifikan.</p></li>
+<li><p>Tidak dapat menangkap pola non-linear tanpa transformasi fitur terlebih dahulu (misalnya polynomial features).</p></li>
+<li><p>Mengasumsikan bahwa residual berdistribusi normal, homoskedastis (varians konstan), dan bebas korelasi antar observasi.</p></li>
+<li><p>Terlihat pada dataset ini: titik C, D, E memiliki x=3 namun y berbeda-beda, yang tidak bisa dijelaskan oleh satu variabel saja.</p></li>
+</ul>
+</section>
+</section>
+
+    <script type="text/x-thebe-config">
+    {
+        requestKernel: true,
+        binderOptions: {
+            repo: "binder-examples/jupyter-stacks-datascience",
+            ref: "master",
+        },
+        codeMirrorConfig: {
+            theme: "abcdef",
+            mode: "python"
+        },
+        kernelOptions: {
+            name: "python3",
+            path: "./md"
+        },
+        predefinedOutput: true
+    }
+    </script>
+    <script>kernelName = 'python3'</script>
+
+                </article>
+              
+
+              
+              
+              
+              
+                <footer class="prev-next-footer d-print-none">
+                  
+<div class="prev-next-area">
+    <a class="left-prev"
+       href="06_random-forest.html"
+       title="previous page">
+      <i class="fa-solid fa-angle-left"></i>
+      <div class="prev-next-info">
+        <p class="prev-next-subtitle">previous</p>
+        <p class="prev-next-title">Analisa Data Menggunakan Random Forest</p>
+      </div>
+    </a>
+</div>
+                </footer>
+              
+            </div>
+            
+            
+              
+                <dialog id="pst-secondary-sidebar-modal"></dialog>
+                <div id="pst-secondary-sidebar" class="bd-sidebar-secondary bd-toc"><div class="sidebar-secondary-items sidebar-secondary__inner">
+
+
+  <div class="sidebar-secondary-item"><div
+    id="pst-page-navigation-heading-2"
+    class="page-toc tocsection onthispage">
+    <i class="fa-solid fa-list"></i> Contents
+  </div>
+  <nav id="pst-page-toc-nav" class="page-toc" aria-labelledby="pst-page-navigation-heading-2">
+    <ul class="visible nav section-nav flex-column">
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#pendahuluan">1. Pendahuluan</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#konsep-dasar-regresi-linier">2. Konsep Dasar Regresi Linier</a><ul class="nav section-nav flex-column">
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#persamaan-model">2.1 Persamaan Model</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#multiple-linear-regression">2.2 Multiple Linear Regression</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#mencari-garis-terbaik-meminimalkan-sse">2.3 Mencari Garis Terbaik: Meminimalkan SSE</a></li>
+</ul>
+</li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#rumus-matriks-x-x-1-x-y">3. Rumus Matriks: β̂ = (XᵀX)⁻¹ XᵀY</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#dataset-yang-digunakan">4. Dataset yang Digunakan</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#perhitungan-manual-step-by-step">5. Perhitungan Manual Step-by-Step</a><ul class="nav section-nav flex-column">
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#step-1-susun-matriks-x-dan-vektor-y">Step 1 — Susun Matriks X dan Vektor Y</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#step-2-hitung-x-x">Step 2 — Hitung XᵀX</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#step-3-invers-x-x-1">Step 3 — Invers (XᵀX)⁻¹</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#step-4-hitung-x-y">Step 4 — Hitung XᵀY</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#step-5-hitung-x-x-1-x-y">Step 5 — Hitung β̂ = (XᵀX)⁻¹ · XᵀY</a></li>
+</ul>
+</li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#perhitungan-prediksi-per-titik">6. Perhitungan Prediksi per Titik</a><ul class="nav section-nav flex-column">
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#titik-a-x-2-y-asli-2">Titik A (x = 2, y asli = 2)</a></li>
+</ul>
+</li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#implementasi-dengan-sklearn">7. Implementasi dengan sklearn</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#ringkasan-alur-perhitungan">8. Ringkasan Alur Perhitungan</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#hasil-evaluasi-model">9. Hasil Evaluasi Model</a><ul class="nav section-nav flex-column">
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#perbandingan-metode">9.1 Perbandingan Metode</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#metrik-evaluasi">9.2 Metrik Evaluasi</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#interpretasi-hasil">9.3 Interpretasi Hasil</a></li>
+</ul>
+</li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#kelebihan-dan-kekurangan-regresi-linier">10. Kelebihan dan Kekurangan Regresi Linier</a></li>
+</ul>
+  </nav></div>
+
+</div></div>
+              
+            
+          </div>
+          <footer class="bd-footer-content">
+            
+<div class="bd-footer-content__inner container">
+  
+  <div class="footer-item">
+    
+<p class="component-author">
+By Moch. Zamroni Fahreza
+</p>
+
+  </div>
+  
+  <div class="footer-item">
+    
+
+  <p class="copyright">
+    
+      © Copyright 2026.
+      <br/>
+    
+  </p>
+
+  </div>
+  
+  <div class="footer-item">
+    
+  </div>
+  
+  <div class="footer-item">
+    
+  </div>
+  
+</div>
+          </footer>
+        
+
+      </main>
+    </div>
+  </div>
+  
+  <!-- Scripts loaded after <body> so the DOM is not blocked -->
+  <script defer src="../_static/scripts/bootstrap.js?digest=8878045cc6db502f8baf"></script>
+<script defer src="../_static/scripts/pydata-sphinx-theme.js?digest=8878045cc6db502f8baf"></script>
+
+  <footer class="bd-footer">
+  </footer>
+  </body>
+</html>
