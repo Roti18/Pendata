@@ -17,3 +17,5 @@ chapters:
   title: "Analisa Data Menggunakan Random Forest"
 - file: md/07_linear-regression
   title: "Analisis Data Menggunakan Regresi Linier"
+- file: md/08_forecasting-no2-sumenep
+  title: "Peramalan Kadar NOâ‚‚ di Daerah Sumenep Madura"
