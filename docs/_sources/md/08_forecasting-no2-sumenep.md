@@ -1,4 +1,4 @@
-# Peramalan Kadar NO₂ di Daerah Sumenep Madura
+# Prediksi Kadar NO₂ di Daerah Sumenep Madura
 
 ## Latar Belakang
 

@@ -18,4 +18,6 @@ chapters:
 - file: md/07_linear-regression
   title: "Analisis Data Menggunakan Regresi Linier"
 - file: md/08_forecasting-no2-sumenep
-  title: "Peramalan Kadar NOâ‚‚ di Daerah Sumenep Madura"
+  title: "Prediksi Kadar NOâ‚‚ di Daerah Sumenep Madura"
+- file: md/09_forecaster_explainability
+  title: "Forecaster Explainability: Feature Importance, SHAP Values, dan Partial Dependence Plots"
