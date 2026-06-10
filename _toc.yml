@@ -20,4 +20,4 @@ chapters:
 - file: md/08_forecasting-no2-sumenep
   title: "Prediksi Kadar NOâ‚‚ di Daerah Sumenep Madura"
 - file: md/09_forecaster_explainability
-  title: "Forecaster Explainability: Feature Importance, SHAP Values, dan Partial Dependence Plots"
+  title: "Analisis Model Forecaster Explainability"
