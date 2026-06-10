@@ -2,7 +2,7 @@
 
 Sumber asli notebook: [https://skforecast.org/0.15.1/user_guides/explainability.html](https://skforecast.org/0.15.1/user_guides/explainability.html)
 
-**Source Code (Jupyter Notebook):** [Download file di sini](https://drive.google.com/file/d/1-dEPBZr6FUkJMzhfJeYLVtAQta5dCD4O/view?usp=sharing) *(Catatan: File hanya tersedia untuk diunduh)*
+Source Code (Jupyter Notebook): [Download file di sini](https://drive.google.com/file/d/1-dEPBZr6FUkJMzhfJeYLVtAQta5dCD4O/view?usp=sharing)
 
 ---
 
