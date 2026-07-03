@@ -780,66 +780,16 @@ Scorer (deprecated)
 <hr class="docutils" />
 <section id="hasil-evaluasi-model">
 <h2>Hasil Evaluasi Model<a class="headerlink" href="#hasil-evaluasi-model" title="Link to this heading">#</a></h2>
-<p>Berdasarkan output node Scorer pada tab <strong>Accuracy Statistics</strong>, diperoleh ringkasan performa sebagai berikut (nilai per kelas GRADE):</p>
-<div class="pst-scrollable-table-container"><table class="table">
-<thead>
-<tr class="row-odd"><th class="head"><p>Recall</p></th>
-<th class="head"><p>Precision</p></th>
-<th class="head"><p>Sensitivity</p></th>
-<th class="head"><p>Specifity</p></th>
-<th class="head"><p>F-measure</p></th>
-</tr>
-</thead>
-<tbody>
-<tr class="row-even"><td><p>0.400</p></td>
-<td><p>0.667</p></td>
-<td><p>0.400</p></td>
-<td><p>0.958</p></td>
-<td><p>0.500</p></td>
-</tr>
-<tr class="row-odd"><td><p>0.667</p></td>
-<td><p>0.667</p></td>
-<td><p>0.667</p></td>
-<td><p>0.962</p></td>
-<td><p>0.667</p></td>
-</tr>
-<tr class="row-even"><td><p>0.375</p></td>
-<td><p>0.500</p></td>
-<td><p>0.375</p></td>
-<td><p>0.857</p></td>
-<td><p>0.429</p></td>
-</tr>
-<tr class="row-odd"><td><p>1.000</p></td>
-<td><p>0.500</p></td>
-<td><p>1.000</p></td>
-<td><p>0.964</p></td>
-<td><p>0.667</p></td>
-</tr>
-<tr class="row-even"><td><p>0.250</p></td>
-<td><p>0.200</p></td>
-<td><p>0.250</p></td>
-<td><p>0.840</p></td>
-<td><p>0.222</p></td>
-</tr>
-<tr class="row-odd"><td><p>0.000</p></td>
-<td><p>0.000</p></td>
-<td><p>0.000</p></td>
-<td><p>0.926</p></td>
-<td><p>0.000</p></td>
-</tr>
-</tbody>
-</table>
-</div>
-<p><strong>Akurasi keseluruhan model: ± 0.414 (41,4%)</strong>
-<strong>Cohen’s Kappa: ± 0.307</strong></p>
+<p>Berdasarkan hasil evaluasi menggunakan node <strong>Scorer</strong>, model <strong>Decision Tree</strong> memperoleh <strong>akurasi sebesar 41,4%</strong> dalam memprediksi nilai akhir (<strong>GRADE</strong>) mahasiswa.</p>
 <section id="interpretasi-hasil">
 <h3>Interpretasi Hasil<a class="headerlink" href="#interpretasi-hasil" title="Link to this heading">#</a></h3>
-<p>Akurasi model berada pada kisaran 41% dengan nilai Cohen’s Kappa sekitar 0.31, yang menurut interpretasi umum termasuk dalam kategori kesepakatan <strong>lemah hingga cukup (<em>fair agreement</em>)</strong> antara prediksi model dan nilai aktual. Beberapa hal yang menjadi catatan:</p>
+<p>Akurasi sebesar <strong>41,4%</strong> menunjukkan bahwa model telah mampu melakukan klasifikasi, namun performanya masih tergolong rendah. Beberapa faktor yang memengaruhi hasil tersebut adalah:</p>
 <ul class="simple">
-<li><p>Performa model <strong>tidak merata di seluruh kelas GRADE</strong> - beberapa kelas (misalnya kelas dengan recall 1.000) diprediksi dengan sangat baik, sementara kelas lain (recall 0.000) sama sekali tidak terdeteksi oleh model.</p></li>
-<li><p>Hal ini wajar terjadi mengingat jumlah data yang relatif kecil (145 baris, dengan hanya 29 data testing) dan kelas GRADE memiliki 8 kategori (0-7), sehingga distribusi data antar kelas kemungkinan tidak seimbang (<em>imbalanced</em>).</p></li>
-<li><p>Decision Tree dengan parameter <em>pruning</em> yang diterapkan (Reduced Error Pruning, minimum 6 record per node) sudah diarahkan untuk mengurangi <em>overfitting</em>, namun keterbatasan jumlah data tetap menjadi faktor utama yang membatasi akurasi model secara keseluruhan.</p></li>
+<li><p>Dataset hanya terdiri dari <strong>145 data</strong>, sehingga jumlah data untuk proses pelatihan relatif terbatas.</p></li>
+<li><p>Variabel target <strong>GRADE</strong> memiliki <strong>8 kelas</strong>, sehingga distribusi data antar kelas cenderung tidak seimbang (<em>imbalanced</em>).</p></li>
+<li><p>Meskipun telah diterapkan <strong>Reduced Error Pruning</strong> untuk mengurangi <em>overfitting</em>, keterbatasan jumlah dan distribusi data tetap memengaruhi kemampuan model dalam melakukan prediksi.</p></li>
 </ul>
+<p>Secara keseluruhan, model berhasil membangun klasifikasi GRADE mahasiswa, namun masih memiliki ruang untuk ditingkatkan, misalnya dengan menambah jumlah data atau melakukan penyeimbangan distribusi kelas agar performa prediksi menjadi lebih baik.</p>
 </section>
 </section>
 </section>

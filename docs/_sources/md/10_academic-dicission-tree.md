@@ -241,24 +241,14 @@ Keuntungannya, peneliti dapat mengetahui seberapa yakin model terhadap setiap pr
 
 ## Hasil Evaluasi Model
 
-Berdasarkan output node Scorer pada tab **Accuracy Statistics**, diperoleh ringkasan performa sebagai berikut (nilai per kelas GRADE):
-
-| Recall | Precision | Sensitivity | Specifity | F-measure |
-| ------ | --------- | ----------- | --------- | --------- |
-| 0.400  | 0.667     | 0.400       | 0.958     | 0.500     |
-| 0.667  | 0.667     | 0.667       | 0.962     | 0.667     |
-| 0.375  | 0.500     | 0.375       | 0.857     | 0.429     |
-| 1.000  | 0.500     | 1.000       | 0.964     | 0.667     |
-| 0.250  | 0.200     | 0.250       | 0.840     | 0.222     |
-| 0.000  | 0.000     | 0.000       | 0.926     | 0.000     |
-
-**Akurasi keseluruhan model: ± 0.414 (41,4%)**
-**Cohen's Kappa: ± 0.307**
+Berdasarkan hasil evaluasi menggunakan node **Scorer**, model **Decision Tree** memperoleh **akurasi sebesar 41,4%** dalam memprediksi nilai akhir (**GRADE**) mahasiswa.
 
 ### Interpretasi Hasil
 
-Akurasi model berada pada kisaran 41% dengan nilai Cohen's Kappa sekitar 0.31, yang menurut interpretasi umum termasuk dalam kategori kesepakatan **lemah hingga cukup (*fair agreement*)** antara prediksi model dan nilai aktual. Beberapa hal yang menjadi catatan:
+Akurasi sebesar **41,4%** menunjukkan bahwa model telah mampu melakukan klasifikasi, namun performanya masih tergolong rendah. Beberapa faktor yang memengaruhi hasil tersebut adalah:
 
-* Performa model **tidak merata di seluruh kelas GRADE** - beberapa kelas (misalnya kelas dengan recall 1.000) diprediksi dengan sangat baik, sementara kelas lain (recall 0.000) sama sekali tidak terdeteksi oleh model.
-* Hal ini wajar terjadi mengingat jumlah data yang relatif kecil (145 baris, dengan hanya 29 data testing) dan kelas GRADE memiliki 8 kategori (0-7), sehingga distribusi data antar kelas kemungkinan tidak seimbang (*imbalanced*).
-* Decision Tree dengan parameter *pruning* yang diterapkan (Reduced Error Pruning, minimum 6 record per node) sudah diarahkan untuk mengurangi *overfitting*, namun keterbatasan jumlah data tetap menjadi faktor utama yang membatasi akurasi model secara keseluruhan.
+- Dataset hanya terdiri dari **145 data**, sehingga jumlah data untuk proses pelatihan relatif terbatas.
+- Variabel target **GRADE** memiliki **8 kelas**, sehingga distribusi data antar kelas cenderung tidak seimbang (*imbalanced*).
+- Meskipun telah diterapkan **Reduced Error Pruning** untuk mengurangi *overfitting*, keterbatasan jumlah dan distribusi data tetap memengaruhi kemampuan model dalam melakukan prediksi.
+
+Secara keseluruhan, model berhasil membangun klasifikasi GRADE mahasiswa, namun masih memiliki ruang untuk ditingkatkan, misalnya dengan menambah jumlah data atau melakukan penyeimbangan distribusi kelas agar performa prediksi menjadi lebih baik.
