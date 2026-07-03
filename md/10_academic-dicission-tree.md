@@ -68,19 +68,19 @@ Seluruh proses dibangun dalam satu *workflow* KNIME bernama `uas_pendat` dengan 
 
 ```
 CSV Reader
-    =>
+    ↓
 Number to String
-    =>
+    ↓
 Column Filter
-    =>
+    ↓
 Table Partitioner (80:20, Linear)
-    =>
+    ↓
 Color Manager
-    =>
+    ↓
 Decision Tree Learner
-    =>
+    ↓
 Decision Tree Predictor
-    =>
+    ↓
 Scorer (deprecated)
 ```
 
@@ -177,11 +177,11 @@ Node ini membangun model klasifikasi pohon keputusan dari data training. Decisio
 | Parameter                                              | Nilai                     | Alasan                                                                                                                                                          |
 | ------------------------------------------------------- | -------------------------- | ----------------------------------------------------------------------------------------------------------------------------------------------------------------- |
 | Class column                                            | GRADE                      | GRADE adalah variabel target yang ingin diprediksi.                                                                                                              |
-| Quality measure                                         | Gini index                 | Digunakan sebagai ukuran kualitas pemisahan (*split*) pada setiap simpul pohon.                                                                                  |
+| Quality measure                                         | Gain Ratio                 | Digunakan untuk memilih atribut terbaik berdasarkan kualitas pemisahan (split) pada setiap simpul pohon.                                                                                  |
 | Pruning method                                          | Reduced Error Pruning      | Memangkas cabang pohon yang terlalu spesifik agar mengurangi *overfitting* dan membuat pohon lebih sederhana sekaligus meningkatkan kemampuan generalisasi model. |
 | Minimum number of records per node                     | 6                           | Nilai 6 digunakan agar setiap node memiliki jumlah data yang cukup representatif sebelum dilakukan pemecahan cabang, sehingga risiko *overfitting* dapat dikurangi - tidak terlalu kecil (rawan overfitting) namun juga tidak terlalu besar (kehilangan detail pola data). |
 | Number threads                                          | 2                           | Memanfaatkan dua *thread* CPU untuk mempercepat proses pembentukan pohon keputusan.                                                                              |
-| Skip nominal columns without domain information         | ✔ Dicentang                | Menghindari error apabila ada atribut kategorikal yang domainnya tidak lengkap, sehingga proses *training* tetap stabil dan model tetap dapat dibangun.          |
+| Skip nominal columns without domain information         | ✓ Dicentang                | Menghindari error apabila ada atribut kategorikal yang domainnya tidak lengkap, sehingga proses *training* tetap stabil dan model tetap dapat dibangun.          |
 | Force root split column                                | ✘ Tidak dicentang          | Membiarkan algoritma memilih akar pohon (*root node*) secara otomatis berdasarkan atribut paling informatif, untuk menghindari bias dari peneliti.               |
 | Binary nominal splits                                   | ✘ Tidak dicentang          | Agar kategori nominal dipisah secara alami sesuai jumlah kategorinya. Jika dipaksa biner, pohon menjadi lebih panjang dan lebih sulit diinterpretasikan.         |
 | No true child strategy                                  | Return last prediction     | Jika ditemukan kombinasi atribut yang tidak sesuai dengan cabang manapun pada pohon, model tetap memberikan prediksi (tidak menghasilkan nilai kosong).          |
@@ -201,7 +201,7 @@ Node ini membangun model klasifikasi pohon keputusan dari data training. Decisio
 | Parameter                                            | Nilai      |
 | ------------------------------------------------------ | ---------- |
 | Change prediction column name                         | Tidak       |
-| Append columns with normalized class distribution     | ✔ Dicentang |
+| Append columns with normalized class distribution     | ✓ Dicentang |
 
 Opsi "Append columns with normalized class distribution" dicentang karena menampilkan probabilitas (tingkat keyakinan) model untuk setiap kelas GRADE pada setiap baris prediksi. Contoh ilustrasi:
 
@@ -253,7 +253,6 @@ Berdasarkan output node Scorer pada tab **Accuracy Statistics**, diperoleh ringk
 | 0.000  | 0.000     | 0.000       | 0.926     | 0.000     |
 
 **Akurasi keseluruhan model: ± 0.414 (41,4%)**
-**Cohen's Kappa: ± 0.307**
 
 ### Interpretasi Hasil
 

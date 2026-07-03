@@ -4,7 +4,7 @@
 
 Evaluasi performa akademik mahasiswa di perguruan tinggi tidak hanya ditentukan oleh nilai ujian, tetapi juga dipengaruhi oleh berbagai faktor lain seperti kondisi keluarga, kebiasaan belajar, status sosial-ekonomi, hingga gaya hidup mahasiswa selama menjalani perkuliahan. Memahami pola hubungan antara faktor-faktor tersebut dengan hasil akhir (GRADE) yang diperoleh mahasiswa menjadi penting bagi institusi pendidikan, baik untuk keperluan evaluasi kurikulum maupun untuk mendeteksi dini mahasiswa yang berisiko mendapatkan nilai rendah.
 
-Salah satu pendekatan yang dapat digunakan untuk memodelkan hubungan tersebut adalah **klasifikasi** menggunakan teknik *machine learning*. Pada penelitian ini digunakan algoritma **Decision Tree (Pohon Keputusan)** karena sifatnya yang mudah diinterpretasikan — hasil klasifikasi dapat divisualisasikan dalam bentuk pohon keputusan sehingga faktor-faktor yang mempengaruhi nilai akhir mahasiswa dapat dijelaskan secara visual dan lebih mudah dipahami dibandingkan metode lain seperti Naive Bayes.
+Salah satu pendekatan yang dapat digunakan untuk memodelkan hubungan tersebut adalah **klasifikasi** menggunakan teknik *machine learning*. Pada penelitian ini digunakan algoritma **Decision Tree (Pohon Keputusan)** karena sifatnya yang mudah diinterpretasikan - hasil klasifikasi dapat divisualisasikan dalam bentuk pohon keputusan sehingga faktor-faktor yang mempengaruhi nilai akhir mahasiswa dapat dijelaskan secara visual dan lebih mudah dipahami dibandingkan metode lain seperti Naive Bayes.
 
 Proses klasifikasi dibangun menggunakan **KNIME Analytics Platform**, sebuah perangkat *low-code* untuk membangun *workflow* data science tanpa harus menulis banyak kode pemrograman.
 
@@ -27,7 +27,7 @@ Beberapa alasan utama mengapa metode **Decision Tree** dipilih untuk studi kasus
 
 | Atribut              | Keterangan                                                                                  |
 | -------------------- | --------------------------------------------------------------------------------------------- |
-| Sumber               | UCI Machine Learning Repository — *Higher Education Students Performance Evaluation*          |
+| Sumber               | UCI Machine Learning Repository - *Higher Education Students Performance Evaluation*          |
 | Tautan               | https://archive.ics.uci.edu/dataset/856/higher+education+students+performance+evaluation      |
 | Donasi               | 14 Agustus 2023, oleh Nevriye Yilmaz & Boran Şekeroğlu (Near East University)                  |
 | Asal data            | Mahasiswa Fakultas Teknik (*Faculty of Engineering*) dan Fakultas Ilmu Pendidikan (*Faculty of Educational Sciences*), dikumpulkan tahun 2019 |
@@ -36,26 +36,26 @@ Beberapa alasan utama mengapa metode **Decision Tree** dipilih untuk studi kasus
 | Jenis Data           | Integer / kategorikal (hasil dari kuesioner berskala)                                          |
 | Missing Value        | Tidak ada                                                                                      |
 | Tipe Tugas           | Klasifikasi (*Classification*)                                                                |
-| Variabel Target      | **GRADE** — nilai akhir mata kuliah (0: Fail, 1: DD, 2: DC, 3: CC, 4: CB, 5: BB, 6: BA, 7: AA) |
+| Variabel Target      | **GRADE** - nilai akhir mata kuliah (0: Fail, 1: DD, 2: DC, 3: CC, 4: CB, 5: BB, 6: BA, 7: AA) |
 | Format File          | `.csv`                                                                                         |
 | Lisensi              | CC BY 4.0                                                                                      |
 
 Dataset ini berisi jawaban kuesioner mahasiswa yang dikelompokkan menjadi tiga kategori besar:
 
-* **Pertanyaan ke-1 s.d. 10** → data personal (usia, jenis kelamin, jenis SMA asal, beasiswa, pekerjaan tambahan, dll.)
-* **Pertanyaan ke-11 s.d. 16** → data keluarga (pendidikan dan pekerjaan orang tua, status pernikahan orang tua, jumlah saudara, dll.)
-* **Pertanyaan ke-17 s.d. 30** → kebiasaan belajar (jam belajar per minggu, frekuensi membaca, kehadiran kuliah, cara belajar untuk ujian, dll.)
+* **Pertanyaan ke-1 s.d. 10** => data personal (usia, jenis kelamin, jenis SMA asal, beasiswa, pekerjaan tambahan, dll.)
+* **Pertanyaan ke-11 s.d. 16** => data keluarga (pendidikan dan pekerjaan orang tua, status pernikahan orang tua, jumlah saudara, dll.)
+* **Pertanyaan ke-17 s.d. 30** => kebiasaan belajar (jam belajar per minggu, frekuensi membaca, kehadiran kuliah, cara belajar untuk ujian, dll.)
 
 Beberapa contoh fitur penting dalam dataset:
 
 | No | Variabel                                  | Keterangan Skala                                                              |
 | -- | ------------------------------------------ | ------------------------------------------------------------------------------ |
-| 1  | Student Age                               | 1: 18–21, 2: 22–25, 3: di atas 26                                              |
+| 1  | Student Age                               | 1: 18-21, 2: 22-25, 3: di atas 26                                              |
 | 2  | Sex                                       | 1: perempuan, 2: laki-laki                                                     |
 | 4  | Scholarship type                          | 1: tidak ada, 2: 25%, 3: 50%, 4: 75%, 5: penuh                                 |
-| 17 | Weekly study hours                        | 1: tidak ada, 2: <5 jam, 3: 6–10 jam, 4: 11–20 jam, 5: lebih dari 20 jam       |
+| 17 | Weekly study hours                        | 1: tidak ada, 2: <5 jam, 3: 6-10 jam, 4: 11-20 jam, 5: lebih dari 20 jam       |
 | 22 | Attendance to classes                     | 1: selalu, 2: kadang-kadang, 3: tidak pernah                                   |
-| 29 | Cumulative GPA semester lalu (skala 4.00) | 1: <2.00, 2: 2.00–2.49, 3: 2.50–2.99, 4: 3.00–3.49, 5: di atas 3.49           |
+| 29 | Cumulative GPA semester lalu (skala 4.00) | 1: <2.00, 2: 2.00-2.49, 3: 2.50-2.99, 4: 3.00-3.49, 5: di atas 3.49           |
 | 32 | **GRADE (target)**                        | 0: Fail, 1: DD, 2: DC, 3: CC, 4: CB, 5: BB, 6: BA, 7: AA                       |
 
 > Catatan: kolom **Student ID** dan **Course ID** turut tersedia dalam dataset namun hanya berfungsi sebagai identitas data, bukan atribut prediktif.
@@ -102,7 +102,7 @@ Hasil pembacaan menghasilkan **145 baris data dengan 33 kolom** (31 fitur + STUD
 
 **Kolom yang diubah:** `GRADE`
 
-GRADE merupakan target klasifikasi. Karena nilainya berbentuk angka (0–7), KNIME secara default akan membaca kolom ini sebagai tipe numerik (Number). Padahal tujuan penelitian adalah:
+GRADE merupakan target klasifikasi. Karena nilainya berbentuk angka (0-7), KNIME secara default akan membaca kolom ini sebagai tipe numerik (Number). Padahal tujuan penelitian adalah:
 
 > Mengelompokkan data ke dalam kategori nilai (GRADE), bukan melakukan regresi terhadap nilai numeriknya.
 
@@ -143,16 +143,16 @@ Karena itu kedua kolom identitas dihapus, sehingga data yang masuk ke proses pem
 | Training  | 116 data    |
 | Testing   | 29 data     |
 
-Rasio 80:20 dipilih karena 116 baris data training sudah cukup untuk membangun model yang representatif, sementara 29 baris data testing cukup untuk mengevaluasi performanya secara objektif — dan rasio ini memang yang paling umum dipakai dalam penelitian *machine learning*.
+Rasio 80:20 dipilih karena 116 baris data training sudah cukup untuk membangun model yang representatif, sementara 29 baris data testing cukup untuk mengevaluasi performanya secara objektif - dan rasio ini memang yang paling umum dipakai dalam penelitian *machine learning*.
 
 Sampling strategy yang dipakai adalah **Linear**, bukan Random. Pada strategi Linear, data dibagi murni berdasarkan urutan baris pada tabel:
 
 ```
-Baris 1–116   → Training
-Baris 117–145 → Testing
+Baris 1-116   => Training
+Baris 117-145 => Testing
 ```
 
-Strategi *Random* memang secara teori lebih baik untuk mengurangi bias pengambilan sampel. Namun pada penelitian ini dipilih *Linear* karena data tidak memiliki urutan waktu (*time series*) yang harus dipertahankan secara acak, dan juga tidak diurutkan berdasarkan ranking nilai tertentu yang bisa menimbulkan bias sistematis. Strategi Linear juga memberikan hasil yang **selalu konsisten** dan **mudah direproduksi** — setiap kali *workflow* dijalankan ulang, pembagian data training/testing akan selalu sama, sehingga hasil evaluasi model dapat dibandingkan secara adil antar percobaan.
+Strategi *Random* memang secara teori lebih baik untuk mengurangi bias pengambilan sampel. Namun pada penelitian ini dipilih *Linear* karena data tidak memiliki urutan waktu (*time series*) yang harus dipertahankan secara acak, dan juga tidak diurutkan berdasarkan ranking nilai tertentu yang bisa menimbulkan bias sistematis. Strategi Linear juga memberikan hasil yang **selalu konsisten** dan **mudah direproduksi** - setiap kali *workflow* dijalankan ulang, pembagian data training/testing akan selalu sama, sehingga hasil evaluasi model dapat dibandingkan secara adil antar percobaan.
 
 ![Table Partitioner](../img/academic/tablePartition.png)
 
@@ -160,7 +160,7 @@ Strategi *Random* memang secara teori lebih baik untuk mengurangi bias pengambil
 
 ### 5. Color Manager
 
-**Fungsi:** Memberi warna pada setiap kelas GRADE untuk keperluan visualisasi — mempermudah melihat sebaran kelas pada data dan membaca hasil klasifikasi secara visual, misalnya saat melihat pohon keputusan atau tabel berwarna.
+**Fungsi:** Memberi warna pada setiap kelas GRADE untuk keperluan visualisasi - mempermudah melihat sebaran kelas pada data dan membaca hasil klasifikasi secara visual, misalnya saat melihat pohon keputusan atau tabel berwarna.
 
 **Pengaruh terhadap model:** Tidak ada. Node ini bersifat kosmetik/visualisasi saja dan **tidak mempengaruhi akurasi model**.
 
@@ -177,11 +177,11 @@ Node ini membangun model klasifikasi pohon keputusan dari data training. Decisio
 | Parameter                                              | Nilai                     | Alasan                                                                                                                                                          |
 | ------------------------------------------------------- | -------------------------- | ----------------------------------------------------------------------------------------------------------------------------------------------------------------- |
 | Class column                                            | GRADE                      | GRADE adalah variabel target yang ingin diprediksi.                                                                                                              |
-| Quality measure                                         | Gini index                 | Digunakan sebagai ukuran kualitas pemisahan (*split*) pada setiap simpul pohon.                                                                                  |
+| Quality measure                                         | Gain Ratio                 | Digunakan untuk memilih atribut terbaik berdasarkan kualitas pemisahan (split) pada setiap simpul pohon.                                                                                  |
 | Pruning method                                          | Reduced Error Pruning      | Memangkas cabang pohon yang terlalu spesifik agar mengurangi *overfitting* dan membuat pohon lebih sederhana sekaligus meningkatkan kemampuan generalisasi model. |
-| Minimum number of records per node                     | 6                           | Nilai 6 digunakan agar setiap node memiliki jumlah data yang cukup representatif sebelum dilakukan pemecahan cabang, sehingga risiko *overfitting* dapat dikurangi — tidak terlalu kecil (rawan overfitting) namun juga tidak terlalu besar (kehilangan detail pola data). |
+| Minimum number of records per node                     | 6                           | Nilai 6 digunakan agar setiap node memiliki jumlah data yang cukup representatif sebelum dilakukan pemecahan cabang, sehingga risiko *overfitting* dapat dikurangi - tidak terlalu kecil (rawan overfitting) namun juga tidak terlalu besar (kehilangan detail pola data). |
 | Number threads                                          | 2                           | Memanfaatkan dua *thread* CPU untuk mempercepat proses pembentukan pohon keputusan.                                                                              |
-| Skip nominal columns without domain information         | ✔ Dicentang                | Menghindari error apabila ada atribut kategorikal yang domainnya tidak lengkap, sehingga proses *training* tetap stabil dan model tetap dapat dibangun.          |
+| Skip nominal columns without domain information         | ✓ Dicentang                | Menghindari error apabila ada atribut kategorikal yang domainnya tidak lengkap, sehingga proses *training* tetap stabil dan model tetap dapat dibangun.          |
 | Force root split column                                | ✘ Tidak dicentang          | Membiarkan algoritma memilih akar pohon (*root node*) secara otomatis berdasarkan atribut paling informatif, untuk menghindari bias dari peneliti.               |
 | Binary nominal splits                                   | ✘ Tidak dicentang          | Agar kategori nominal dipisah secara alami sesuai jumlah kategorinya. Jika dipaksa biner, pohon menjadi lebih panjang dan lebih sulit diinterpretasikan.         |
 | No true child strategy                                  | Return last prediction     | Jika ditemukan kombinasi atribut yang tidak sesuai dengan cabang manapun pada pohon, model tetap memberikan prediksi (tidak menghasilkan nilai kosong).          |
@@ -201,7 +201,7 @@ Node ini membangun model klasifikasi pohon keputusan dari data training. Decisio
 | Parameter                                            | Nilai      |
 | ------------------------------------------------------ | ---------- |
 | Change prediction column name                         | Tidak       |
-| Append columns with normalized class distribution     | ✔ Dicentang |
+| Append columns with normalized class distribution     | ✓ Dicentang |
 
 Opsi "Append columns with normalized class distribution" dicentang karena menampilkan probabilitas (tingkat keyakinan) model untuk setiap kelas GRADE pada setiap baris prediksi. Contoh ilustrasi:
 
@@ -212,7 +212,7 @@ Opsi "Append columns with normalized class distribution" dicentang karena menamp
 | Grade 3  | 60%          |
 | Grade 4  | 10%          |
 
-Keuntungannya, peneliti dapat mengetahui seberapa yakin model terhadap setiap prediksi yang dihasilkan, sehingga mempermudah analisis hasil lebih lanjut. **Opsi ini tidak mempengaruhi nilai akurasi akhir model** — hanya menambahkan informasi probabilitas sebagai kolom tambahan pada output.
+Keuntungannya, peneliti dapat mengetahui seberapa yakin model terhadap setiap prediksi yang dihasilkan, sehingga mempermudah analisis hasil lebih lanjut. **Opsi ini tidak mempengaruhi nilai akurasi akhir model** - hanya menambahkan informasi probabilitas sebagai kolom tambahan pada output.
 
 ![Decision Tree Predictor](../img/academic/dicissionPredict.png)
 
@@ -259,6 +259,6 @@ Berdasarkan output node Scorer pada tab **Accuracy Statistics**, diperoleh ringk
 
 Akurasi model berada pada kisaran 41% dengan nilai Cohen's Kappa sekitar 0.31, yang menurut interpretasi umum termasuk dalam kategori kesepakatan **lemah hingga cukup (*fair agreement*)** antara prediksi model dan nilai aktual. Beberapa hal yang menjadi catatan:
 
-* Performa model **tidak merata di seluruh kelas GRADE** — beberapa kelas (misalnya kelas dengan recall 1.000) diprediksi dengan sangat baik, sementara kelas lain (recall 0.000) sama sekali tidak terdeteksi oleh model.
-* Hal ini wajar terjadi mengingat jumlah data yang relatif kecil (145 baris, dengan hanya 29 data testing) dan kelas GRADE memiliki 8 kategori (0–7), sehingga distribusi data antar kelas kemungkinan tidak seimbang (*imbalanced*).
+* Performa model **tidak merata di seluruh kelas GRADE** - beberapa kelas (misalnya kelas dengan recall 1.000) diprediksi dengan sangat baik, sementara kelas lain (recall 0.000) sama sekali tidak terdeteksi oleh model.
+* Hal ini wajar terjadi mengingat jumlah data yang relatif kecil (145 baris, dengan hanya 29 data testing) dan kelas GRADE memiliki 8 kategori (0-7), sehingga distribusi data antar kelas kemungkinan tidak seimbang (*imbalanced*).
 * Decision Tree dengan parameter *pruning* yang diterapkan (Reduced Error Pruning, minimum 6 record per node) sudah diarahkan untuk mengurangi *overfitting*, namun keterbatasan jumlah data tetap menjadi faktor utama yang membatasi akurasi model secara keseluruhan.

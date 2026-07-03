@@ -406,7 +406,7 @@
 <section id="latar-belakang">
 <h2>Latar Belakang<a class="headerlink" href="#latar-belakang" title="Link to this heading">#</a></h2>
 <p>Evaluasi performa akademik mahasiswa di perguruan tinggi tidak hanya ditentukan oleh nilai ujian, tetapi juga dipengaruhi oleh berbagai faktor lain seperti kondisi keluarga, kebiasaan belajar, status sosial-ekonomi, hingga gaya hidup mahasiswa selama menjalani perkuliahan. Memahami pola hubungan antara faktor-faktor tersebut dengan hasil akhir (GRADE) yang diperoleh mahasiswa menjadi penting bagi institusi pendidikan, baik untuk keperluan evaluasi kurikulum maupun untuk mendeteksi dini mahasiswa yang berisiko mendapatkan nilai rendah.</p>
-<p>Salah satu pendekatan yang dapat digunakan untuk memodelkan hubungan tersebut adalah <strong>klasifikasi</strong> menggunakan teknik <em>machine learning</em>. Pada penelitian ini digunakan algoritma <strong>Decision Tree (Pohon Keputusan)</strong> karena sifatnya yang mudah diinterpretasikan — hasil klasifikasi dapat divisualisasikan dalam bentuk pohon keputusan sehingga faktor-faktor yang mempengaruhi nilai akhir mahasiswa dapat dijelaskan secara visual dan lebih mudah dipahami dibandingkan metode lain seperti Naive Bayes.</p>
+<p>Salah satu pendekatan yang dapat digunakan untuk memodelkan hubungan tersebut adalah <strong>klasifikasi</strong> menggunakan teknik <em>machine learning</em>. Pada penelitian ini digunakan algoritma <strong>Decision Tree (Pohon Keputusan)</strong> karena sifatnya yang mudah diinterpretasikan - hasil klasifikasi dapat divisualisasikan dalam bentuk pohon keputusan sehingga faktor-faktor yang mempengaruhi nilai akhir mahasiswa dapat dijelaskan secara visual dan lebih mudah dipahami dibandingkan metode lain seperti Naive Bayes.</p>
 <p>Proses klasifikasi dibangun menggunakan <strong>KNIME Analytics Platform</strong>, sebuah perangkat <em>low-code</em> untuk membangun <em>workflow</em> data science tanpa harus menulis banyak kode pemrograman.</p>
 </section>
 <hr class="docutils" />
@@ -432,7 +432,7 @@
 </thead>
 <tbody>
 <tr class="row-even"><td><p>Sumber</p></td>
-<td><p>UCI Machine Learning Repository — <em>Higher Education Students Performance Evaluation</em></p></td>
+<td><p>UCI Machine Learning Repository - <em>Higher Education Students Performance Evaluation</em></p></td>
 </tr>
 <tr class="row-odd"><td><p>Tautan</p></td>
 <td><p><a class="reference external" href="https://archive.ics.uci.edu/dataset/856/higher+education+students+performance+evaluation">https://archive.ics.uci.edu/dataset/856/higher+education+students+performance+evaluation</a></p></td>
@@ -459,7 +459,7 @@
 <td><p>Klasifikasi (<em>Classification</em>)</p></td>
 </tr>
 <tr class="row-odd"><td><p>Variabel Target</p></td>
-<td><p><strong>GRADE</strong> — nilai akhir mata kuliah (0: Fail, 1: DD, 2: DC, 3: CC, 4: CB, 5: BB, 6: BA, 7: AA)</p></td>
+<td><p><strong>GRADE</strong> - nilai akhir mata kuliah (0: Fail, 1: DD, 2: DC, 3: CC, 4: CB, 5: BB, 6: BA, 7: AA)</p></td>
 </tr>
 <tr class="row-even"><td><p>Format File</p></td>
 <td><p><code class="docutils literal notranslate"><span class="pre">.csv</span></code></p></td>
@@ -472,9 +472,9 @@
 </div>
 <p>Dataset ini berisi jawaban kuesioner mahasiswa yang dikelompokkan menjadi tiga kategori besar:</p>
 <ul class="simple">
-<li><p><strong>Pertanyaan ke-1 s.d. 10</strong> → data personal (usia, jenis kelamin, jenis SMA asal, beasiswa, pekerjaan tambahan, dll.)</p></li>
-<li><p><strong>Pertanyaan ke-11 s.d. 16</strong> → data keluarga (pendidikan dan pekerjaan orang tua, status pernikahan orang tua, jumlah saudara, dll.)</p></li>
-<li><p><strong>Pertanyaan ke-17 s.d. 30</strong> → kebiasaan belajar (jam belajar per minggu, frekuensi membaca, kehadiran kuliah, cara belajar untuk ujian, dll.)</p></li>
+<li><p><strong>Pertanyaan ke-1 s.d. 10</strong> =&gt; data personal (usia, jenis kelamin, jenis SMA asal, beasiswa, pekerjaan tambahan, dll.)</p></li>
+<li><p><strong>Pertanyaan ke-11 s.d. 16</strong> =&gt; data keluarga (pendidikan dan pekerjaan orang tua, status pernikahan orang tua, jumlah saudara, dll.)</p></li>
+<li><p><strong>Pertanyaan ke-17 s.d. 30</strong> =&gt; kebiasaan belajar (jam belajar per minggu, frekuensi membaca, kehadiran kuliah, cara belajar untuk ujian, dll.)</p></li>
 </ul>
 <p>Beberapa contoh fitur penting dalam dataset:</p>
 <div class="pst-scrollable-table-container"><table class="table">
@@ -487,7 +487,7 @@
 <tbody>
 <tr class="row-even"><td><p>1</p></td>
 <td><p>Student Age</p></td>
-<td><p>1: 18–21, 2: 22–25, 3: di atas 26</p></td>
+<td><p>1: 18-21, 2: 22-25, 3: di atas 26</p></td>
 </tr>
 <tr class="row-odd"><td><p>2</p></td>
 <td><p>Sex</p></td>
@@ -499,7 +499,7 @@
 </tr>
 <tr class="row-odd"><td><p>17</p></td>
 <td><p>Weekly study hours</p></td>
-<td><p>1: tidak ada, 2: &lt;5 jam, 3: 6–10 jam, 4: 11–20 jam, 5: lebih dari 20 jam</p></td>
+<td><p>1: tidak ada, 2: &lt;5 jam, 3: 6-10 jam, 4: 11-20 jam, 5: lebih dari 20 jam</p></td>
 </tr>
 <tr class="row-even"><td><p>22</p></td>
 <td><p>Attendance to classes</p></td>
@@ -507,7 +507,7 @@
 </tr>
 <tr class="row-odd"><td><p>29</p></td>
 <td><p>Cumulative GPA semester lalu (skala 4.00)</p></td>
-<td><p>1: &lt;2.00, 2: 2.00–2.49, 3: 2.50–2.99, 4: 3.00–3.49, 5: di atas 3.49</p></td>
+<td><p>1: &lt;2.00, 2: 2.00-2.49, 3: 2.50-2.99, 4: 3.00-3.49, 5: di atas 3.49</p></td>
 </tr>
 <tr class="row-even"><td><p>32</p></td>
 <td><p><strong>GRADE (target)</strong></p></td>
@@ -555,7 +555,7 @@ Scorer (deprecated)
 <section id="number-to-string">
 <h3>2. Number to String<a class="headerlink" href="#number-to-string" title="Link to this heading">#</a></h3>
 <p><strong>Kolom yang diubah:</strong> <code class="docutils literal notranslate"><span class="pre">GRADE</span></code></p>
-<p>GRADE merupakan target klasifikasi. Karena nilainya berbentuk angka (0–7), KNIME secara default akan membaca kolom ini sebagai tipe numerik (Number). Padahal tujuan penelitian adalah:</p>
+<p>GRADE merupakan target klasifikasi. Karena nilainya berbentuk angka (0-7), KNIME secara default akan membaca kolom ini sebagai tipe numerik (Number). Padahal tujuan penelitian adalah:</p>
 <blockquote>
 <div><p>Mengelompokkan data ke dalam kategori nilai (GRADE), bukan melakukan regresi terhadap nilai numeriknya.</p>
 </div></blockquote>
@@ -611,19 +611,19 @@ Scorer (deprecated)
 </tbody>
 </table>
 </div>
-<p>Rasio 80:20 dipilih karena 116 baris data training sudah cukup untuk membangun model yang representatif, sementara 29 baris data testing cukup untuk mengevaluasi performanya secara objektif — dan rasio ini memang yang paling umum dipakai dalam penelitian <em>machine learning</em>.</p>
+<p>Rasio 80:20 dipilih karena 116 baris data training sudah cukup untuk membangun model yang representatif, sementara 29 baris data testing cukup untuk mengevaluasi performanya secara objektif - dan rasio ini memang yang paling umum dipakai dalam penelitian <em>machine learning</em>.</p>
 <p>Sampling strategy yang dipakai adalah <strong>Linear</strong>, bukan Random. Pada strategi Linear, data dibagi murni berdasarkan urutan baris pada tabel:</p>
-<div class="highlight-default notranslate"><div class="highlight"><pre><span></span>Baris 1–116   → Training
-Baris 117–145 → Testing
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">Baris</span> <span class="mi">1</span><span class="o">-</span><span class="mi">116</span>   <span class="o">=&gt;</span> <span class="n">Training</span>
+<span class="n">Baris</span> <span class="mi">117</span><span class="o">-</span><span class="mi">145</span> <span class="o">=&gt;</span> <span class="n">Testing</span>
 </pre></div>
 </div>
-<p>Strategi <em>Random</em> memang secara teori lebih baik untuk mengurangi bias pengambilan sampel. Namun pada penelitian ini dipilih <em>Linear</em> karena data tidak memiliki urutan waktu (<em>time series</em>) yang harus dipertahankan secara acak, dan juga tidak diurutkan berdasarkan ranking nilai tertentu yang bisa menimbulkan bias sistematis. Strategi Linear juga memberikan hasil yang <strong>selalu konsisten</strong> dan <strong>mudah direproduksi</strong> — setiap kali <em>workflow</em> dijalankan ulang, pembagian data training/testing akan selalu sama, sehingga hasil evaluasi model dapat dibandingkan secara adil antar percobaan.</p>
+<p>Strategi <em>Random</em> memang secara teori lebih baik untuk mengurangi bias pengambilan sampel. Namun pada penelitian ini dipilih <em>Linear</em> karena data tidak memiliki urutan waktu (<em>time series</em>) yang harus dipertahankan secara acak, dan juga tidak diurutkan berdasarkan ranking nilai tertentu yang bisa menimbulkan bias sistematis. Strategi Linear juga memberikan hasil yang <strong>selalu konsisten</strong> dan <strong>mudah direproduksi</strong> - setiap kali <em>workflow</em> dijalankan ulang, pembagian data training/testing akan selalu sama, sehingga hasil evaluasi model dapat dibandingkan secara adil antar percobaan.</p>
 <p><img alt="Table Partitioner" src="../_images/tablePartition2.png" /></p>
 </section>
 <hr class="docutils" />
 <section id="color-manager">
 <h3>5. Color Manager<a class="headerlink" href="#color-manager" title="Link to this heading">#</a></h3>
-<p><strong>Fungsi:</strong> Memberi warna pada setiap kelas GRADE untuk keperluan visualisasi — mempermudah melihat sebaran kelas pada data dan membaca hasil klasifikasi secara visual, misalnya saat melihat pohon keputusan atau tabel berwarna.</p>
+<p><strong>Fungsi:</strong> Memberi warna pada setiap kelas GRADE untuk keperluan visualisasi - mempermudah melihat sebaran kelas pada data dan membaca hasil klasifikasi secara visual, misalnya saat melihat pohon keputusan atau tabel berwarna.</p>
 <p><strong>Pengaruh terhadap model:</strong> Tidak ada. Node ini bersifat kosmetik/visualisasi saja dan <strong>tidak mempengaruhi akurasi model</strong>.</p>
 <p><img alt="Color Manager" src="../_images/colorManager1.png" /></p>
 </section>
@@ -645,8 +645,8 @@ Baris 117–145 → Testing
 <td><p>GRADE adalah variabel target yang ingin diprediksi.</p></td>
 </tr>
 <tr class="row-odd"><td><p>Quality measure</p></td>
-<td><p>Gini index</p></td>
-<td><p>Digunakan sebagai ukuran kualitas pemisahan (<em>split</em>) pada setiap simpul pohon.</p></td>
+<td><p>Gain Ratio</p></td>
+<td><p>Digunakan untuk memilih atribut terbaik berdasarkan kualitas pemisahan (split) pada setiap simpul pohon.</p></td>
 </tr>
 <tr class="row-even"><td><p>Pruning method</p></td>
 <td><p>Reduced Error Pruning</p></td>
@@ -654,14 +654,14 @@ Baris 117–145 → Testing
 </tr>
 <tr class="row-odd"><td><p>Minimum number of records per node</p></td>
 <td><p>6</p></td>
-<td><p>Nilai 6 digunakan agar setiap node memiliki jumlah data yang cukup representatif sebelum dilakukan pemecahan cabang, sehingga risiko <em>overfitting</em> dapat dikurangi — tidak terlalu kecil (rawan overfitting) namun juga tidak terlalu besar (kehilangan detail pola data).</p></td>
+<td><p>Nilai 6 digunakan agar setiap node memiliki jumlah data yang cukup representatif sebelum dilakukan pemecahan cabang, sehingga risiko <em>overfitting</em> dapat dikurangi - tidak terlalu kecil (rawan overfitting) namun juga tidak terlalu besar (kehilangan detail pola data).</p></td>
 </tr>
 <tr class="row-even"><td><p>Number threads</p></td>
 <td><p>2</p></td>
 <td><p>Memanfaatkan dua <em>thread</em> CPU untuk mempercepat proses pembentukan pohon keputusan.</p></td>
 </tr>
 <tr class="row-odd"><td><p>Skip nominal columns without domain information</p></td>
-<td><p>✔ Dicentang</p></td>
+<td><p>✓ Dicentang</p></td>
 <td><p>Menghindari error apabila ada atribut kategorikal yang domainnya tidak lengkap, sehingga proses <em>training</em> tetap stabil dan model tetap dapat dibangun.</p></td>
 </tr>
 <tr class="row-even"><td><p>Force root split column</p></td>
@@ -702,7 +702,7 @@ Baris 117–145 → Testing
 <td><p>Tidak</p></td>
 </tr>
 <tr class="row-odd"><td><p>Append columns with normalized class distribution</p></td>
-<td><p>✔ Dicentang</p></td>
+<td><p>✓ Dicentang</p></td>
 </tr>
 </tbody>
 </table>
@@ -730,7 +730,7 @@ Baris 117–145 → Testing
 </tbody>
 </table>
 </div>
-<p>Keuntungannya, peneliti dapat mengetahui seberapa yakin model terhadap setiap prediksi yang dihasilkan, sehingga mempermudah analisis hasil lebih lanjut. <strong>Opsi ini tidak mempengaruhi nilai akurasi akhir model</strong> — hanya menambahkan informasi probabilitas sebagai kolom tambahan pada output.</p>
+<p>Keuntungannya, peneliti dapat mengetahui seberapa yakin model terhadap setiap prediksi yang dihasilkan, sehingga mempermudah analisis hasil lebih lanjut. <strong>Opsi ini tidak mempengaruhi nilai akurasi akhir model</strong> - hanya menambahkan informasi probabilitas sebagai kolom tambahan pada output.</p>
 <p><img alt="Decision Tree Predictor" src="../_images/dicissionPredict.png" /></p>
 </section>
 <hr class="docutils" />
@@ -836,8 +836,8 @@ Baris 117–145 → Testing
 <h3>Interpretasi Hasil<a class="headerlink" href="#interpretasi-hasil" title="Link to this heading">#</a></h3>
 <p>Akurasi model berada pada kisaran 41% dengan nilai Cohen’s Kappa sekitar 0.31, yang menurut interpretasi umum termasuk dalam kategori kesepakatan <strong>lemah hingga cukup (<em>fair agreement</em>)</strong> antara prediksi model dan nilai aktual. Beberapa hal yang menjadi catatan:</p>
 <ul class="simple">
-<li><p>Performa model <strong>tidak merata di seluruh kelas GRADE</strong> — beberapa kelas (misalnya kelas dengan recall 1.000) diprediksi dengan sangat baik, sementara kelas lain (recall 0.000) sama sekali tidak terdeteksi oleh model.</p></li>
-<li><p>Hal ini wajar terjadi mengingat jumlah data yang relatif kecil (145 baris, dengan hanya 29 data testing) dan kelas GRADE memiliki 8 kategori (0–7), sehingga distribusi data antar kelas kemungkinan tidak seimbang (<em>imbalanced</em>).</p></li>
+<li><p>Performa model <strong>tidak merata di seluruh kelas GRADE</strong> - beberapa kelas (misalnya kelas dengan recall 1.000) diprediksi dengan sangat baik, sementara kelas lain (recall 0.000) sama sekali tidak terdeteksi oleh model.</p></li>
+<li><p>Hal ini wajar terjadi mengingat jumlah data yang relatif kecil (145 baris, dengan hanya 29 data testing) dan kelas GRADE memiliki 8 kategori (0-7), sehingga distribusi data antar kelas kemungkinan tidak seimbang (<em>imbalanced</em>).</p></li>
 <li><p>Decision Tree dengan parameter <em>pruning</em> yang diterapkan (Reduced Error Pruning, minimum 6 record per node) sudah diarahkan untuk mengurangi <em>overfitting</em>, namun keterbatasan jumlah data tetap menjadi faktor utama yang membatasi akurasi model secara keseluruhan.</p></li>
 </ul>
 </section>
