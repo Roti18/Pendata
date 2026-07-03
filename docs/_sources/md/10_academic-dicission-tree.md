@@ -33,7 +33,7 @@ Beberapa alasan utama mengapa metode **Decision Tree** dipilih untuk studi kasus
 | Asal data            | Mahasiswa Fakultas Teknik (*Faculty of Engineering*) dan Fakultas Ilmu Pendidikan (*Faculty of Educational Sciences*), dikumpulkan tahun 2019 |
 | Jumlah Instance      | 145 baris data mahasiswa                                                                      |
 | Jumlah Fitur         | 31 fitur + 1 kolom ID + 1 kolom target (GRADE)                                                |
-| Jenis Data           | Integer / kategorikal (hasil dari kuesioner berskala)                                          |
+| Jenis Data           | Biner / Integer / kategorikal                                      |
 | Missing Value        | Tidak ada                                                                                      |
 | Tipe Tugas           | Klasifikasi (*Classification*)                                                                |
 | Variabel Target      | **GRADE** - nilai akhir mata kuliah (0: Fail, 1: DD, 2: DC, 3: CC, 4: CB, 5: BB, 6: BA, 7: AA) |
